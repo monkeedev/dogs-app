@@ -24,6 +24,7 @@ const List = ({data}: Props) => {
       numColumns={2}
       showsVerticalScrollIndicator={false}
       keyExtractor={(_, idx) => `Dog_${idx}`}
+      contentContainerStyle={{paddingBottom: 21}}
       renderItem={({item, index}) => renderItem(item, index)}
     />
   );

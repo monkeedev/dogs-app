@@ -38,6 +38,7 @@ const SearchBar = ({value, onChange, onSearch}: Props) => {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 14,
+    marginTop: 21,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

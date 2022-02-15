@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {flatTree} from '../utils/functions';
+import {findBreedInList, flatTree} from '../utils/functions';
 import {DogApiResponse} from './interfaces';
 import {options} from './options';
 
@@ -80,22 +80,25 @@ class DogsApi {
   ): Promise<DogApiResponse> => {
     try {
       let req: AxiosResponse<DogApiResponse, any>;
+      const _l = JSON.parse(JSON.stringify(this.list));
+      const search = findBreedInList(_l, b.toLowerCase());
 
-      // 0 - subbreed, 1 - breed;
-      const parsed = b.split(' ');
+      if (search.length === 0) {
+        return [] as any;
+      } else {
+        const _s = search.split('-');
 
-      req = await axios
-        .get(
-          `${
-            this.uri
-          }/breed/${parsed[1].toLocaleLowerCase()}/${parsed[0].toLocaleLowerCase()}/images/random${
-            q ? `/${q}` : ''
-          }`,
-        )
-        .then(res => res)
-        .catch(err => err);
+        req = await axios
+          .get(
+            `${this.uri}/breed/${
+              _s.length === 1 ? `${_s[0]}` : `${_s[0]}/${_s[1]}`
+            }/images/random${q ? `/${q}` : ''}`,
+          )
+          .then(res => res)
+          .catch(err => err);
 
-      return req.data;
+        return req.data;
+      }
     } catch (err) {
       throw new Error("Can't fetch doggo");
     }

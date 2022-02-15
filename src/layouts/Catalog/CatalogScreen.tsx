@@ -18,17 +18,9 @@ const CatalogScreen = () => {
   );
 
   const handleSearch = (str: string) => {
-    const isMoreThanOneWord = str.split(' ').length > 1;
-
-    if (isMoreThanOneWord) {
-      fetchDogsByBreedRef.current(str, 10).then(res => {
-        setDogsList(Array.isArray(res.message) ? res.message : [res.message]);
-      });
-    } else {
-      fetchDogsRef.current(str, 10).then(res => {
-        setDogsList(Array.isArray(res.message) ? res.message : [res.message]);
-      });
-    }
+    fetchDogsByBreedRef.current(str, 10).then(res => {
+      setDogsList(Array.isArray(res.message) ? res.message : [res.message]);
+    });
   };
 
   useEffect(() => {
@@ -48,6 +40,7 @@ const CatalogScreen = () => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 7,
+    height: '100%',
   },
 });
 
