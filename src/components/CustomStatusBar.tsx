@@ -17,12 +17,12 @@ interface Props extends StatusBarProps {
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
-const CustomStatusBar = ({bg: backgroundColor, ...props}: Props) => {
+const CustomStatusBar = ({bg, ...props}: Props) => {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[{height: insets.top}, {backgroundColor}]}>
-      <StatusBar translucent bg={backgroundColor} {...props} />
+    <View style={[{height: insets.top}, {backgroundColor: bg}]}>
+      <StatusBar translucent backgroundColor={bg} {...props} />
     </View>
   );
 };
