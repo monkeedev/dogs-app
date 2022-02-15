@@ -7,14 +7,15 @@
  */
 
 import React from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import CatalogScreen from './src/layouts/Catalog/CatalogScreen';
 
 const App = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaProvider>
       <CatalogScreen />
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
