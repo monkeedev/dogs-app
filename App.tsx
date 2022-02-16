@@ -7,14 +7,20 @@
  */
 
 import React from 'react';
-import {SafeAreaView, View} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import CatalogScreen from './src/layouts/Catalog/CatalogScreen';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {persistor, store} from './src/redux/configureStore';
 
 const App = () => {
   return (
     <SafeAreaProvider>
-      <CatalogScreen />
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <CatalogScreen />
+        </PersistGate>
+      </Provider>
     </SafeAreaProvider>
   );
 };

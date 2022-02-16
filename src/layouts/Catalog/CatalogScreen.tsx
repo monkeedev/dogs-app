@@ -21,27 +21,31 @@ import Animated, {
 import {Icon} from 'react-native-elements';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {images} from '../../assets/images/asData';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const ICON_SIZE = 36;
 const AVATAR_SIZE = 78;
-
-const HEADER_EXPANDED_HEIGHT = AVATAR_SIZE * 2;
-const HEADER_COLLAPSED_HEIGHT = 35;
+const HEADER_EXPANDED_HEIGHT = AVATAR_SIZE + 7 * 2;
 
 const renderItem = (uri: string, idx: number) => {
   return <ListItem uri={uri} idx={idx} />;
 };
 
 const CatalogScreen = () => {
+  const insets = useSafeAreaInsets();
+
+  const headerAddedValue = insets.top + 7 * 2;
+
   const [breed, setBreed] = useState('');
   const [dogsList, setDogsList] = useState<string[]>([]);
 
-  const searchBarHeight = useSharedValue(HEADER_EXPANDED_HEIGHT);
+  const opacity = useSharedValue(1);
+  const searchBarHeight = useSharedValue(
+    HEADER_EXPANDED_HEIGHT + headerAddedValue,
+  );
   const searchBarStyle = useAnimatedStyle(() => ({
     height: searchBarHeight.value,
   }));
-
-  const opacity = useSharedValue(1);
 
   const opacityStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -64,19 +68,20 @@ const CatalogScreen = () => {
     });
   };
 
+  // scroll handler for ScrollView
   const handleScroll = useAnimatedScrollHandler({
     onScroll: e => {
       const {y} = e.contentOffset;
       searchBarHeight.value = interpolate(
         y,
-        [0, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
-        [HEADER_EXPANDED_HEIGHT, HEADER_COLLAPSED_HEIGHT],
+        [0, HEADER_EXPANDED_HEIGHT - headerAddedValue],
+        [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
         Extrapolate.CLAMP,
       );
 
       opacity.value = interpolate(
         y,
-        [0, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
+        [0, HEADER_EXPANDED_HEIGHT - headerAddedValue],
         [1, 0],
         Extrapolate.CLAMP,
       );

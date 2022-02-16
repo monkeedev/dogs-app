@@ -28,9 +28,6 @@ const CustomStatusBar = ({bg, ...props}: Props) => {
 };
 
 const styles = StyleSheet.create({
-  statusBar: {
-    height: STATUSBAR_HEIGHT,
-  },
   appBar: {
     backgroundColor: 'red',
     height: APPBAR_HEIGHT,
