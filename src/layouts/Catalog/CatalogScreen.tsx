@@ -1,20 +1,32 @@
-import {View, StyleSheet, FlatList, TextInput, Pressable} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  TextInput,
+  Pressable,
+  Text,
+  Image,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Api from '../../api/requests';
 import ListItem from './Components/ListItem';
-import {colors} from '../../utils/constants';
+import {colors, text} from '../../utils/constants';
 import Animated, {
-  event,
+  Extrapolate,
+  interpolate,
+  useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
 import {Icon} from 'react-native-elements';
 import CustomStatusBar from '../../components/CustomStatusBar';
+import {images} from '../../assets/images/asData';
 
 const ICON_SIZE = 36;
-const HEADER_EXPANDED_HEIGHT = 98;
-const HEADER_COLLAPSED_HEIGHT = 42;
+const AVATAR_SIZE = 78;
+
+const HEADER_EXPANDED_HEIGHT = AVATAR_SIZE * 2;
+const HEADER_COLLAPSED_HEIGHT = 35;
 
 const renderItem = (uri: string, idx: number) => {
   return <ListItem uri={uri} idx={idx} />;
@@ -26,10 +38,14 @@ const CatalogScreen = () => {
 
   const searchBarHeight = useSharedValue(HEADER_EXPANDED_HEIGHT);
   const searchBarStyle = useAnimatedStyle(() => ({
-    height: withTiming(searchBarHeight.value, {duration: 300}),
+    height: searchBarHeight.value,
   }));
 
-  // useAnima
+  const opacity = useSharedValue(1);
+
+  const opacityStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
 
   // ref for fetching all breeds list
   const fetchDogsRef = useRef((breed?: string, quantity?: number) =>
@@ -48,6 +64,25 @@ const CatalogScreen = () => {
     });
   };
 
+  const handleScroll = useAnimatedScrollHandler({
+    onScroll: e => {
+      const {y} = e.contentOffset;
+      searchBarHeight.value = interpolate(
+        y,
+        [0, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
+        [HEADER_EXPANDED_HEIGHT, HEADER_COLLAPSED_HEIGHT],
+        Extrapolate.CLAMP,
+      );
+
+      opacity.value = interpolate(
+        y,
+        [0, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
+        [1, 0],
+        Extrapolate.CLAMP,
+      );
+    },
+  });
+
   useEffect(() => {
     fetchDogsRef.current('', 10).then(res => {
       setDogsList(Array.isArray(res.message) ? res.message : [res.message]);
@@ -58,6 +93,10 @@ const CatalogScreen = () => {
     <View style={styles.container}>
       <CustomStatusBar bg={colors.turquoise} barStyle={'light-content'} />
       <Animated.View style={[styles.searchBarOuter, searchBarStyle]}>
+        <Animated.View style={[styles.user, opacityStyle]}>
+          <Image source={{uri: images.avatar}} style={styles.userAvatar} />
+          <Text style={styles.userText}>John Doe</Text>
+        </Animated.View>
         <View style={styles.searchBarInner}>
           <TextInput
             style={styles.input}
@@ -78,7 +117,7 @@ const CatalogScreen = () => {
         </View>
       </Animated.View>
 
-      <Animated.FlatList
+      <FlatList
         data={dogsList}
         numColumns={2}
         showsVerticalScrollIndicator={false}
@@ -87,8 +126,9 @@ const CatalogScreen = () => {
         renderItem={({item, index}) => renderItem(item, index)}
         bounces={false}
         scrollEventThrottle={16}
-        // onScroll={}
-        // renderScrollComponent={(props) => <Animated.ScrollView {...props} />}
+        renderScrollComponent={props => (
+          <Animated.ScrollView {...props} onScroll={handleScroll} />
+        )}
       />
     </View>
   );
@@ -99,10 +139,19 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: colors.turquoise,
   },
+  text: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    textAlign: 'center',
+    marginBottom: 7,
+    color: colors.white,
+  },
   searchBarOuter: {
     paddingVertical: 7,
     paddingHorizontal: 14,
     justifyContent: 'flex-end',
+    backgroundColor: 'transparent',
   },
   searchBarInner: {
     flexDirection: 'row',
@@ -133,6 +182,24 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 21,
     borderTopRightRadius: 21,
     backgroundColor: colors.white,
+  },
+  user: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 7,
+  },
+  userAvatar: {
+    width: AVATAR_SIZE,
+    height: AVATAR_SIZE,
+    borderWidth: 3,
+    borderRadius: AVATAR_SIZE,
+    borderColor: colors.white,
+  },
+  userText: {
+    marginTop: 7,
+    fontSize: text.m,
+    fontWeight: '900',
+    color: colors.white,
   },
 });
 
