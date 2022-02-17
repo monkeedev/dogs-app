@@ -37,10 +37,7 @@ class DogsApi {
    *
    * @returns {Promise} list with dogs
    */
-  fetchDogs = async (
-    b?: string | null,
-    q?: number,
-  ): Promise<DogApiResponse> => {
+  fetchDogs = async (b?: string | null, q = 10): Promise<DogApiResponse> => {
     try {
       let req: AxiosResponse<DogApiResponse, any>;
 

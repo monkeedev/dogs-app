@@ -7,8 +7,7 @@ import {
   Text,
   Image,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import Api from '../../api/requests';
+import React, {useEffect, useState} from 'react';
 import ListItem from './Components/ListItem';
 import {colors, text} from '../../utils/constants';
 import Animated, {
@@ -22,6 +21,12 @@ import {Icon} from 'react-native-elements';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {images} from '../../assets/images/asData';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useDispatch, useSelector} from 'react-redux';
+// import { workFetchList } from '../../redux/sagas/listSagas';
+import {fetchDogsList} from '../../redux/actions/listActions';
+import {getDogsCatalog} from '../../redux/rootSelector';
+import Loading from '../../components/Loading';
+import {parseImage} from '../../utils/functions';
 
 const ICON_SIZE = 36;
 const AVATAR_SIZE = 78;
@@ -33,6 +38,8 @@ const renderItem = (uri: string, idx: number) => {
 
 const CatalogScreen = () => {
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch();
+  const {list} = useSelector(getDogsCatalog);
 
   const headerAddedValue = insets.top + 7 * 2;
 
@@ -51,21 +58,9 @@ const CatalogScreen = () => {
     opacity: opacity.value,
   }));
 
-  // ref for fetching all breeds list
-  const fetchDogsRef = useRef((breed?: string, quantity?: number) =>
-    Api.fetchDogs(breed, quantity),
-  );
-
-  // ref for fetching dog by breed
-  const fetchDogsByBreedRef = useRef((breed: string, quantity?: number) =>
-    Api.fetchDogBySubbreed(breed, quantity),
-  );
-
   // searching dog breed
   const handleSearch = (str: string) => {
-    fetchDogsByBreedRef.current(str, 10).then(res => {
-      setDogsList(Array.isArray(res.message) ? res.message : [res.message]);
-    });
+    dispatch(fetchDogsList(str, true));
   };
 
   // scroll handler for ScrollView
@@ -89,10 +84,12 @@ const CatalogScreen = () => {
   });
 
   useEffect(() => {
-    fetchDogsRef.current('', 10).then(res => {
-      setDogsList(Array.isArray(res.message) ? res.message : [res.message]);
-    });
+    dispatch(fetchDogsList());
   }, []);
+
+  useEffect(() => {
+    setDogsList(list.data);
+  }, [list]);
 
   return (
     <View style={styles.container}>
@@ -122,19 +119,23 @@ const CatalogScreen = () => {
         </View>
       </Animated.View>
 
-      <FlatList
-        data={dogsList}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(_, idx) => `Dog_${idx}`}
-        contentContainerStyle={styles.list}
-        renderItem={({item, index}) => renderItem(item, index)}
-        bounces={false}
-        scrollEventThrottle={16}
-        renderScrollComponent={props => (
-          <Animated.ScrollView {...props} onScroll={handleScroll} />
-        )}
-      />
+      {list.loading ? (
+        <Loading style={styles.list} />
+      ) : (
+        <FlatList
+          data={dogsList}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => parseImage(item)}
+          contentContainerStyle={styles.list}
+          renderItem={({item, index}) => renderItem(item, index)}
+          bounces={false}
+          scrollEventThrottle={16}
+          renderScrollComponent={props => (
+            <Animated.ScrollView {...props} onScroll={handleScroll} />
+          )}
+        />
+      )}
     </View>
   );
 };
@@ -184,8 +185,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
     paddingTop: 7,
     paddingBottom: 49,
-    borderTopLeftRadius: 21,
-    borderTopRightRadius: 21,
+    // borderTopLeftRadius: 21,
+    // borderTopRightRadius: 21,
+    borderRadius: 21,
+    // flex: 1,
     backgroundColor: colors.white,
   },
   user: {

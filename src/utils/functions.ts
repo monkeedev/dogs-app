@@ -35,3 +35,10 @@ export const findBreedInList = (list: string[], breed: string) => {
     return res.length === 0 ? [] : res.length === 1 ? res[0] : breed;
   }
 };
+
+export const parseImage = (s: string) => {
+  const fromBreed = s.slice(s.indexOf('breeds'));
+  const arr = fromBreed.split('/');
+
+  return `${arr[1]}-${arr[2]}`;
+};

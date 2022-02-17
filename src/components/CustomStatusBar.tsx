@@ -14,7 +14,6 @@ interface Props extends StatusBarProps {
   bg: ColorValue;
 }
 
-const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
 const CustomStatusBar = ({bg, ...props}: Props) => {

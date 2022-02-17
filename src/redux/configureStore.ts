@@ -1,11 +1,12 @@
-import {createStore, applyMiddleware, combineReducers} from 'redux';
+import {createStore, applyMiddleware, combineReducers, compose} from 'redux';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import createSagaMiddleware from 'redux-saga';
 
-import {listReducers} from './reducers/listReducers';
+import {listReducer} from './reducers/listReducers';
+import rootSaga from './rootSaga';
 
-// const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware();
 
 const getPersistedConfig = (key: string) => {
   return {key, storage: AsyncStorage};
@@ -16,15 +17,24 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
-const rootReducer = combineReducers({
-  list: persistReducer(getPersistedConfig('list'), listReducers),
+const appReducer = combineReducers({
+  list: persistReducer(getPersistedConfig('list'), listReducer),
 });
+
+const rootReducer = (state: any, action: any) => {
+  return appReducer({...state}, action);
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = createStore(persistedReducer);
+const composeEnhancers = compose;
+
+export const store = createStore(
+  persistedReducer,
+  composeEnhancers(applyMiddleware(sagaMiddleware)),
+);
 export const persistor = persistStore(store);
 
-// sagaMiddleware.run()
-
 export type RootState = ReturnType<typeof persistedReducer>;
+
+sagaMiddleware.run(rootSaga);
