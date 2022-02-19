@@ -23,10 +23,12 @@ export const listReducer = (state = initialState, action: ListActionsTypes) => {
       };
 
     case ListActions.FETCH_LIST_SUCCESS:
+      const res = [...new Set([...state.list.data, ...action.payload])];
+
       return {
         ...state,
         list: {
-          data: action.payload,
+          data: res,
           error: '',
           loading: false,
         },
@@ -38,6 +40,16 @@ export const listReducer = (state = initialState, action: ListActionsTypes) => {
         list: {
           data: state.list?.data,
           error: action.payload.error,
+          loading: false,
+        },
+      };
+
+    case ListActions.CLEAR_LIST:
+      return {
+        ...state,
+        list: {
+          error: '',
+          data: [],
           loading: false,
         },
       };

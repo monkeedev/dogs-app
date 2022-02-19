@@ -4,15 +4,19 @@ import Api from '../../api/requests';
 import {DogApiResponse} from '../../api/interfaces';
 import {getDogsCatalog} from '../rootSelector';
 import {ListActions} from '../types/listTypes';
+import {clearDogsList} from '../actions/listActions';
 
 export function* workFetchList({payload}: any) {
   try {
-    const {data} = yield select(getDogsCatalog);
-    const {search, isSubbreed, quantity} = payload;
+    const {search, isSubbreed, isFresh, quantity} = payload;
+
+    if (isFresh) {
+      yield put(clearDogsList());
+    }
 
     const res: DogApiResponse = yield isSubbreed
       ? Api.fetchDogBySubbreed(search, quantity)
-      : Api.fetchDogs(search ?? null, quantity);
+      : Api.fetchDogs(null, quantity);
 
     const {message, status} = res;
 

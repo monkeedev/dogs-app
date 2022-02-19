@@ -40,5 +40,5 @@ export const parseImage = (s: string) => {
   const fromBreed = s.slice(s.indexOf('breeds'));
   const arr = fromBreed.split('/');
 
-  return `${arr[1]}-${arr[2]}`;
+  return `${arr[2]}`;
 };

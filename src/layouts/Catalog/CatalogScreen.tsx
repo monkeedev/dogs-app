@@ -1,13 +1,13 @@
 import {
   View,
   StyleSheet,
-  FlatList,
   TextInput,
   Pressable,
   Text,
   Image,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import ListItem from './Components/ListItem';
 import {colors, text} from '../../utils/constants';
 import Animated, {
@@ -22,10 +22,8 @@ import CustomStatusBar from '../../components/CustomStatusBar';
 import {images} from '../../assets/images/asData';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
-// import { workFetchList } from '../../redux/sagas/listSagas';
-import {fetchDogsList} from '../../redux/actions/listActions';
+import {clearDogsList, fetchDogsList} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import Loading from '../../components/Loading';
 import {parseImage} from '../../utils/functions';
 
 const ICON_SIZE = 36;
@@ -60,31 +58,40 @@ const CatalogScreen = () => {
 
   // searching dog breed
   const handleSearch = (str: string) => {
-    dispatch(fetchDogsList(str, true));
+    dispatch(fetchDogsList(str, true, true));
   };
 
-  // scroll handler for ScrollView
+  // scroll handler for FlatList
   const handleScroll = useAnimatedScrollHandler({
     onScroll: e => {
       const {y} = e.contentOffset;
+
       searchBarHeight.value = interpolate(
         y,
-        [0, HEADER_EXPANDED_HEIGHT - headerAddedValue],
+        [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
         [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
         Extrapolate.CLAMP,
       );
 
       opacity.value = interpolate(
         y,
-        [0, HEADER_EXPANDED_HEIGHT - headerAddedValue],
+        [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
         [1, 0],
         Extrapolate.CLAMP,
       );
     },
   });
 
+  const handleEndReached = () => {
+    if (breed) {
+      dispatch(fetchDogsList(breed, true));
+    } else {
+      dispatch(fetchDogsList());
+    }
+  };
+
   useEffect(() => {
-    dispatch(fetchDogsList());
+    dispatch(fetchDogsList('', false, true));
   }, []);
 
   useEffect(() => {
@@ -119,23 +126,23 @@ const CatalogScreen = () => {
         </View>
       </Animated.View>
 
-      {list.loading ? (
-        <Loading style={styles.list} />
-      ) : (
-        <FlatList
-          data={dogsList}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => parseImage(item)}
-          contentContainerStyle={styles.list}
-          renderItem={({item, index}) => renderItem(item, index)}
-          bounces={false}
-          scrollEventThrottle={16}
-          renderScrollComponent={props => (
-            <Animated.ScrollView {...props} onScroll={handleScroll} />
-          )}
-        />
-      )}
+      <Animated.FlatList
+        data={dogsList}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={item => parseImage(item)}
+        contentContainerStyle={styles.list}
+        renderItem={({item, index}) => renderItem(item, index)}
+        bounces={false}
+        scrollEventThrottle={16}
+        onEndReached={handleEndReached}
+        onScroll={handleScroll}
+        ListFooterComponent={() =>
+          list.loading ? (
+            <ActivityIndicator size={'small'} style={styles.indicator} />
+          ) : null
+        }
+      />
     </View>
   );
 };
@@ -185,10 +192,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
     paddingTop: 7,
     paddingBottom: 49,
-    // borderTopLeftRadius: 21,
-    // borderTopRightRadius: 21,
     borderRadius: 21,
-    // flex: 1,
     backgroundColor: colors.white,
   },
   user: {
@@ -208,6 +212,18 @@ const styles = StyleSheet.create({
     fontSize: text.m,
     fontWeight: '900',
     color: colors.white,
+  },
+  indicator: {
+    paddingTop: 49,
+    marginBottom: 7,
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 63,
+    left: 7,
+    width: 50,
+    height: 50,
+    backgroundColor: 'red',
   },
 });
 
