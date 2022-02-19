@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
 interface Props {
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
+    maxWidth: Dimensions.get('screen').width / 2 - 7 * 2 - 7,
     height: 200,
     borderRadius: 20,
   },
