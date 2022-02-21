@@ -12,13 +12,14 @@ import CatalogScreen from './src/layouts/Catalog/CatalogScreen';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/redux/configureStore';
+import Navigator from './src/layouts/Navigator/Navigator';
 
 const App = () => {
   return (
     <SafeAreaProvider>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <CatalogScreen />
+          <Navigator />
         </PersistGate>
       </Provider>
     </SafeAreaProvider>

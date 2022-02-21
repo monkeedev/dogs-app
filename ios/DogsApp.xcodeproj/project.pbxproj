@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* DogsAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DogsAppTests.m */; };
+		0125702B08679903A9ACF40B /* libPods-DogsApp-DogsAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E6B91F1A9D97D2531AE006 /* libPods-DogsApp-DogsAppTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		27C5951765509A19480F036F /* libPods-DogsApp-DogsAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F574DCD0922E88909E568F9 /* libPods-DogsApp-DogsAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		FFB054EC0B825D8ADE8E07AF /* libPods-DogsApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 662B1629AA1FE548B67582E4 /* libPods-DogsApp.a */; };
+		C212A09E33257F30FD13AEBE /* libPods-DogsApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F12C051FA8A6992EA40590F7 /* libPods-DogsApp.a */; };
+		FF013F5127C2B9E5008321CB /* libRNScreens.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF013F5027C2B9E5008321CB /* libRNScreens.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,14 +37,31 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = DogsApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = DogsApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DogsApp/main.m; sourceTree = "<group>"; };
-		5F574DCD0922E88909E568F9 /* libPods-DogsApp-DogsAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DogsApp-DogsAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		662B1629AA1FE548B67582E4 /* libPods-DogsApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DogsApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C27046A8E1BB67951A1091F /* Pods-DogsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DogsApp.release.xcconfig"; path = "Target Support Files/Pods-DogsApp/Pods-DogsApp.release.xcconfig"; sourceTree = "<group>"; };
+		17159357B8234EC0AF4F6D12 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		1C6FFCF2A79FE3629E969473 /* Pods-DogsApp-DogsAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DogsApp-DogsAppTests.debug.xcconfig"; path = "Target Support Files/Pods-DogsApp-DogsAppTests/Pods-DogsApp-DogsAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		33A36E933C992B54578F926E /* Pods-DogsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DogsApp.debug.xcconfig"; path = "Target Support Files/Pods-DogsApp/Pods-DogsApp.debug.xcconfig"; sourceTree = "<group>"; };
+		4D1D3C4EC0CADD44B274246B /* Pods-DogsApp-DogsAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DogsApp-DogsAppTests.release.xcconfig"; path = "Target Support Files/Pods-DogsApp-DogsAppTests/Pods-DogsApp-DogsAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		4D995D3107D44399B223A864 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		5AE788B8953D4CFF9AC8BCF9 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		619BE15B898F4A50870BA399 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		71CCF593E7BE464A9D34A8C8 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		77B51073B2594D8EA8DC4B79 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		7B2BDE8CCE1440E39A4A2A78 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		7F70D41AF1784298BC958549 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DogsApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		B49D1FC34F5505C14FAA4D68 /* Pods-DogsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DogsApp.debug.xcconfig"; path = "Target Support Files/Pods-DogsApp/Pods-DogsApp.debug.xcconfig"; sourceTree = "<group>"; };
-		BE70DF2D03F710FBE0F4459A /* Pods-DogsApp-DogsAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DogsApp-DogsAppTests.release.xcconfig"; path = "Target Support Files/Pods-DogsApp-DogsAppTests/Pods-DogsApp-DogsAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		83B5BB5384EC49EF9D0B8DD7 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		8A5E374DE44A49338CE0491C /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		8DBD3BB918BA47C2B9812536 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		90F6D12C592B4DF1B39303F7 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		96CA555593264C4398910CBA /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		A7E6B91F1A9D97D2531AE006 /* libPods-DogsApp-DogsAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DogsApp-DogsAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA585EA3D21543B386ABC3AB /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		C8427A6CC50A40EEBB2D5D7D /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		D435A4A59EEC4D10B58D8261 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F7AE6A8D7FA78CA53648BCD8 /* Pods-DogsApp-DogsAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DogsApp-DogsAppTests.debug.xcconfig"; path = "Target Support Files/Pods-DogsApp-DogsAppTests/Pods-DogsApp-DogsAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F12C051FA8A6992EA40590F7 /* libPods-DogsApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DogsApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F29249A64AC28AA7EA4F31B8 /* Pods-DogsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DogsApp.release.xcconfig"; path = "Target Support Files/Pods-DogsApp/Pods-DogsApp.release.xcconfig"; sourceTree = "<group>"; };
+		FF013F5027C2B9E5008321CB /* libRNScreens.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNScreens.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27C5951765509A19480F036F /* libPods-DogsApp-DogsAppTests.a in Frameworks */,
+				0125702B08679903A9ACF40B /* libPods-DogsApp-DogsAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +77,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFB054EC0B825D8ADE8E07AF /* libPods-DogsApp.a in Frameworks */,
+				FF013F5127C2B9E5008321CB /* libRNScreens.a in Frameworks */,
+				C212A09E33257F30FD13AEBE /* libPods-DogsApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,23 +118,35 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FF013F5027C2B9E5008321CB /* libRNScreens.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				662B1629AA1FE548B67582E4 /* libPods-DogsApp.a */,
-				5F574DCD0922E88909E568F9 /* libPods-DogsApp-DogsAppTests.a */,
+				F12C051FA8A6992EA40590F7 /* libPods-DogsApp.a */,
+				A7E6B91F1A9D97D2531AE006 /* libPods-DogsApp-DogsAppTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7ECAA050B20AB2BF0A3796D4 /* Pods */ = {
+		409F875ABF684E7DB5D763C5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B49D1FC34F5505C14FAA4D68 /* Pods-DogsApp.debug.xcconfig */,
-				7C27046A8E1BB67951A1091F /* Pods-DogsApp.release.xcconfig */,
-				F7AE6A8D7FA78CA53648BCD8 /* Pods-DogsApp-DogsAppTests.debug.xcconfig */,
-				BE70DF2D03F710FBE0F4459A /* Pods-DogsApp-DogsAppTests.release.xcconfig */,
+				5AE788B8953D4CFF9AC8BCF9 /* AntDesign.ttf */,
+				8A5E374DE44A49338CE0491C /* Entypo.ttf */,
+				8DBD3BB918BA47C2B9812536 /* EvilIcons.ttf */,
+				619BE15B898F4A50870BA399 /* Feather.ttf */,
+				17159357B8234EC0AF4F6D12 /* FontAwesome.ttf */,
+				C8427A6CC50A40EEBB2D5D7D /* FontAwesome5_Brands.ttf */,
+				D435A4A59EEC4D10B58D8261 /* FontAwesome5_Regular.ttf */,
+				90F6D12C592B4DF1B39303F7 /* FontAwesome5_Solid.ttf */,
+				7B2BDE8CCE1440E39A4A2A78 /* Fontisto.ttf */,
+				96CA555593264C4398910CBA /* Foundation.ttf */,
+				77B51073B2594D8EA8DC4B79 /* Ionicons.ttf */,
+				83B5BB5384EC49EF9D0B8DD7 /* MaterialCommunityIcons.ttf */,
+				AA585EA3D21543B386ABC3AB /* MaterialIcons.ttf */,
+				7F70D41AF1784298BC958549 /* Octicons.ttf */,
+				4D995D3107D44399B223A864 /* SimpleLineIcons.ttf */,
+				71CCF593E7BE464A9D34A8C8 /* Zocial.ttf */,
 			);
-			name = Pods;
-			path = Pods;
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -133,7 +164,8 @@
 				00E356EF1AD99517003FC87E /* DogsAppTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				7ECAA050B20AB2BF0A3796D4 /* Pods */,
+				DDFC2A5A90D7511CACFE37BC /* Pods */,
+				409F875ABF684E7DB5D763C5 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -149,6 +181,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DDFC2A5A90D7511CACFE37BC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				33A36E933C992B54578F926E /* Pods-DogsApp.debug.xcconfig */,
+				F29249A64AC28AA7EA4F31B8 /* Pods-DogsApp.release.xcconfig */,
+				1C6FFCF2A79FE3629E969473 /* Pods-DogsApp-DogsAppTests.debug.xcconfig */,
+				4D1D3C4EC0CADD44B274246B /* Pods-DogsApp-DogsAppTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -156,12 +199,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "DogsAppTests" */;
 			buildPhases = (
-				E5C19873784917B7D4427688 /* [CP] Check Pods Manifest.lock */,
+				C1F793E74F2F66DE9348568F /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				966D3E0EA8618EEC554B4C11 /* [CP] Embed Pods Frameworks */,
-				D6AA3B4BA07A17F192F27A13 /* [CP] Copy Pods Resources */,
+				2EA359EAFD84F0377FE61865 /* [CP] Embed Pods Frameworks */,
+				325EB1C50CFDC8DFA24BE9B6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -177,14 +220,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "DogsApp" */;
 			buildPhases = (
-				5D45248C4CCCB652F5E1A40C /* [CP] Check Pods Manifest.lock */,
+				099F3B4B9F524C232C8A374B /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				CC1A8F0925F450F4E60758DA /* [CP] Embed Pods Frameworks */,
-				FB0A06A7B4E908A9DEE13909 /* [CP] Copy Pods Resources */,
+				97B69C51269902AC7E5F8339 /* [CP] Embed Pods Frameworks */,
+				C46D7C8A5E67ABE2D12C8C76 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -265,7 +308,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		5D45248C4CCCB652F5E1A40C /* [CP] Check Pods Manifest.lock */ = {
+		099F3B4B9F524C232C8A374B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -287,7 +330,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		966D3E0EA8618EEC554B4C11 /* [CP] Embed Pods Frameworks */ = {
+		2EA359EAFD84F0377FE61865 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -304,24 +347,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DogsApp-DogsAppTests/Pods-DogsApp-DogsAppTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CC1A8F0925F450F4E60758DA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DogsApp/Pods-DogsApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DogsApp/Pods-DogsApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DogsApp/Pods-DogsApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D6AA3B4BA07A17F192F27A13 /* [CP] Copy Pods Resources */ = {
+		325EB1C50CFDC8DFA24BE9B6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -338,7 +364,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DogsApp-DogsAppTests/Pods-DogsApp-DogsAppTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E5C19873784917B7D4427688 /* [CP] Check Pods Manifest.lock */ = {
+		97B69C51269902AC7E5F8339 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DogsApp/Pods-DogsApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DogsApp/Pods-DogsApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DogsApp/Pods-DogsApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C1F793E74F2F66DE9348568F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -360,7 +403,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FB0A06A7B4E908A9DEE13909 /* [CP] Copy Pods Resources */ = {
+		C46D7C8A5E67ABE2D12C8C76 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -429,7 +472,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7AE6A8D7FA78CA53648BCD8 /* Pods-DogsApp-DogsAppTests.debug.xcconfig */;
+			baseConfigurationReference = 1C6FFCF2A79FE3629E969473 /* Pods-DogsApp-DogsAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -456,7 +499,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE70DF2D03F710FBE0F4459A /* Pods-DogsApp-DogsAppTests.release.xcconfig */;
+			baseConfigurationReference = 4D1D3C4EC0CADD44B274246B /* Pods-DogsApp-DogsAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -480,16 +523,62 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B49D1FC34F5505C14FAA4D68 /* Pods-DogsApp.debug.xcconfig */;
+			baseConfigurationReference = 33A36E933C992B54578F926E /* Pods-DogsApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = DogsApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${DT_TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CocoaAsyncSocket\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBReactNativeSpec\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-Boost-iOSX\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-Fmt\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-Folly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-Glog\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-PeerTalk\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Flipper-RSocket\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FlipperKit\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCTTypeSafety\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNReanimated\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNVectorIcons\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNScreens\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-CoreModules\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTAnimation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTBlob\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTLinking\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTNetwork\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTSettings\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTText\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTVibration\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsi\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsiexecutor\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-logger\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-perflogger\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Yoga\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YogaKit\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/fmt\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/libevent\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-safe-area-context\"",
+					/usr/lib/swift,
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -506,7 +595,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C27046A8E1BB67951A1091F /* Pods-DogsApp.release.xcconfig */;
+			baseConfigurationReference = F29249A64AC28AA7EA4F31B8 /* Pods-DogsApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -561,6 +650,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = arm64;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
