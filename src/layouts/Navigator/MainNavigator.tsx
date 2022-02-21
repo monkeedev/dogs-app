@@ -27,13 +27,11 @@ import Animated, {
 
 const RADIUS = 14;
 const TAB_BAR_HEIGHT = 56;
-const WIDTH = Dimensions.get('screen').width;
 
 const Tab = createBottomTabNavigator();
 
 const TabBar = ({state, descriptors, navigation}) => {
   const width = useSharedValue(0);
-
   const activeIdx = useSharedValue(0);
 
   const rStyle = useAnimatedStyle(() => ({
@@ -41,9 +39,13 @@ const TabBar = ({state, descriptors, navigation}) => {
     opacity: withSpring(+(width.value !== 0)),
     transform: [
       {
-        translateX: withSpring(width.value * activeIdx.value),
+        translateX: withTiming(width.value * activeIdx.value, {duration: 300}),
       },
     ],
+  }));
+
+  const oStyles = useAnimatedStyle(() => ({
+    opacity: withSpring(+(width.value !== 0)),
   }));
 
   return (
@@ -77,7 +79,9 @@ const TabBar = ({state, descriptors, navigation}) => {
             onPress={handlePress}
             style={{flex: 1}}
             onLayout={e => (width.value = e.nativeEvent.layout.width)}>
-            {options.tabBarIcon(isFocused)}
+            <Animated.View style={oStyles}>
+              {options.tabBarIcon(isFocused)}
+            </Animated.View>
           </TouchableOpacity>
         );
       })}

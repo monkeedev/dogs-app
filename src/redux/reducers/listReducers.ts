@@ -7,7 +7,7 @@ const initialState: ListState = {
     error: '',
     loading: false,
   },
-  saved: [],
+  bookmarks: [],
 };
 
 export const listReducer = (state = initialState, action: ListActionsTypes) => {
@@ -55,8 +55,10 @@ export const listReducer = (state = initialState, action: ListActionsTypes) => {
       };
 
     case ListActions.SAVE_TO_BOOKMARKS:
-      // ...
-      return state;
+      return {
+        ...state,
+        bookmarks: [...new Set([...state.bookmarks, action.payload.img])],
+      };
 
     default:
       return state;
