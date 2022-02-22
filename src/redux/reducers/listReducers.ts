@@ -23,12 +23,12 @@ export const listReducer = (state = initialState, action: ListActionsTypes) => {
       };
 
     case ListActions.FETCH_LIST_SUCCESS:
-      const res = [...new Set([...state.list.data, ...action.payload])];
+      const list = [...new Set([...state.list.data, ...action.payload])];
 
       return {
         ...state,
         list: {
-          data: res,
+          data: list,
           error: '',
           loading: false,
         },
@@ -55,10 +55,14 @@ export const listReducer = (state = initialState, action: ListActionsTypes) => {
       };
 
     case ListActions.SAVE_TO_BOOKMARKS:
-      return {
-        ...state,
-        bookmarks: [...new Set([...state.bookmarks, action.payload.img])],
-      };
+      let bookmarks: string[] = Object.assign([], state.bookmarks);
+      const idx = state.bookmarks.indexOf(action.payload.img);
+
+      idx === -1
+        ? bookmarks.push(action.payload.img)
+        : bookmarks.splice(idx, 1);
+
+      return {...state, bookmarks};
 
     default:
       return state;

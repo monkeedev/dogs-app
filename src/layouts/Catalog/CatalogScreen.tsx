@@ -7,8 +7,8 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import ListItem from './Components/ListItem';
+import React, {useEffect, useState} from 'react';
+import ListItem from '../../components/lists/ListItem';
 import {colors, text} from '../../utils/constants';
 import Animated, {
   Extrapolate,
@@ -35,8 +35,8 @@ const renderItem = (uri: string, idx: number) => {
 };
 
 const CatalogScreen = () => {
-  const insets = useSafeAreaInsets();
   const dispatch = useDispatch();
+  const insets = useSafeAreaInsets();
   const {list} = useSelector(getDogsCatalog);
 
   const headerAddedValue = insets.top + 7 * 2;
@@ -192,7 +192,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
     paddingTop: 7,
     paddingBottom: 49,
-    borderRadius: 21,
+    borderTopLeftRadius: 21,
+    borderTopRightRadius: 21,
     backgroundColor: colors.white,
   },
   user: {
@@ -216,14 +217,6 @@ const styles = StyleSheet.create({
   indicator: {
     paddingTop: 49,
     marginBottom: 7,
-  },
-  floatingButton: {
-    position: 'absolute',
-    bottom: 63,
-    left: 7,
-    width: 50,
-    height: 50,
-    backgroundColor: 'red',
   },
 });
 
