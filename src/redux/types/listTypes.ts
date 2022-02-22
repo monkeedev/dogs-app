@@ -2,7 +2,7 @@ import {ActionType, StatedObject} from '../../utils/types';
 
 export interface ListState {
   list: StatedObject<string>;
-  saved: string[];
+  bookmarks: string[];
 }
 
 export enum ListActions {

@@ -2,7 +2,6 @@ import {takeLatest, put, select} from 'redux-saga/effects';
 
 import Api from '../../api/requests';
 import {DogApiResponse} from '../../api/interfaces';
-import {getDogsCatalog} from '../rootSelector';
 import {ListActions} from '../types/listTypes';
 import {clearDogsList} from '../actions/listActions';
 
