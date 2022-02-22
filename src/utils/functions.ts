@@ -28,7 +28,7 @@ export const findBreedInList = (list: string[], breed: string) => {
 
     return normal !== -1 ? _arr[normal] : _arr[reversed];
   } else {
-    const res = _arr.filter(w => {
+    const res = _arr.filter((w: string) => {
       return splitted.filter(i => w.match(i)).length > 0;
     });
 

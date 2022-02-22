@@ -10,7 +10,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import CatalogScreen from '../Catalog/CatalogScreen';
 import {tabs} from './tabs';
-import {colors} from '../../utils/constants';
+import {animationConfig, colors} from '../../utils/constants';
 import {Icon} from 'react-native-elements';
 import Animated, {
   ColorSpace,
@@ -39,7 +39,7 @@ const TabBar = ({state, descriptors, navigation}) => {
     opacity: withSpring(+(width.value !== 0)),
     transform: [
       {
-        translateX: withTiming(width.value * activeIdx.value, {duration: 300}),
+        translateX: withTiming(width.value * activeIdx.value, animationConfig),
       },
     ],
   }));
