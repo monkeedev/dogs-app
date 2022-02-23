@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ListItem from '../../components/lists/ListItem';
@@ -50,7 +51,7 @@ const CatalogScreen = () => {
     height: interpolate(
       scrollY.value,
       [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
+      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top - 7],
       Extrapolate.CLAMP,
     ),
   }));
@@ -62,6 +63,19 @@ const CatalogScreen = () => {
       [1, 0],
       Extrapolate.CLAMP,
     ),
+  }));
+
+  const transformStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: interpolate(
+          scrollY.value,
+          [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
+          [HEADER_EXPANDED_HEIGHT + headerAddedValue + 7, 0],
+          Extrapolate.CLAMP,
+        ),
+      },
+    ],
   }));
 
   // searching dog breed
@@ -87,7 +101,11 @@ const CatalogScreen = () => {
   }, []);
 
   useEffect(() => {
-    setDogsList(list.data);
+    if (list.data.length > 4 && list.data.length < 7) {
+      setDogsList([...list.data, '', '']);
+    } else {
+      setDogsList(list.data);
+    }
   }, [list]);
 
   return (
@@ -116,6 +134,7 @@ const CatalogScreen = () => {
             />
           </Pressable>
         </View>
+        <View style={styles.searchBarBg} />
       </Animated.View>
 
       <Animated.FlatList
@@ -127,13 +146,14 @@ const CatalogScreen = () => {
           styles.list,
           dogsList.length === 0
             ? styles.emptyList
-            : dogsList.length <= 4
+            : dogsList.length < 7
             ? {height: '100%'}
             : {},
         ]}
         renderItem={({item, index}) => renderItem(item, index)}
         bounces={false}
         scrollEventThrottle={16}
+        style={transformStyle}
         onEndReached={handleEndReached}
         onScroll={handleScroll}
         ListFooterComponent={() =>
@@ -152,7 +172,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.turquoise,
   },
   text: {
-    fontSize: 28,
+    fontSize: text.l,
     fontWeight: 'bold',
     textTransform: 'uppercase',
     textAlign: 'center',
@@ -163,7 +183,11 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     paddingHorizontal: 14,
     justifyContent: 'flex-end',
-    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 54,
+    left: 0,
+    width: '100%',
+    zIndex: 1,
   },
   searchBarInner: {
     flexDirection: 'row',
@@ -171,7 +195,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 999,
-    backgroundColor: colors.lightGray,
+    overflow: 'hidden',
+    backgroundColor: colors.white,
+  },
+  searchBarBg: {
+    backgroundColor: colors.turquoise,
+    zIndex: -1,
+    position: 'absolute',
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('screen').width / 2,
+    bottom: 0,
+    opacity: 0.75,
   },
   input: {
     flex: 1,
