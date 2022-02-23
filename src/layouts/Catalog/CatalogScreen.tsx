@@ -22,7 +22,7 @@ import CustomStatusBar from '../../components/CustomStatusBar';
 import {images} from '../../assets/images/asData';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
-import {clearDogsList, fetchDogsList} from '../../redux/actions/listActions';
+import {fetchDogsList} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {parseImage} from '../../utils/functions';
 
@@ -35,25 +35,33 @@ const renderItem = (uri: string, idx: number) => {
 };
 
 const CatalogScreen = () => {
-  const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
-  const {list} = useSelector(getDogsCatalog);
-
   const headerAddedValue = insets.top + 7 * 2;
+
+  const dispatch = useDispatch();
+  const {list} = useSelector(getDogsCatalog);
 
   const [breed, setBreed] = useState('');
   const [dogsList, setDogsList] = useState<string[]>([]);
 
-  const opacity = useSharedValue(1);
-  const searchBarHeight = useSharedValue(
-    HEADER_EXPANDED_HEIGHT + headerAddedValue,
-  );
+  const scrollY = useSharedValue(0);
+
   const searchBarStyle = useAnimatedStyle(() => ({
-    height: searchBarHeight.value,
+    height: interpolate(
+      scrollY.value,
+      [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
+      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
+      Extrapolate.CLAMP,
+    ),
   }));
 
   const opacityStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
+    opacity: interpolate(
+      scrollY.value,
+      [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
+      [1, 0],
+      Extrapolate.CLAMP,
+    ),
   }));
 
   // searching dog breed
@@ -63,23 +71,7 @@ const CatalogScreen = () => {
 
   // scroll handler for FlatList
   const handleScroll = useAnimatedScrollHandler({
-    onScroll: e => {
-      const {y} = e.contentOffset;
-
-      searchBarHeight.value = interpolate(
-        y,
-        [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-        [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
-        Extrapolate.CLAMP,
-      );
-
-      opacity.value = interpolate(
-        y,
-        [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-        [1, 0],
-        Extrapolate.CLAMP,
-      );
-    },
+    onScroll: e => (scrollY.value = e.contentOffset.y),
   });
 
   const handleEndReached = () => {
@@ -131,7 +123,14 @@ const CatalogScreen = () => {
         numColumns={2}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => parseImage(item)}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[
+          styles.list,
+          dogsList.length === 0
+            ? styles.emptyList
+            : dogsList.length <= 4
+            ? {height: '100%'}
+            : {},
+        ]}
         renderItem={({item, index}) => renderItem(item, index)}
         bounces={false}
         scrollEventThrottle={16}
@@ -195,6 +194,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 21,
     borderTopRightRadius: 21,
     backgroundColor: colors.white,
+  },
+  emptyList: {
+    flex: 1,
+    paddingBottom: 0,
+    justifyContent: 'center',
   },
   user: {
     alignItems: 'center',
