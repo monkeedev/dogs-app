@@ -1,11 +1,5 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
-import React from 'react';
+import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, text} from '../../utils/constants';
@@ -13,7 +7,6 @@ import CustomStatusBar from '../../components/CustomStatusBar';
 import {parseImage} from '../../utils/functions';
 import ListItem from '../../components/lists/ListItem';
 import EmptyList from '../../components/lists/EmptyList';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -21,6 +14,9 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
+import {Icon} from 'react-native-elements';
 
 const HEADER_EXPANDED_HEIGHT = 78 + 7 * 2;
 
@@ -30,66 +26,96 @@ const renderItem = (uri: string, idx: number) => {
 
 const BookmarksScreen = () => {
   const insets = useSafeAreaInsets();
-  const {bookmarks} = useSelector(getDogsCatalog);
-
   const headerAddedValue = insets.top + 7 * 2;
 
-  const headerHeight = useSharedValue(
-    HEADER_EXPANDED_HEIGHT + headerAddedValue,
-  );
+  const {bookmarks} = useSelector(getDogsCatalog);
+  const [data, setData] = useState<string[]>([]);
 
-  const hStyle = useAnimatedStyle(() => ({
-    height: headerHeight.value,
-  }));
-
-  const fStyle = useAnimatedStyle(() => ({
-    fontSize: interpolate(
-      headerHeight.value,
-      [HEADER_EXPANDED_HEIGHT, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-      [text.m, text.l],
+  const scrollY = useSharedValue(0);
+  const headerStyle = useAnimatedStyle(() => ({
+    height: interpolate(
+      scrollY.value,
+      [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
+      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top - 7],
       Extrapolate.CLAMP,
     ),
   }));
 
-  const handleScroll = useAnimatedScrollHandler({
-    onScroll: e => {
-      const {y} = e.contentOffset;
+  const fontStyle = useAnimatedStyle(() => ({
+    fontSize: interpolate(
+      scrollY.value,
+      [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
+      [text.l, text.m],
+      Extrapolate.CLAMP,
+    ),
+  }));
 
-      headerHeight.value = interpolate(
-        y,
-        [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-        [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
-        Extrapolate.CLAMP,
-      );
-    },
+  const transformStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: interpolate(
+          scrollY.value,
+          [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
+          [HEADER_EXPANDED_HEIGHT + headerAddedValue + 7, 0],
+          Extrapolate.CLAMP,
+        ),
+      },
+    ],
+  }));
+
+  // scroll handler for FlatList
+  const handleScroll = useAnimatedScrollHandler({
+    onScroll: e => (scrollY.value = e.contentOffset.y),
   });
+
+  useEffect(() => {
+    if (bookmarks.length > 4 && bookmarks.length < 7) {
+      setData([...bookmarks, '', '']);
+    } else {
+      setData(bookmarks);
+    }
+  }, [bookmarks]);
 
   return (
     <View style={styles.container}>
       <CustomStatusBar bg={colors.turquoise} />
-      <Animated.View style={[styles.header, hStyle]}>
-        <Animated.Text style={[styles.headerText, fStyle]}>
+
+      <Animated.View style={[styles.header, {top: insets.top}, headerStyle]}>
+        <Animated.Text style={[styles.headerText, fontStyle]}>
           Favourites
         </Animated.Text>
+
+        <View style={styles.row}>
+          <Text style={styles.headerText}>{bookmarks.length}</Text>
+          <Icon
+            name={'bookmarks'}
+            type={'ionicon'}
+            tvParallaxProperties={false}
+            color={colors.white}
+          />
+        </View>
+
+        <View style={styles.headerBg} />
       </Animated.View>
 
       <Animated.FlatList
-        data={bookmarks}
+        data={data}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => parseImage(item)}
-        scrollEventThrottle={16}
-        onScroll={handleScroll}
         contentContainerStyle={[
           styles.list,
-          bookmarks.length === 0
+          data.length === 0
             ? styles.emptyList
-            : bookmarks.length <= 4
+            : data.length <= 6
             ? {height: '100%'}
             : {},
         ]}
-        renderItem={({item, index}) => renderItem(item, index)}
+        style={transformStyle}
         bounces={false}
+        renderItem={({item, index}) => renderItem(item, index)}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
         ListEmptyComponent={() => <EmptyList />}
       />
     </View>
@@ -100,11 +126,34 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     backgroundColor: colors.turquoise,
+    position: 'relative',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: 49,
   },
   header: {
-    paddingLeft: 14,
-    paddingBottom: 7,
-    justifyContent: 'flex-end',
+    paddingVertical: 7,
+    paddingHorizontal: 14,
+    position: 'absolute',
+    top: 54,
+    left: 0,
+    width: '100%',
+    zIndex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+  },
+  headerBg: {
+    backgroundColor: colors.turquoise,
+    zIndex: -1,
+    position: 'absolute',
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('screen').width / 2,
+    bottom: 0,
+    opacity: 0.875,
   },
   headerText: {
     color: colors.white,

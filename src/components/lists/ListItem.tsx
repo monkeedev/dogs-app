@@ -52,19 +52,23 @@ const ListItem = ({uri, idx}: Props) => {
           top: idx % 2 !== 0 ? 28 : 0,
         },
       ]}>
-      <Pressable onPress={handleSave}>
-        <Animated.View style={[styles.icon, rStyle]}>
-          <Icon
-            type={'ionicon'}
-            name={`bookmarks`}
-            color={colors.white}
-            size={16}
-            tvParallaxProperties={false}
-          />
-        </Animated.View>
-      </Pressable>
+      {uri === '' ? null : (
+        <>
+          <Pressable onPress={handleSave}>
+            <Animated.View style={[styles.icon, rStyle]}>
+              <Icon
+                type={'ionicon'}
+                name={`bookmarks`}
+                color={colors.white}
+                size={16}
+                tvParallaxProperties={false}
+              />
+            </Animated.View>
+          </Pressable>
 
-      <Image source={{uri}} style={styles.image} />
+          <Image source={{uri}} style={styles.image} />
+        </>
+      )}
     </View>
   );
 };
@@ -76,6 +80,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 7,
     marginHorizontal: 7,
+    minHeight: 70,
     maxWidth: Dimensions.get('screen').width / 2 - 7 * 2 - 7,
   },
   image: {
