@@ -15,6 +15,8 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
+import {Icon} from 'react-native-elements';
 
 const HEADER_EXPANDED_HEIGHT = 78 + 7 * 2;
 
@@ -78,10 +80,20 @@ const BookmarksScreen = () => {
     <View style={styles.container}>
       <CustomStatusBar bg={colors.turquoise} />
 
-      <Animated.View style={[styles.header, headerStyle]}>
+      <Animated.View style={[styles.header, {top: insets.top}, headerStyle]}>
         <Animated.Text style={[styles.headerText, fontStyle]}>
           Favourites
         </Animated.Text>
+
+        <View style={styles.row}>
+          <Text style={styles.headerText}>{bookmarks.length}</Text>
+          <Icon
+            name={'bookmarks'}
+            type={'ionicon'}
+            tvParallaxProperties={false}
+            color={colors.white}
+          />
+        </View>
 
         <View style={styles.headerBg} />
       </Animated.View>
@@ -114,16 +126,25 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     backgroundColor: colors.turquoise,
+    position: 'relative',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: 49,
   },
   header: {
     paddingVertical: 7,
     paddingHorizontal: 14,
-    justifyContent: 'flex-end',
     position: 'absolute',
     top: 54,
     left: 0,
     width: '100%',
     zIndex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
   },
   headerBg: {
     backgroundColor: colors.turquoise,
@@ -132,7 +153,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width,
     height: Dimensions.get('screen').width / 2,
     bottom: 0,
-    opacity: 0.75,
+    opacity: 0.875,
   },
   headerText: {
     color: colors.white,

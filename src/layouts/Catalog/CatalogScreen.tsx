@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width,
     height: Dimensions.get('screen').width / 2,
     bottom: 0,
-    opacity: 0.75,
+    opacity: 0.875,
   },
   input: {
     flex: 1,
