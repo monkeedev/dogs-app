@@ -4,14 +4,7 @@ import {Icon} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {animationConfig, colors} from '../../utils/constants';
-import Animated, {
-  interpolateColor,
-  interpolateSharableColor,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {saveToBookmarks} from '../../redux/actions/listActions';
 
 interface Props {
