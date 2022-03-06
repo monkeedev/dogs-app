@@ -1,4 +1,11 @@
-import {Dimensions, Image, Pressable, StyleSheet, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {Icon} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
@@ -6,6 +13,7 @@ import {getDogsCatalog} from '../../redux/rootSelector';
 import {animationConfig, colors} from '../../utils/constants';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {saveToBookmarks} from '../../redux/actions/listActions';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 
 interface Props {
   uri: string;
@@ -17,6 +25,7 @@ const ICON_SIZE = 35;
 const ListItem = ({uri, idx}: Props) => {
   const {bookmarks} = useSelector(getDogsCatalog);
   const dispatch = useDispatch();
+  const {navigate} = useNavigation<any>();
 
   const isBookmarked = bookmarks.indexOf(uri) !== -1;
 
@@ -36,6 +45,10 @@ const ListItem = ({uri, idx}: Props) => {
     return isBookmarked ? _active : _default;
   }, [isBookmarked]);
 
+  const openGallery = () => {
+    navigate('Gallery', {uri});
+  };
+
   return (
     <View
       style={[
@@ -46,7 +59,7 @@ const ListItem = ({uri, idx}: Props) => {
         },
       ]}>
       {uri === '' ? null : (
-        <>
+        <TouchableOpacity activeOpacity={0.9} onPress={openGallery}>
           <Pressable onPress={handleSave}>
             <Animated.View style={[styles.icon, rStyle]}>
               <Icon
@@ -60,7 +73,7 @@ const ListItem = ({uri, idx}: Props) => {
           </Pressable>
 
           <Image source={{uri}} style={styles.image} />
-        </>
+        </TouchableOpacity>
       )}
     </View>
   );

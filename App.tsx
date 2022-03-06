@@ -8,11 +8,13 @@
 
 import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import CatalogScreen from './src/layouts/Catalog/CatalogScreen';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/redux/configureStore';
 import Navigator from './src/layouts/Navigator/Navigator';
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs(['[react-native-gesture-handler]']);
 
 const App = () => {
   return (

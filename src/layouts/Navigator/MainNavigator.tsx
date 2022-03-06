@@ -1,34 +1,25 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
-import CatalogScreen from '../Catalog/CatalogScreen';
 import {tabs} from './tabs';
 import {animationConfig, colors} from '../../utils/constants';
 import {Icon} from 'react-native-elements';
 import Animated, {
-  ColorSpace,
-  interpolate,
-  interpolateColor,
-  interpolateColors,
-  useAnimatedReaction,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import GalleryModal from '../Gallery/GalleryModal';
+import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {RootStackParamList} from './routes';
 
 const RADIUS = 14;
 const TAB_BAR_HEIGHT = 56;
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const TabBar = ({state, descriptors, navigation}) => {
   const width = useSharedValue(0);
@@ -86,41 +77,55 @@ const TabBar = ({state, descriptors, navigation}) => {
         );
       })}
 
-      <Animated.View style={[styles.icon, rStyle]} pointerEvents={'none'} />
+      <Animated.View style={[styles.box, rStyle]} pointerEvents={'none'} />
     </View>
   );
 };
 
-const MainNavigator = () => {
+const CatalogTabs = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{headerShown: false}}
-        tabBar={props => <TabBar {...props} />}>
-        {tabs.map(
-          ({name, component, icon: {activeName, defaultName, type, size}}) => (
-            <Tab.Screen
-              key={name}
-              name={name}
-              component={component}
-              options={{
-                tabBarIcon: focused => (
-                  <Icon
-                    name={focused ? activeName : defaultName}
-                    color={focused ? colors.white : colors.turquoise}
-                    type={type}
-                    tvParallaxProperties={false}
-                    size={size}
-                  />
-                ),
-              }}
-            />
-          ),
-        )}
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Tab.Navigator
+      screenOptions={{headerShown: false}}
+      tabBar={props => <TabBar {...props} />}>
+      {tabs.map(
+        ({name, component, icon: {activeName, defaultName, type, size}}) => (
+          <Tab.Screen
+            key={name}
+            name={name}
+            component={component}
+            options={{
+              tabBarIcon: focused => (
+                <Icon
+                  name={focused ? activeName : defaultName}
+                  color={focused ? colors.white : colors.turquoise}
+                  type={type}
+                  tvParallaxProperties={false}
+                  size={size}
+                />
+              ),
+            }}
+          />
+        ),
+      )}
+    </Tab.Navigator>
   );
 };
+
+const MainNavigator = () => (
+  <NavigationContainer>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Group>
+        <Stack.Screen name={'CatalogTabs'} component={CatalogTabs} />
+      </Stack.Group>
+      <Stack.Group screenOptions={{presentation: 'modal'}}>
+        <Stack.Screen name={'Gallery'} component={GalleryModal} />
+      </Stack.Group>
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -132,7 +137,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: RADIUS,
     borderTopRightRadius: RADIUS,
   },
-  icon: {
+  box: {
     borderRadius: RADIUS,
     marginHorizontal: 14,
     paddingHorizontal: 28,

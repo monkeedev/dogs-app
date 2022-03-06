@@ -1,4 +1,3 @@
-import {Icon} from 'react-native-vector-icons/Icon';
 import BookmarksScreen from '../Catalog/BookmarksScreen';
 import CatalogScreen from '../Catalog/CatalogScreen';
 
@@ -23,24 +22,4 @@ export const tabs = [
       size: 21,
     },
   },
-  // {
-  //   name: 'Bookmarks-2',
-  //   component: CatalogScreen,
-  //   icon: {
-  //     activeName: 'bookmarks',
-  //     defaultName: 'bookmarks-outline',
-  //     type: 'ionicon',
-  //     size: 21,
-  //   },
-  // },
-  // {
-  //   name: 'Bookmarks-3',
-  //   component: CatalogScreen,
-  //   icon: {
-  //     activeName: 'bookmarks',
-  //     defaultName: 'bookmarks-outline',
-  //     type: 'ionicon',
-  //     size: 21,
-  //   },
-  // },
 ];
