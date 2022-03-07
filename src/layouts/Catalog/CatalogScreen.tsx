@@ -26,6 +26,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchDogsList} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {parseImage} from '../../utils/functions';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ICON_SIZE = 36;
 const AVATAR_SIZE = 78;
@@ -51,7 +52,7 @@ const CatalogScreen = () => {
     height: interpolate(
       scrollY.value,
       [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top - 7],
+      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
       Extrapolate.CLAMP,
     ),
   }));
@@ -110,8 +111,10 @@ const CatalogScreen = () => {
 
   return (
     <View style={styles.container}>
-      <CustomStatusBar bg={colors.turquoise} barStyle={'light-content'} />
-      <Animated.View style={[styles.searchBarOuter, searchBarStyle]}>
+      <CustomStatusBar bg={colors.turquoise} barStyle={'dark-content'} />
+
+      <Animated.View
+        style={[styles.searchBarOuter, {top: insets.top}, searchBarStyle]}>
         <Animated.View style={[styles.user, opacityStyle]}>
           <Image source={{uri: images.avatar}} style={styles.userAvatar} />
           <Text style={styles.userText}>John Doe</Text>
@@ -134,7 +137,11 @@ const CatalogScreen = () => {
             />
           </Pressable>
         </View>
-        <View style={styles.searchBarBg} />
+
+        <LinearGradient
+          colors={[colors.turquoise, '#2bd9a5aa']}
+          style={styles.searchBarBg}
+        />
       </Animated.View>
 
       <Animated.FlatList
@@ -180,7 +187,6 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   searchBarOuter: {
-    paddingVertical: 7,
     paddingHorizontal: 14,
     justifyContent: 'flex-end',
     position: 'absolute',
@@ -197,15 +203,15 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     overflow: 'hidden',
     backgroundColor: colors.white,
+    marginBottom: 7,
   },
   searchBarBg: {
-    backgroundColor: colors.turquoise,
     zIndex: -1,
     position: 'absolute',
     width: Dimensions.get('screen').width,
-    height: Dimensions.get('screen').width / 2,
-    bottom: 0,
-    opacity: 0.875,
+    height: '100%',
+    top: 0,
+    paddingHorizontal: 14,
   },
   input: {
     flex: 1,
