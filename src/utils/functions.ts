@@ -1,3 +1,7 @@
+import {Platform} from 'react-native';
+import Share, {ShareOptions} from 'react-native-share';
+import RNFetchBlob from 'rn-fetch-blob';
+
 export const flatTree = (o: any): string[] => {
   const _o = Object.assign({}, o);
   const keys = Object.keys(_o);
@@ -41,4 +45,34 @@ export const parseImage = (s: string) => {
   const arr = fromBreed.split('/');
 
   return `${arr[2]}`;
+};
+
+export const shareImage = async (img: string, msg?: string) => {
+  const _msg = msg ?? 'Look at this cute doggo!';
+
+  try {
+    const res = await RNFetchBlob.config({
+      fileCache: true,
+    }).fetch('GET', img);
+
+    const b64 = await res.readFile('base64');
+
+    let options = {
+      title: 'Share image',
+      url: `data:image/png;base64,${b64}`,
+      failOnCancel: false,
+    };
+
+    const sharedImage = await Share.open(options);
+
+    if (sharedImage.success) {
+      return sharedImage;
+    } else if (sharedImage.dismissedAction) {
+      console.warn('@NotShared');
+    }
+
+    RNFetchBlob.fs.unlink(res.path());
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
 };

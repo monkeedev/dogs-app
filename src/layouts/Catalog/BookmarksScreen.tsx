@@ -2,7 +2,7 @@ import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import {colors, text} from '../../utils/constants';
+import {colors, text, turquoiseGradientArray} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {parseImage} from '../../utils/functions';
 import ListItem from '../../components/lists/ListItem';
@@ -82,9 +82,7 @@ const BookmarksScreen = () => {
       <CustomStatusBar bg={colors.turquoise} barStyle={'dark-content'} />
 
       <Animated.View style={[styles.header, {top: insets.top}, headerStyle]}>
-        <LinearGradient
-          colors={[colors.turquoise, '#2bd9a5aa']}
-          style={styles.headerBg}>
+        <LinearGradient colors={turquoiseGradientArray} style={styles.headerBg}>
           <Animated.Text style={[styles.headerText, fontStyle]}>
             Favourites:
           </Animated.Text>
@@ -105,7 +103,7 @@ const BookmarksScreen = () => {
         data={data}
         numColumns={2}
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => parseImage(item)}
+        keyExtractor={parseImage}
         contentContainerStyle={[
           styles.list,
           data.length === 0
@@ -119,7 +117,7 @@ const BookmarksScreen = () => {
         renderItem={({item, index}) => renderItem(item, index)}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        ListEmptyComponent={() => <EmptyList />}
+        ListEmptyComponent={EmptyList}
       />
     </View>
   );
@@ -171,7 +169,7 @@ const styles = StyleSheet.create({
   emptyList: {
     flex: 1,
     paddingBottom: 0,
-    justifyContent: 'center',
+    paddingTop: Dimensions.get('screen').height / 4,
   },
   indicator: {
     paddingTop: 49,

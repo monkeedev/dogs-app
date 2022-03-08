@@ -14,7 +14,7 @@ import {persistor, store} from './src/redux/configureStore';
 import Navigator from './src/layouts/Navigator/Navigator';
 import {LogBox} from 'react-native';
 
-LogBox.ignoreLogs(['[react-native-gesture-handler]']);
+LogBox.ignoreLogs(['[react-native-gesture-handler]', 'Require cycle']);
 
 const App = () => {
   return (

@@ -19,3 +19,5 @@ export const text = {
 export const animationConfig = {
   duration: 200,
 };
+
+export const turquoiseGradientArray = [colors.turquoise, '#2bd9a5aa'];

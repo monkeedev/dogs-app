@@ -28,21 +28,13 @@ const styles = StyleSheet.create({
     top: 14,
     left: 14,
     zIndex: 1,
-    elevation: 5,
+    elevation: 1,
     backgroundColor: colors.white,
     width: 35,
     height: 35,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 35,
-
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
 });
 

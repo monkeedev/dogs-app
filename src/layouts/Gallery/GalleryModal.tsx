@@ -1,32 +1,100 @@
-import {View, Text, Image, ImageBackground, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {View, Image, ImageBackground, StyleSheet, Text} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {Dimensions} from 'react-native';
 import GoBack from '../../components/GoBack';
-import {colors, text} from '../../utils/constants';
-import DefaultButton from '../../components/buttons/DefaultButton';
-import {Icon} from 'react-native-elements';
-import {useDispatch, useSelector} from 'react-redux';
-import {getDogsCatalog} from '../../redux/rootSelector';
-import DownloadButton from '../../components/buttons/DownloadButton';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../Navigator/routes';
-import {saveToBookmarks} from '../../redux/actions/listActions';
+import {ListHeader} from './Components/ListHeader';
+import {parseImage} from '../../utils/functions';
+import ListItem from '../../components/lists/ListItem';
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
+import {colors, text} from '../../utils/constants';
+import Api from '../../api/requests';
 
+const HIGH_BORDER = 35 + 21;
+const FETCH_QUANTITY = 12;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
 
+const renderItem = (uri: string, idx: number) => {
+  return <ListItem uri={uri} idx={idx} />;
+};
+
 const GalleryModal = () => {
   const {params} = useRoute<RouteProp<RootStackParamList, 'Gallery'>>();
-  const {bookmarks} = useSelector(getDogsCatalog);
-  const dispatch = useDispatch();
 
-  const isBookmark = bookmarks.indexOf(params.uri) !== -1;
-
+  const [data, setData] = useState<string[]>([]);
   const [size, setSize] = useState<{width: number; height: number}>({
     width: 0,
     height: 0,
   });
+
+  const fetchDogs = useRef(async (s: string) => {
+    try {
+      const r = await Api.fetchDogBySubbreed(s, FETCH_QUANTITY);
+
+      setData(r.message as string[]);
+    } catch (err) {
+      throw new Error(err as string);
+    }
+  });
+
+  const scrollY = useSharedValue(0);
+
+  // scroll handler for FlatList
+  const handleScroll = useAnimatedScrollHandler({
+    onScroll: e => (scrollY.value = e.contentOffset.y),
+  });
+
+  const backgroundColor = useAnimatedStyle(
+    () => ({
+      opacity: interpolate(
+        scrollY.value,
+        [0, size.height],
+        [1, 0],
+        Extrapolate.CLAMP,
+      ),
+    }),
+    [size.height],
+  );
+
+  const goBackTransform = useAnimatedStyle(
+    () => ({
+      transform: [
+        {
+          translateX: interpolate(
+            scrollY.value,
+            [0, size.height],
+            [-100, 0],
+            Extrapolate.CLAMP,
+          ),
+        },
+      ],
+    }),
+    [size.height],
+  );
+
+  const transformStyle = useAnimatedStyle(
+    () => ({
+      transform: [
+        {
+          translateY: interpolate(
+            scrollY.value,
+            [0, size.height],
+            [size.height - 14, HIGH_BORDER],
+            Extrapolate.CLAMP,
+          ),
+        },
+      ],
+    }),
+    [size.height],
+  );
 
   // set image size
   useEffect(() => {
@@ -48,40 +116,44 @@ const GalleryModal = () => {
       }
     });
 
+    if (params.search) {
+      fetchDogs.current(params.search);
+    }
+
     return () => {
       isMounted = false;
+      setData([]);
     };
-  }, []);
-
-  const handleToogleBookmark = () => dispatch(saveToBookmarks(params.uri));
+  }, [params.uri]);
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.header}>
         <GoBack />
-        <ImageBackground source={{uri: params.uri}} style={{...size}} />
-      </View>
 
-      <View style={styles.info}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Same pictures</Text>
-
-          <View style={styles.headerButtons}>
-            <DefaultButton
-              onPress={handleToogleBookmark}
-              color={isBookmark ? colors.turquoise : colors.lightGray}>
-              <Icon
-                type={'ionicon'}
-                name={`bookmarks`}
-                color={isBookmark ? colors.white : colors.turquoise}
-                size={18}
-                tvParallaxProperties={false}
-              />
-            </DefaultButton>
-            <DownloadButton uri={params.uri} />
-          </View>
+        <View style={styles.goBackContainer}>
+          <Animated.Text style={[styles.goBackText, goBackTransform]}>
+            Go back
+          </Animated.Text>
         </View>
+
+        <Animated.View style={backgroundColor}>
+          <ImageBackground source={{uri: params.uri}} style={{...size}} />
+        </Animated.View>
       </View>
+
+      <Animated.FlatList
+        data={data}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        style={transformStyle}
+        onScroll={handleScroll}
+        keyExtractor={parseImage}
+        contentContainerStyle={styles.list}
+        renderItem={({item, index}) => renderItem(item, index)}
+        bounces={false}
+        ListHeaderComponent={() => <ListHeader uri={params.uri} />}
+      />
     </View>
   );
 };
@@ -91,28 +163,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
-  info: {
-    borderRadius: 14,
-    position: 'relative',
-    top: -14,
-    backgroundColor: colors.white,
-    paddingLeft: 14,
-    paddingRight: 11.5,
-  },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginVertical: 7,
+    position: 'absolute',
   },
-  headerText: {
+  list: {
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 21,
+    borderTopRightRadius: 21,
+    paddingBottom: 7 * 18,
+  },
+  goBackContainer: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 18,
+    left: 35 + 14 * 1.5,
+    zIndex: 1,
+    overflow: 'hidden',
+  },
+  goBackText: {
     fontSize: text.m,
     fontWeight: '900',
-    paddingVertical: 14,
     color: colors.darkGray,
-  },
-  headerButtons: {
-    flexDirection: 'row',
   },
 });
 

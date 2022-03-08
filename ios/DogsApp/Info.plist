@@ -54,5 +54,17 @@
 		<string>Feather.ttf</string>
 		<string>Ionicons.ttf</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>instagram-stories</string>
+		<string>instagram</string>
+		<string>fb</string>
+		<string>facebook-stories</string>
+		<string>whatsapp</string>
+		<string>mailto</string>
+		<string>tg</string>
+	</array>
+	  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>$(PRODUCT_NAME) wants to save photos</string>
 </dict>
 </plist>

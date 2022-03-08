@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ListItem from '../../components/lists/ListItem';
-import {colors, text} from '../../utils/constants';
+import {colors, text, turquoiseGradientArray} from '../../utils/constants';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -43,8 +43,8 @@ const CatalogScreen = () => {
   const dispatch = useDispatch();
   const {list} = useSelector(getDogsCatalog);
 
-  const [breed, setBreed] = useState('');
-  const [dogsList, setDogsList] = useState<string[]>([]);
+  const [search, setSearch] = useState('');
+  const [data, setData] = useState<string[]>([]);
 
   const scrollY = useSharedValue(0);
 
@@ -90,8 +90,8 @@ const CatalogScreen = () => {
   });
 
   const handleEndReached = () => {
-    if (breed) {
-      dispatch(fetchDogsList(breed, true));
+    if (search) {
+      dispatch(fetchDogsList(search, true));
     } else {
       dispatch(fetchDogsList());
     }
@@ -103,9 +103,9 @@ const CatalogScreen = () => {
 
   useEffect(() => {
     if (list.data.length > 4 && list.data.length < 7) {
-      setDogsList([...list.data, '', '']);
+      setData([...list.data, '', '']);
     } else {
-      setDogsList(list.data);
+      setData(list.data);
     }
   }, [list]);
 
@@ -122,11 +122,11 @@ const CatalogScreen = () => {
         <View style={styles.searchBarInner}>
           <TextInput
             style={styles.input}
-            value={breed}
+            value={search}
             placeholder={"Write dog's breed here"}
-            onChangeText={setBreed}
+            onChangeText={setSearch}
           />
-          <Pressable onPress={() => handleSearch(breed)}>
+          <Pressable onPress={() => handleSearch(search)}>
             <Icon
               size={21}
               name={'search'}
@@ -139,21 +139,21 @@ const CatalogScreen = () => {
         </View>
 
         <LinearGradient
-          colors={[colors.turquoise, '#2bd9a5aa']}
+          colors={turquoiseGradientArray}
           style={styles.searchBarBg}
         />
       </Animated.View>
 
       <Animated.FlatList
-        data={dogsList}
+        data={data}
         numColumns={2}
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => parseImage(item)}
+        keyExtractor={parseImage}
         contentContainerStyle={[
           styles.list,
-          dogsList.length === 0
+          data.length === 0
             ? styles.emptyList
-            : dogsList.length < 7
+            : data.length < 7
             ? {height: '100%'}
             : {},
         ]}

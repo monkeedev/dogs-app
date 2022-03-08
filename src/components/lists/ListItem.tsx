@@ -46,7 +46,12 @@ const ListItem = ({uri, idx}: Props) => {
   }, [isBookmarked]);
 
   const openGallery = () => {
-    navigate('Gallery', {uri});
+    const search = uri.slice(
+      uri.indexOf('breeds') + 'breeds/'.length,
+      uri.lastIndexOf('/'),
+    );
+
+    navigate('Gallery', {uri, search});
   };
 
   return (
