@@ -1,22 +1,21 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import DefaultButton from './DefaultButton';
-import {colors} from '../../utils/constants';
+import {colors, shareBottomSheetRef} from '../../utils/constants';
 import {Icon} from 'react-native-elements';
-import {shareImage} from '../../utils/functions';
+// import {shareImage} from '../../utils/functions';
+import {Text, View} from 'react-native';
 
 interface Props {
   uri: string;
 }
 
 const ShareButton = ({uri}: Props) => {
-  const shareRef = useRef(async (img: string) => {
-    await shareImage(img).catch(err => console.log('@error!', err));
-  });
+  const openBottomSheetNavigator = () => {
+    shareBottomSheetRef.current.toggle();
+  };
 
   return (
-    <DefaultButton
-      onPress={() => shareRef.current(uri)}
-      color={colors.turquoise}>
+    <DefaultButton onPress={openBottomSheetNavigator} color={colors.turquoise}>
       <Icon
         type={'ionicon'}
         name={`share-social-sharp`}

@@ -21,7 +21,13 @@ const TAB_BAR_HEIGHT = 56;
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator<RootStackParamList>();
 
-const TabBar = ({state, descriptors, navigation}) => {
+interface TabProps {
+  state: any;
+  descriptors: any;
+  navigation: any;
+}
+
+const TabBar = ({state, descriptors, navigation}: TabProps) => {
   const width = useSharedValue(0);
   const activeIdx = useSharedValue(0);
 
@@ -41,7 +47,7 @@ const TabBar = ({state, descriptors, navigation}) => {
 
   return (
     <View style={styles.container}>
-      {state.routes.map((route, index) => {
+      {state.routes.map((route: any, index: number) => {
         const {options} = descriptors[route.key];
         const isFocused = state.index === index;
 

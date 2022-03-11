@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useRef} from 'react';
 import {colors, text} from '../../../utils/constants';
 import ShareButton from '../../../components/buttons/ShareButton';
 import DefaultButton from '../../../components/buttons/DefaultButton';
@@ -8,6 +8,7 @@ import {getDogsCatalog} from '../../../redux/rootSelector';
 import {saveToBookmarks} from '../../../redux/actions/listActions';
 import {Icon} from 'react-native-elements';
 import {MainStyles} from '../../../assets/styles/MainStyles';
+import {getBreed} from '../../../utils/functions';
 
 interface Props {
   uri: string;
@@ -23,7 +24,7 @@ export const ListHeader = ({uri}: Props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Same pictures</Text>
+      <Text style={styles.headerText}>More {getBreed(uri)}</Text>
 
       <View style={styles.headerButtons}>
         <DefaultButton
