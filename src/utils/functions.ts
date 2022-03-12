@@ -1,4 +1,5 @@
-import {Platform, ShareStatic} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {Alert, Linking, Platform, ShareStatic} from 'react-native';
 import Share, {ShareOptions} from 'react-native-share';
 import RNFetchBlob from 'rn-fetch-blob';
 
@@ -58,34 +59,62 @@ export const getBreed = (s: string) => {
   return `${breed}s`;
 };
 
-// export const shareImage = async (img: string, msg?: string) => {
-//   const _msg = msg ?? 'Look at this cute doggo!';
+export const shareImage = async (uri: string, type: string) => {
+  if (uri === null) {
+    return false;
+  } else {
+    const msg = `Look at this cute doggo!\n${uri}`;
+    let isSupported = false;
 
-//   try {
-//     const res = await RNFetchBlob.config({
-//       fileCache: true,
-//     }).fetch('GET', img);
+    try {
+      switch (type) {
+        case 'CopyLink':
+          Clipboard.setString(`${msg}`);
+          break;
 
-//     const b64 = await res.readFile('base64');
+        case 'MsgApp':
+          const phone = `sms:?&body=${msg}`;
+          isSupported = await Linking.canOpenURL(phone);
 
-//     const icon = `data:image/png;base64,${b64}`;
+          if (isSupported) {
+            Clipboard.setString(`${msg}`);
+            await Linking.openURL(phone);
+          }
+          break;
 
-//     let options: ShareOptions = {
-//       title: 'Share image',
-//       url: icon,
-//       failOnCancel: false,
-//     };
+        default:
+          break;
+      }
+    } catch (error) {
+      throw new Error('' + error);
+    }
+  }
 
-//     const sharedImage = await Share.open(options);
+  // try {
+  //   const res = await RNFetchBlob.config({
+  //     fileCache: true,
+  //   }).fetch('GET', img);
 
-//     if (sharedImage.success) {
-//       return sharedImage;
-//     } else if (sharedImage.dismissedAction) {
-//       console.warn('@NotShared');
-//     }
+  //   const b64 = await res.readFile('base64');
 
-//     RNFetchBlob.fs.unlink(res.path());
-//   } catch (error) {
-//     throw new Error(`${error}`);
-//   }
-// };
+  //   const icon = `data:image/png;base64,${b64}`;
+
+  //   let options: ShareOptions = {
+  //     title: 'Share image',
+  //     url: icon,
+  //     failOnCancel: false,
+  //   };
+
+  //   const sharedImage = await Share.open(options);
+
+  //   if (sharedImage.success) {
+  //     return sharedImage;
+  //   } else if (sharedImage.dismissedAction) {
+  //     console.warn('@NotShared');
+  //   }
+
+  //   RNFetchBlob.fs.unlink(res.path());
+  // } catch (error) {
+  //   throw new Error(`${error}`);
+  // }
+};

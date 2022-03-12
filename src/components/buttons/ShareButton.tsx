@@ -1,9 +1,7 @@
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import DefaultButton from './DefaultButton';
 import {colors, shareBottomSheetRef} from '../../utils/constants';
 import {Icon} from 'react-native-elements';
-// import {shareImage} from '../../utils/functions';
-import {Text, View} from 'react-native';
 
 interface Props {
   uri: string;
@@ -11,7 +9,7 @@ interface Props {
 
 const ShareButton = ({uri}: Props) => {
   const openBottomSheetNavigator = () => {
-    shareBottomSheetRef.current.toggle();
+    shareBottomSheetRef.current.toggle(uri);
   };
 
   return (

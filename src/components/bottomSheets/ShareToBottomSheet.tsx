@@ -5,11 +5,9 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
-  TouchableHighlight,
   Pressable,
 } from 'react-native';
-import React, {ReactElement, useState} from 'react';
-import BottomSheet from 'reanimated-bottom-sheet';
+import React, {ReactElement, useEffect, useRef, useState} from 'react';
 import {colors, springConfig, text} from '../../utils/constants';
 import {Icon} from 'react-native-elements';
 import Animated, {
@@ -20,34 +18,19 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import {useImperativeHandle} from 'react';
+import {shareImage} from '../../utils/functions';
 
 interface Props {
   children?: ReactElement;
 }
 
+const PANEL_HEIGHT = 161;
 const ICON_SIZE = 56;
 const ICONS = [
   {
-    name: 'paper-plane',
-    type: 'ionicon',
-    iconColor: 'light',
-    bgColor: colors.darkTurquoise,
-  },
-  {
-    name: 'facebook',
-    type: 'feather',
-    iconColor: 'light',
-    bgColor: colors.darkTurquoise,
-  },
-  {
-    name: 'instagram',
-    type: 'feather',
-    iconColor: 'light',
-    bgColor: colors.darkTurquoise,
-  },
-  {
     name: 'link-2',
     type: 'feather',
+    action: 'CopyLink',
     iconColor: 'light',
     bgColor: colors.darkTurquoise,
   },
@@ -55,29 +38,47 @@ const ICONS = [
     name: 'message-circle',
     type: 'feather',
     iconColor: 'light',
+    action: 'MsgApp',
     bgColor: colors.darkTurquoise,
   },
-  {
-    name: 'mail',
-    type: 'feather',
-    iconColor: 'light',
-    bgColor: colors.darkTurquoise,
-  },
+  // {
+  //   name: 'mail',
+  //   type: 'feather',
+  //   iconColor: 'light',
+  //   bgColor: colors.darkTurquoise,
+  // },
+  // {
+  //   name: 'paper-plane',
+  //   type: 'ionicon',
+  //   iconColor: 'light',
+  //   bgColor: colors.darkTurquoise,
+  // },
+  // {
+  //   name: 'facebook',
+  //   type: 'feather',
+  //   iconColor: 'light',
+  //   bgColor: colors.darkTurquoise,
+  // },
+  // {
+  //   name: 'instagram',
+  //   type: 'feather',
+  //   iconColor: 'light',
+  //   bgColor: colors.darkTurquoise,
+  // },
 ];
-
-// const Header = () => (
-//   <View style={styles.headerContainer}>
-//     <View style={styles.headerBlock} />
-//   </View>
-// );
 
 const ShareToBottomSheet = React.forwardRef(({children}: Props, ref: any) => {
   const [isOpened, setOpened] = useState(false);
+  const [uri, setUri] = useState('');
+
+  const handleShareRef = useRef(async (uri: string, type: string) => {
+    await shareImage(uri, type);
+  });
 
   const bottomSheet = useSharedValue(0);
 
   const bgOpacity = useAnimatedStyle(() => ({
-    opacity: interpolate(bottomSheet.value, [0, 1], [0, 0.5]),
+    opacity: interpolate(bottomSheet.value, [0, 1], [0, 0.85]),
   }));
 
   const translation = useAnimatedStyle(() => ({
@@ -86,11 +87,21 @@ const ShareToBottomSheet = React.forwardRef(({children}: Props, ref: any) => {
         translateY: interpolate(
           bottomSheet.value,
           [0, 1],
-          [177, 0],
+          [PANEL_HEIGHT, 0],
           Extrapolate.CLAMP,
         ),
       },
     ],
+  }));
+
+  useImperativeHandle(ref, () => ({
+    toggle: (u: string) => {
+      const v = bottomSheet.value === 0 ? 1 : 0;
+      bottomSheet.value = withSpring(v, springConfig);
+
+      setUri(u);
+      setOpened(prev => !prev);
+    },
   }));
 
   const Content = () => (
@@ -116,7 +127,9 @@ const ShareToBottomSheet = React.forwardRef(({children}: Props, ref: any) => {
         ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}
         showsHorizontalScrollIndicator={false}
         renderItem={({item}) => (
-          <TouchableOpacity activeOpacity={0.85}>
+          <TouchableOpacity
+            activeOpacity={0.85}
+            onPress={() => handleShareRef.current(uri, item.action)}>
             <View
               style={[styles.listItemIcon, {backgroundColor: item.bgColor}]}>
               <Icon
@@ -132,15 +145,6 @@ const ShareToBottomSheet = React.forwardRef(({children}: Props, ref: any) => {
       />
     </View>
   );
-
-  useImperativeHandle(ref, () => ({
-    toggle: () => {
-      const v = bottomSheet.value === 0 ? 1 : 0;
-      bottomSheet.value = withSpring(v, springConfig);
-
-      setOpened(prev => !prev);
-    },
-  }));
 
   return (
     <>
@@ -173,10 +177,12 @@ const styles = StyleSheet.create({
     height: '100%',
     borderTopLeftRadius: 14,
     borderTopRightRadius: 14,
+    width: Dimensions.get('screen').width,
   },
   list: {
     marginTop: 21,
     paddingHorizontal: 14,
+    flex: 1,
   },
   listItemSeparator: {
     width: 14,
@@ -211,10 +217,10 @@ const styles = StyleSheet.create({
   },
   bottomSheetBackgroundInner: {
     flex: 1,
-    backgroundColor: colors.darkGray,
+    backgroundColor: colors.black,
   },
   bottomSheetContainer: {
-    height: 177,
+    height: PANEL_HEIGHT,
     zIndex: 1,
     position: 'absolute',
     bottom: 0,
