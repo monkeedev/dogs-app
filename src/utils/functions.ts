@@ -2,6 +2,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {Alert, Linking, Platform, ShareStatic} from 'react-native';
 import Share, {ShareOptions} from 'react-native-share';
 import RNFetchBlob from 'rn-fetch-blob';
+import {notificationRef} from './constants';
 
 export const flatTree = (o: any): string[] => {
   const _o = Object.assign({}, o);
@@ -70,6 +71,7 @@ export const shareImage = async (uri: string, type: string) => {
       switch (type) {
         case 'CopyLink':
           Clipboard.setString(`${msg}`);
+          notificationRef.current.show('Link copied!', 'info');
           break;
 
         case 'MsgApp':
@@ -79,6 +81,23 @@ export const shareImage = async (uri: string, type: string) => {
           if (isSupported) {
             Clipboard.setString(`${msg}`);
             await Linking.openURL(phone);
+          } else {
+            notificationRef.current.show(
+              'Messaging is not supported',
+              'warning',
+            );
+          }
+          break;
+
+        case 'MailApp':
+          const mail = `mailto:`;
+          isSupported = await Linking.canOpenURL(mail);
+
+          if (isSupported) {
+            Clipboard.setString(`${msg}`);
+            await Linking.openURL(mail);
+          } else {
+            notificationRef.current.show('Mailing is not supported', 'warning');
           }
           break;
 

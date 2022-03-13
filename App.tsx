@@ -14,7 +14,8 @@ import {persistor, store} from './src/redux/configureStore';
 import Navigator from './src/layouts/Navigator/Navigator';
 import {LogBox} from 'react-native';
 import ShareToBottomSheet from './src/components/bottomSheets/ShareToBottomSheet';
-import {shareBottomSheetRef} from './src/utils/constants';
+import {notificationRef, shareBottomSheetRef} from './src/utils/constants';
+import Notification from './src/components/Notification';
 
 LogBox.ignoreLogs(['[react-native-gesture-handler]', 'Require cycle']);
 
@@ -28,6 +29,7 @@ const App = () => {
       </Provider>
 
       <ShareToBottomSheet ref={shareBottomSheetRef} />
+      <Notification ref={notificationRef} />
     </SafeAreaProvider>
   );
 };

@@ -41,12 +41,13 @@ const ICONS = [
     action: 'MsgApp',
     bgColor: colors.darkTurquoise,
   },
-  // {
-  //   name: 'mail',
-  //   type: 'feather',
-  //   iconColor: 'light',
-  //   bgColor: colors.darkTurquoise,
-  // },
+  {
+    name: 'mail',
+    type: 'feather',
+    iconColor: 'light',
+    action: 'MailApp',
+    bgColor: colors.darkTurquoise,
+  },
   // {
   //   name: 'paper-plane',
   //   type: 'ionicon',

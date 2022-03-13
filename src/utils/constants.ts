@@ -1,5 +1,4 @@
 import React from 'react';
-import BottomSheetBehavior from 'reanimated-bottom-sheet';
 
 export const colors = {
   white: '#fffafb',
@@ -19,13 +18,12 @@ export const text = {
   xxl: 42,
 };
 
+export const shareBottomSheetRef = React.createRef<any>();
+export const notificationRef = React.createRef<any>();
+
 export const animationConfig = {
   duration: 200,
 };
-
-export const turquoiseGradientArray = [colors.turquoise, '#2bd9a5aa'];
-
-export const shareBottomSheetRef = React.createRef<any>();
 
 export const springConfig = {
   damping: 80,
@@ -34,3 +32,5 @@ export const springConfig = {
   restSpeedThreshold: 0.1,
   stiffness: 500,
 };
+
+export const turquoiseGradientArray = [colors.turquoise, '#2bd9a5aa'];
