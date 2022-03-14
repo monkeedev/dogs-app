@@ -16,6 +16,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import {NotificationRef, NotificationType} from '../utils/types';
 
 enum NotificationColor {
   info = '#0275d8',
@@ -33,13 +34,11 @@ enum NotificationIcon {
 
 const TIMEOUT = 3000;
 
-type NotificationType = 'info' | 'success' | 'warning' | 'error';
-
-const Notification = React.forwardRef((_, ref) => {
+const Notification = React.forwardRef((_, ref: any) => {
   const insets = useSafeAreaInsets();
   const [text, setText] = useState('');
   const [type, setType] = useState<NotificationType>('info');
-  const [height, setHeight] = useState(0);
+  const [height, setHeight] = useState(Dimensions.get('screen').height);
 
   const timerRef = useRef<any | null>(null);
 
@@ -58,21 +57,29 @@ const Notification = React.forwardRef((_, ref) => {
   }));
 
   useImperativeHandle(ref, () => ({
-    stack: [],
+    // stack: [],
     show: (msg: string, t: NotificationType = 'info') => {
       if (!msg || msg === '') {
         return;
       } else {
+        ref.current?.hide();
+
         isOpened.value = withSpring(1, springConfig);
 
         setText(msg);
         setType(t);
+
+        // ref.current.stack.push({msg, t});
 
         timerRef.current = setTimeout(ref.current?.hide, TIMEOUT);
       }
     },
     hide: () => {
       isOpened.value = withSpring(0, springConfig);
+
+      // if (ref.current.stack && ref.current.stack.length > 0) {
+      //   ref.current.stack.pop();
+      // }
 
       clearTimeout(timerRef.current);
     },

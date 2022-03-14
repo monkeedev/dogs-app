@@ -8,3 +8,12 @@ export interface StatedObject<T> {
   error: string;
   loading: boolean;
 }
+
+export type NotificationType = 'info' | 'success' | 'warning' | 'error';
+
+export type NotificationRef = {
+  current: {
+    show: (msg: string, t: NotificationType) => void;
+    hide: () => void;
+  };
+};
