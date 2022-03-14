@@ -97,6 +97,7 @@ class DogsApi {
         return req.data;
       }
     } catch (err) {
+      console.log('@', err);
       throw new Error("Can't fetch doggo");
     }
   };

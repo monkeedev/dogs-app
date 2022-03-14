@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const colors = {
   white: '#fffafb',
   lightGray: '#E3F1EA',
@@ -16,6 +18,26 @@ export const text = {
   xxl: 42,
 };
 
+export const shareBottomSheetRef = React.createRef<any>();
+export const notificationRef = React.createRef<any>();
+
 export const animationConfig = {
   duration: 200,
 };
+
+export const springConfig = {
+  damping: 80,
+  overshootClamping: true,
+  restDisplacementThreshold: 0.1,
+  restSpeedThreshold: 0.1,
+  stiffness: 500,
+};
+
+export const turquoiseGradientArray = [colors.turquoise, '#2bd9a5aa'];
+
+// Errors
+export enum ErrorMessages {
+  Default = 'Something went wrong',
+  NotSupported = 'Not supported',
+  SocialIsMissing = 'Needed app is not installed',
+}

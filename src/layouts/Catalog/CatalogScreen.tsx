@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ListItem from '../../components/lists/ListItem';
-import {colors, text} from '../../utils/constants';
+import {colors, text, turquoiseGradientArray} from '../../utils/constants';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -26,6 +26,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchDogsList} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {parseImage} from '../../utils/functions';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ICON_SIZE = 36;
 const AVATAR_SIZE = 78;
@@ -42,8 +43,8 @@ const CatalogScreen = () => {
   const dispatch = useDispatch();
   const {list} = useSelector(getDogsCatalog);
 
-  const [breed, setBreed] = useState('');
-  const [dogsList, setDogsList] = useState<string[]>([]);
+  const [search, setSearch] = useState('');
+  const [data, setData] = useState<string[]>([]);
 
   const scrollY = useSharedValue(0);
 
@@ -51,7 +52,7 @@ const CatalogScreen = () => {
     height: interpolate(
       scrollY.value,
       [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top - 7],
+      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
       Extrapolate.CLAMP,
     ),
   }));
@@ -89,8 +90,8 @@ const CatalogScreen = () => {
   });
 
   const handleEndReached = () => {
-    if (breed) {
-      dispatch(fetchDogsList(breed, true));
+    if (search) {
+      dispatch(fetchDogsList(search, true));
     } else {
       dispatch(fetchDogsList());
     }
@@ -102,16 +103,18 @@ const CatalogScreen = () => {
 
   useEffect(() => {
     if (list.data.length > 4 && list.data.length < 7) {
-      setDogsList([...list.data, '', '']);
+      setData([...list.data, '', '']);
     } else {
-      setDogsList(list.data);
+      setData(list.data);
     }
   }, [list]);
 
   return (
     <View style={styles.container}>
-      <CustomStatusBar bg={colors.turquoise} barStyle={'light-content'} />
-      <Animated.View style={[styles.searchBarOuter, searchBarStyle]}>
+      <CustomStatusBar bg={colors.turquoise} barStyle={'dark-content'} />
+
+      <Animated.View
+        style={[styles.searchBarOuter, {top: insets.top}, searchBarStyle]}>
         <Animated.View style={[styles.user, opacityStyle]}>
           <Image source={{uri: images.avatar}} style={styles.userAvatar} />
           <Text style={styles.userText}>John Doe</Text>
@@ -119,11 +122,11 @@ const CatalogScreen = () => {
         <View style={styles.searchBarInner}>
           <TextInput
             style={styles.input}
-            value={breed}
+            value={search}
             placeholder={"Write dog's breed here"}
-            onChangeText={setBreed}
+            onChangeText={setSearch}
           />
-          <Pressable onPress={() => handleSearch(breed)}>
+          <Pressable onPress={() => handleSearch(search)}>
             <Icon
               size={21}
               name={'search'}
@@ -134,19 +137,23 @@ const CatalogScreen = () => {
             />
           </Pressable>
         </View>
-        <View style={styles.searchBarBg} />
+
+        <LinearGradient
+          colors={turquoiseGradientArray}
+          style={styles.searchBarBg}
+        />
       </Animated.View>
 
       <Animated.FlatList
-        data={dogsList}
+        data={data}
         numColumns={2}
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => parseImage(item)}
+        keyExtractor={parseImage}
         contentContainerStyle={[
           styles.list,
-          dogsList.length === 0
+          data.length === 0
             ? styles.emptyList
-            : dogsList.length < 7
+            : data.length < 7
             ? {height: '100%'}
             : {},
         ]}
@@ -180,7 +187,6 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   searchBarOuter: {
-    paddingVertical: 7,
     paddingHorizontal: 14,
     justifyContent: 'flex-end',
     position: 'absolute',
@@ -197,15 +203,15 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     overflow: 'hidden',
     backgroundColor: colors.white,
+    marginBottom: 7,
   },
   searchBarBg: {
-    backgroundColor: colors.turquoise,
     zIndex: -1,
     position: 'absolute',
     width: Dimensions.get('screen').width,
-    height: Dimensions.get('screen').width / 2,
-    bottom: 0,
-    opacity: 0.875,
+    height: '100%',
+    top: 0,
+    paddingHorizontal: 14,
   },
   input: {
     flex: 1,

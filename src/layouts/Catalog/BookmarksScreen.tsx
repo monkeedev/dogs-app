@@ -2,7 +2,7 @@ import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import {colors, text} from '../../utils/constants';
+import {colors, text, turquoiseGradientArray} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {parseImage} from '../../utils/functions';
 import ListItem from '../../components/lists/ListItem';
@@ -17,6 +17,7 @@ import Animated, {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {Icon} from 'react-native-elements';
+import {MainStyles} from '../../assets/styles/MainStyles';
 
 const HEADER_EXPANDED_HEIGHT = 78 + 7 * 2;
 
@@ -36,7 +37,7 @@ const BookmarksScreen = () => {
     height: interpolate(
       scrollY.value,
       [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top - 7],
+      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
       Extrapolate.CLAMP,
     ),
   }));
@@ -78,31 +79,31 @@ const BookmarksScreen = () => {
 
   return (
     <View style={styles.container}>
-      <CustomStatusBar bg={colors.turquoise} />
+      <CustomStatusBar bg={colors.turquoise} barStyle={'dark-content'} />
 
       <Animated.View style={[styles.header, {top: insets.top}, headerStyle]}>
-        <Animated.Text style={[styles.headerText, fontStyle]}>
-          Favourites
-        </Animated.Text>
+        <LinearGradient colors={turquoiseGradientArray} style={styles.headerBg}>
+          <Animated.Text style={[styles.headerText, fontStyle]}>
+            Favourites:
+          </Animated.Text>
 
-        <View style={styles.row}>
-          <Text style={styles.headerText}>{bookmarks.length}</Text>
-          <Icon
-            name={'bookmarks'}
-            type={'ionicon'}
-            tvParallaxProperties={false}
-            color={colors.white}
-          />
-        </View>
-
-        <View style={styles.headerBg} />
+          <View style={styles.counter}>
+            <Text style={styles.headerText}>{bookmarks.length}</Text>
+            <Icon
+              name={'bookmarks'}
+              type={'ionicon'}
+              tvParallaxProperties={false}
+              color={colors.white}
+            />
+          </View>
+        </LinearGradient>
       </Animated.View>
 
       <Animated.FlatList
         data={data}
         numColumns={2}
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => parseImage(item)}
+        keyExtractor={parseImage}
         contentContainerStyle={[
           styles.list,
           data.length === 0
@@ -116,7 +117,7 @@ const BookmarksScreen = () => {
         renderItem={({item, index}) => renderItem(item, index)}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        ListEmptyComponent={() => <EmptyList />}
+        ListEmptyComponent={EmptyList}
       />
     </View>
   );
@@ -128,32 +129,30 @@ const styles = StyleSheet.create({
     backgroundColor: colors.turquoise,
     position: 'relative',
   },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  counter: {
+    ...MainStyles.rowFull,
     width: 49,
   },
   header: {
-    paddingVertical: 7,
-    paddingHorizontal: 14,
     position: 'absolute',
     top: 54,
     left: 0,
     width: '100%',
+    height: '100%',
     zIndex: 1,
-    flexDirection: 'row',
+    ...MainStyles.rowFull,
     alignItems: 'flex-end',
-    justifyContent: 'space-between',
   },
   headerBg: {
-    backgroundColor: colors.turquoise,
+    ...MainStyles.rowFull,
+    alignItems: 'flex-end',
     zIndex: -1,
     position: 'absolute',
     width: Dimensions.get('screen').width,
-    height: Dimensions.get('screen').width / 2,
-    bottom: 0,
-    opacity: 0.875,
+    height: '100%',
+    top: 0,
+    paddingHorizontal: 14,
+    paddingBottom: 7,
   },
   headerText: {
     color: colors.white,
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
   emptyList: {
     flex: 1,
     paddingBottom: 0,
-    justifyContent: 'center',
+    paddingTop: Dimensions.get('screen').height / 4,
   },
   indicator: {
     paddingTop: 49,

@@ -8,11 +8,16 @@
 
 import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import CatalogScreen from './src/layouts/Catalog/CatalogScreen';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/redux/configureStore';
 import Navigator from './src/layouts/Navigator/Navigator';
+import {LogBox} from 'react-native';
+import ShareToBottomSheet from './src/components/bottomSheets/ShareToBottomSheet';
+import {notificationRef, shareBottomSheetRef} from './src/utils/constants';
+import Notification from './src/components/Notification';
+
+LogBox.ignoreLogs(['[react-native-gesture-handler]', 'Require cycle']);
 
 const App = () => {
   return (
@@ -22,6 +27,9 @@ const App = () => {
           <Navigator />
         </PersistGate>
       </Provider>
+
+      <ShareToBottomSheet ref={shareBottomSheetRef} />
+      <Notification ref={notificationRef} />
     </SafeAreaProvider>
   );
 };
