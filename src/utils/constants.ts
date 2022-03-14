@@ -34,3 +34,10 @@ export const springConfig = {
 };
 
 export const turquoiseGradientArray = [colors.turquoise, '#2bd9a5aa'];
+
+// Errors
+export enum ErrorMessages {
+  Default = 'Something went wrong',
+  NotSupported = 'Not supported',
+  SocialIsMissing = 'Needed app is not installed',
+}

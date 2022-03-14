@@ -1,8 +1,12 @@
 import Clipboard from '@react-native-clipboard/clipboard';
-import {Alert, Linking, Platform, ShareStatic} from 'react-native';
-import Share, {ShareOptions} from 'react-native-share';
+import {Linking} from 'react-native';
+import Share, {
+  ShareOptions,
+  ShareSingleOptions,
+  Social,
+} from 'react-native-share';
 import RNFetchBlob from 'rn-fetch-blob';
-import {notificationRef} from './constants';
+import {ErrorMessages, notificationRef} from './constants';
 
 export const flatTree = (o: any): string[] => {
   const _o = Object.assign({}, o);
@@ -60,11 +64,47 @@ export const getBreed = (s: string) => {
   return `${breed}s`;
 };
 
+const shareSingle = async (social: Social, url: string) => {
+  try {
+    let _url = url;
+
+    if (social === Social.Instagram) {
+      const res = await RNFetchBlob.config({
+        fileCache: true,
+      }).fetch('GET', _url);
+
+      const b64 = await res.readFile('base64');
+
+      _url = `data:image/png;base64,${b64}`;
+    }
+
+    const options: any = {
+      message: 'Look at this cute doggo!',
+      url: _url,
+      social,
+      type: 'image/*',
+    };
+
+    const isSupported = await Linking.canOpenURL(`${social}://`);
+
+    if (isSupported) {
+      await Share.shareSingle(options);
+    } else {
+      notificationRef.current.show(ErrorMessages.SocialIsMissing, 'warning');
+    }
+  } catch (error) {
+    console.log('@outer', error);
+    notificationRef.current.show(ErrorMessages.Default, 'warning');
+    throw new Error('' + error);
+  }
+};
+
 export const shareImage = async (uri: string, type: string) => {
-  if (uri === null) {
+  if (uri === null || uri === '') {
     return false;
   } else {
     const msg = `Look at this cute doggo!\n${uri}`;
+    let link = '';
     let isSupported = false;
 
     try {
@@ -75,30 +115,52 @@ export const shareImage = async (uri: string, type: string) => {
           break;
 
         case 'MsgApp':
-          const phone = `sms:?&body=${msg}`;
-          isSupported = await Linking.canOpenURL(phone);
+          link = `sms:?&body=${msg}`;
+          isSupported = await Linking.canOpenURL(link);
 
           if (isSupported) {
             Clipboard.setString(`${msg}`);
-            await Linking.openURL(phone);
+            await Linking.openURL(link);
           } else {
-            notificationRef.current.show(
-              'Messaging is not supported',
-              'warning',
-            );
+            notificationRef.current.show(ErrorMessages.NotSupported, 'warning');
           }
           break;
 
         case 'MailApp':
-          const mail = `mailto:`;
-          isSupported = await Linking.canOpenURL(mail);
+          // link = `mailto:`;
+          // isSupported = await Linking.canOpenURL(link);
+
+          // if (isSupported) {
+          //   Clipboard.setString(`${msg}`);
+          //   await Linking.openURL(link);
+          // } else {
+          //   notificationRef.current.show('Mailing is not supported', 'warning');
+          // }
+          await shareSingle(Social.Email, uri);
+
+          break;
+
+        case 'TelegramApp':
+          link = `https://t.me/share/url?url=${encodeURI(
+            uri,
+          )}&text=Look at this cute doggo!`;
+          isSupported = await Linking.canOpenURL(link);
 
           if (isSupported) {
-            Clipboard.setString(`${msg}`);
-            await Linking.openURL(mail);
+            await Linking.openURL(link);
           } else {
-            notificationRef.current.show('Mailing is not supported', 'warning');
+            notificationRef.current.show(ErrorMessages.NotSupported, 'warning');
           }
+          break;
+
+        case 'FacebookApp':
+          await shareSingle(Social.Facebook, uri);
+
+          break;
+
+        case 'InstagramApp':
+          await shareSingle(Social.Instagram, uri);
+
           break;
 
         default:

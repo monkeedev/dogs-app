@@ -68,7 +68,7 @@ const Notification = React.forwardRef((_, ref) => {
         setText(msg);
         setType(t);
 
-        timerRef.current = setTimeout(ref.current.hide, TIMEOUT);
+        timerRef.current = setTimeout(ref.current?.hide, TIMEOUT);
       }
     },
     hide: () => {
@@ -92,7 +92,7 @@ const Notification = React.forwardRef((_, ref) => {
         transformStyles,
       ]}
       onLayout={e => setHeight(e.nativeEvent.layout.height)}>
-      <TouchableOpacity onPress={ref.current.hide}>
+      <TouchableOpacity onPress={ref.current?.hide}>
         <View style={styles.inner}>
           <Icon
             name={NotificationIcon[type]}

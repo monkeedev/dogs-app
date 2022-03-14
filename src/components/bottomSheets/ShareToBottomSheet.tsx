@@ -24,7 +24,7 @@ interface Props {
   children?: ReactElement;
 }
 
-const PANEL_HEIGHT = 161;
+const PANEL_HEIGHT = 177;
 const ICON_SIZE = 56;
 const ICONS = [
   {
@@ -33,6 +33,7 @@ const ICONS = [
     action: 'CopyLink',
     iconColor: 'light',
     bgColor: colors.darkTurquoise,
+    placeholder: 'Link',
   },
   {
     name: 'message-circle',
@@ -40,6 +41,7 @@ const ICONS = [
     iconColor: 'light',
     action: 'MsgApp',
     bgColor: colors.darkTurquoise,
+    placeholder: 'Message',
   },
   {
     name: 'mail',
@@ -47,25 +49,32 @@ const ICONS = [
     iconColor: 'light',
     action: 'MailApp',
     bgColor: colors.darkTurquoise,
+    placeholder: 'Mail',
   },
-  // {
-  //   name: 'paper-plane',
-  //   type: 'ionicon',
-  //   iconColor: 'light',
-  //   bgColor: colors.darkTurquoise,
-  // },
-  // {
-  //   name: 'facebook',
-  //   type: 'feather',
-  //   iconColor: 'light',
-  //   bgColor: colors.darkTurquoise,
-  // },
-  // {
-  //   name: 'instagram',
-  //   type: 'feather',
-  //   iconColor: 'light',
-  //   bgColor: colors.darkTurquoise,
-  // },
+  {
+    name: 'paper-plane',
+    type: 'ionicon',
+    iconColor: 'light',
+    action: 'TelegramApp',
+    bgColor: colors.darkTurquoise,
+    placeholder: 'Telegram',
+  },
+  {
+    name: 'facebook',
+    type: 'feather',
+    iconColor: 'light',
+    action: 'FacebookApp',
+    bgColor: colors.darkTurquoise,
+    placeholder: 'Facebook',
+  },
+  {
+    name: 'instagram',
+    type: 'feather',
+    action: 'InstagramApp',
+    placeholder: 'Instagram',
+    iconColor: 'light',
+    bgColor: colors.darkTurquoise,
+  },
 ];
 
 const ShareToBottomSheet = React.forwardRef(({children}: Props, ref: any) => {
@@ -141,6 +150,9 @@ const ShareToBottomSheet = React.forwardRef(({children}: Props, ref: any) => {
                 tvParallaxProperties={false}
               />
             </View>
+            <Text style={styles.listItemPlaceholder} numberOfLines={2}>
+              {item.placeholder}
+            </Text>
           </TouchableOpacity>
         )}
       />
@@ -183,7 +195,6 @@ const styles = StyleSheet.create({
   list: {
     marginTop: 21,
     paddingHorizontal: 14,
-    flex: 1,
   },
   listItemSeparator: {
     width: 14,
@@ -194,6 +205,12 @@ const styles = StyleSheet.create({
     borderRadius: ICON_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  listItemPlaceholder: {
+    textAlign: 'center',
+    marginTop: 3.5,
+    fontSize: 12,
+    color: colors.darkGray,
   },
   headerBlock: {
     flexDirection: 'row',

@@ -56,13 +56,9 @@
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>instagram-stories</string>
 		<string>instagram</string>
-		<string>fb</string>
-		<string>facebook-stories</string>
-		<string>whatsapp</string>
-		<string>mailto</string>
-		<string>tg</string>
+		<string>facebook</string>
+		<string>email</string>
 	</array>
 	  <key>NSPhotoLibraryAddUsageDescription</key>
   <string>$(PRODUCT_NAME) wants to save photos</string>
