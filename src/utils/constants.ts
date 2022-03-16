@@ -1,4 +1,5 @@
 import React from 'react';
+import {NotificationRef} from './types';
 
 export const colors = {
   white: '#fffafb',
@@ -19,7 +20,8 @@ export const text = {
 };
 
 export const shareBottomSheetRef = React.createRef<any>();
-export const notificationRef = React.createRef<any>();
+export const notificationRef: React.RefObject<NotificationRef> =
+  React.createRef();
 
 export const animationConfig = {
   duration: 200,

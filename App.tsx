@@ -15,7 +15,7 @@ import Navigator from './src/layouts/Navigator/Navigator';
 import {LogBox} from 'react-native';
 import ShareToBottomSheet from './src/components/bottomSheets/ShareToBottomSheet';
 import {notificationRef, shareBottomSheetRef} from './src/utils/constants';
-import Notification from './src/components/Notification';
+import Notifications from './src/components/Notifications';
 
 LogBox.ignoreLogs(['[react-native-gesture-handler]', 'Require cycle']);
 
@@ -29,7 +29,7 @@ const App = () => {
       </Provider>
 
       <ShareToBottomSheet ref={shareBottomSheetRef} />
-      <Notification ref={notificationRef} />
+      <Notifications ref={notificationRef} />
     </SafeAreaProvider>
   );
 };
