@@ -12,8 +12,27 @@ export interface StatedObject<T> {
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
 
 export type NotificationRef = {
-  current: {
-    show: (msg: string, t: NotificationType) => void;
-    hide: () => void;
-  };
+  show: (msg: string, t: NotificationType) => void;
+  hide: () => void;
 };
+
+export enum NotificationNumber {
+  info = 0,
+  success = 1,
+  warning = 2,
+  error = 3,
+}
+
+export enum NotificationColor {
+  info = '#0275d8',
+  success = '#5cb85c',
+  warning = '#f0ad4e',
+  error = '#d9534f',
+}
+
+export enum NotificationIcon {
+  info = 'information-circle-outline',
+  success = 'ios-checkmark-circle-outline',
+  warning = 'warning-outline',
+  error = 'sad-outline',
+}

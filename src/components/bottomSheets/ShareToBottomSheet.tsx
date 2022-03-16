@@ -20,10 +20,6 @@ import Animated, {
 import {useImperativeHandle} from 'react';
 import {shareImage} from '../../utils/functions';
 
-interface Props {
-  children?: ReactElement;
-}
-
 const PANEL_HEIGHT = 177;
 const ICON_SIZE = 56;
 const ICONS = [
@@ -77,7 +73,7 @@ const ICONS = [
   },
 ];
 
-const ShareToBottomSheet = React.forwardRef(({children}: Props, ref: any) => {
+const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
   const [isOpened, setOpened] = useState(false);
   const [uri, setUri] = useState('');
 

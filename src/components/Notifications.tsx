@@ -12,38 +12,38 @@ import {Icon} from 'react-native-elements';
 import Animated, {
   Extrapolate,
   interpolate,
+  interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {NotificationRef, NotificationType} from '../utils/types';
-
-enum NotificationColor {
-  info = '#0275d8',
-  success = '#5cb85c',
-  warning = '#f0ad4e',
-  error = '#d9534f',
-}
-
-enum NotificationIcon {
-  info = 'information-circle-outline',
-  success = 'ios-checkmark-circle-outline',
-  warning = 'warning-outline',
-  error = 'sad-outline',
-}
+import {
+  NotificationColor,
+  NotificationIcon,
+  NotificationNumber,
+  NotificationType,
+} from '../utils/types';
 
 const TIMEOUT = 3000;
 
-const Notification = React.forwardRef((_, ref: any) => {
+const Notifications = React.forwardRef((_, ref: any) => {
   const insets = useSafeAreaInsets();
   const [text, setText] = useState('');
   const [type, setType] = useState<NotificationType>('info');
-  const [height, setHeight] = useState(Dimensions.get('screen').height);
+  const [prevType, setPrevType] = useState<NotificationType>('info');
 
+  const [height, setHeight] = useState(Dimensions.get('screen').height);
   const timerRef = useRef<any | null>(null);
 
   const isOpened = useSharedValue(0);
-  const transformStyles = useAnimatedStyle(() => ({
+  const colorNow = useSharedValue(NotificationNumber[type]);
+
+  const rStyles = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      colorNow.value,
+      [NotificationNumber[prevType], NotificationNumber[type]],
+      [NotificationColor[prevType], NotificationColor[type]],
+    ),
     transform: [
       {
         translateY: interpolate(
@@ -56,8 +56,13 @@ const Notification = React.forwardRef((_, ref: any) => {
     ],
   }));
 
+  const notificationStyles = {
+    backgroundColor: NotificationColor[type],
+    paddingTop: insets.top + 21,
+  };
+
   useImperativeHandle(ref, () => ({
-    // stack: [],
+    stack: [],
     show: (msg: string, t: NotificationType = 'info') => {
       if (!msg || msg === '') {
         return;
@@ -67,37 +72,23 @@ const Notification = React.forwardRef((_, ref: any) => {
         isOpened.value = withSpring(1, springConfig);
 
         setText(msg);
+        setPrevType(NotificationNumber[colorNow.value] as NotificationType);
         setType(t);
 
-        // ref.current.stack.push({msg, t});
-
+        colorNow.value = withSpring(NotificationNumber[t], springConfig);
         timerRef.current = setTimeout(ref.current?.hide, TIMEOUT);
       }
     },
     hide: () => {
       isOpened.value = withSpring(0, springConfig);
 
-      // if (ref.current.stack && ref.current.stack.length > 0) {
-      //   ref.current.stack.pop();
-      // }
-
       clearTimeout(timerRef.current);
     },
   }));
 
-  const notificationStyles = {
-    backgroundColor: NotificationColor[type],
-    paddingTop: insets.top + 21,
-  };
-
   return (
     <Animated.View
-      style={[
-        styles.container,
-        {top: -height},
-        notificationStyles,
-        transformStyles,
-      ]}
+      style={[styles.container, {top: -height}, notificationStyles, rStyles]}
       onLayout={e => setHeight(e.nativeEvent.layout.height)}>
       <TouchableOpacity onPress={ref.current?.hide}>
         <View style={styles.inner}>
@@ -143,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Notification;
+export default Notifications;

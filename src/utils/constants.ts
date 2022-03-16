@@ -20,7 +20,8 @@ export const text = {
 };
 
 export const shareBottomSheetRef = React.createRef<any>();
-export const notificationRef = React.createRef<NotificationRef>();
+export const notificationRef: React.RefObject<NotificationRef> =
+  React.createRef();
 
 export const animationConfig = {
   duration: 200,
