@@ -61,7 +61,11 @@ export const getBreed = (s: string) => {
     breed = breed.split('-')[0];
   }
 
-  return `${breed}s`;
+  if (breed.toLowerCase() === 'pyrenees') {
+    return breed;
+  } else {
+    return `${breed}s`;
+  }
 };
 
 const shareSingle = async (social: Social, url: string) => {

@@ -1,4 +1,4 @@
-import {View, Image, ImageBackground, StyleSheet, Text} from 'react-native';
+import {View, Image, ImageBackground, StyleSheet} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {Dimensions} from 'react-native';
@@ -10,14 +10,18 @@ import ListItem from '../../components/lists/ListItem';
 import Animated, {
   Extrapolate,
   interpolate,
+  runOnJS,
+  runOnUI,
+  useAnimatedGestureHandler,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
 import {colors, text} from '../../utils/constants';
 import Api from '../../api/requests';
+import {PanGestureHandler} from 'react-native-gesture-handler';
 
-const HIGH_BORDER = 35 + 21;
+const HIGH_BORDER = 56;
 const FETCH_QUANTITY = 12;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
@@ -30,6 +34,7 @@ const GalleryModal = () => {
   const {params} = useRoute<RouteProp<RootStackParamList, 'Gallery'>>();
 
   const [data, setData] = useState<string[]>([]);
+  const [isScrollEnabled, setScrollEnabled] = useState(false);
   const [size, setSize] = useState<{width: number; height: number}>({
     width: 0,
     height: 0,
@@ -45,17 +50,38 @@ const GalleryModal = () => {
     }
   });
 
-  const scrollY = useSharedValue(0);
+  const panScrollY = useSharedValue(0);
 
   // scroll handler for FlatList
   const handleScroll = useAnimatedScrollHandler({
-    onScroll: e => (scrollY.value = e.contentOffset.y),
+    onEndDrag: e => {
+      if (e.contentOffset.y === 0) {
+        runOnJS(setScrollEnabled)(false);
+      }
+    },
+  });
+
+  const gestureHandler = useAnimatedGestureHandler({
+    onStart: (_, ctx: any) => {
+      ctx.startY = panScrollY.value;
+    },
+    onActive: (event, ctx) => {
+      panScrollY.value = ctx.startY - event.translationY;
+
+      if (panScrollY.value >= size.height) {
+        panScrollY.value = size.height;
+        runOnJS(setScrollEnabled)(true);
+      }
+    },
+    onCancel: () => {
+      panScrollY.value = size.height;
+    },
   });
 
   const backgroundColor = useAnimatedStyle(
     () => ({
       opacity: interpolate(
-        scrollY.value,
+        panScrollY.value,
         [0, size.height],
         [1, 0],
         Extrapolate.CLAMP,
@@ -69,7 +95,7 @@ const GalleryModal = () => {
       transform: [
         {
           translateX: interpolate(
-            scrollY.value,
+            panScrollY.value,
             [0, size.height],
             [-100, 0],
             Extrapolate.CLAMP,
@@ -80,12 +106,12 @@ const GalleryModal = () => {
     [size.height],
   );
 
-  const transformStyle = useAnimatedStyle(
+  const panTransformStyle = useAnimatedStyle(
     () => ({
       transform: [
         {
           translateY: interpolate(
-            scrollY.value,
+            panScrollY.value,
             [0, size.height],
             [size.height - 14, HIGH_BORDER],
             Extrapolate.CLAMP,
@@ -122,6 +148,8 @@ const GalleryModal = () => {
 
     return () => {
       isMounted = false;
+      panScrollY.value = 0;
+      setScrollEnabled(false);
       setData([]);
     };
   }, [params.uri]);
@@ -142,18 +170,24 @@ const GalleryModal = () => {
         </Animated.View>
       </View>
 
-      <Animated.FlatList
-        data={data}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        style={transformStyle}
-        onScroll={handleScroll}
-        keyExtractor={parseImage}
-        contentContainerStyle={styles.list}
-        renderItem={({item, index}) => renderItem(item, index)}
-        bounces={false}
-        ListHeaderComponent={() => <ListHeader uri={params.uri} />}
-      />
+      <PanGestureHandler
+        onGestureEvent={gestureHandler}
+        enabled={!isScrollEnabled}>
+        <Animated.View style={[panTransformStyle]}>
+          <Animated.FlatList
+            data={data}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={isScrollEnabled}
+            onScroll={handleScroll}
+            keyExtractor={parseImage}
+            contentContainerStyle={styles.list}
+            renderItem={({item, index}) => renderItem(item, index)}
+            bounces={false}
+            ListHeaderComponent={() => <ListHeader uri={params.uri} />}
+          />
+        </Animated.View>
+      </PanGestureHandler>
     </View>
   );
 };

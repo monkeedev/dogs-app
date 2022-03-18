@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import ListItem from '../../components/lists/ListItem';
 import {colors, text, turquoiseGradientArray} from '../../utils/constants';
 import Animated, {
@@ -35,7 +35,6 @@ const HEADER_EXPANDED_HEIGHT = AVATAR_SIZE + 7 * 2;
 const renderItem = (uri: string, idx: number) => {
   return <ListItem uri={uri} idx={idx} />;
 };
-
 const CatalogScreen = () => {
   const insets = useSafeAreaInsets();
   const headerAddedValue = insets.top + 7 * 2;
@@ -89,23 +88,25 @@ const CatalogScreen = () => {
     onScroll: e => (scrollY.value = e.contentOffset.y),
   });
 
-  const handleEndReached = () => {
+  const handleEndReached = useCallback(() => {
     if (search) {
       dispatch(fetchDogsList(search, true));
     } else {
       dispatch(fetchDogsList());
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchDogsList('', false, true));
   }, []);
 
   useEffect(() => {
-    if (list.data.length > 4 && list.data.length < 7) {
-      setData([...list.data, '', '']);
-    } else {
-      setData(list.data);
+    if (!list.loading) {
+      if (list.data.length > 4 && list.data.length < 7) {
+        setData([...list.data, '', '']);
+      } else {
+        setData(list.data);
+      }
     }
   }, [list]);
 
