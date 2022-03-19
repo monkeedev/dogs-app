@@ -10,10 +10,7 @@ import ListItem from '../../components/lists/ListItem';
 import Animated, {
   Extrapolate,
   interpolate,
-  runOnJS,
-  runOnUI,
   useAnimatedGestureHandler,
-  useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
@@ -22,9 +19,11 @@ import Api from '../../api/requests';
 import {PanGestureHandler} from 'react-native-gesture-handler';
 
 const HIGH_BORDER = 56;
-const FETCH_QUANTITY = 12;
+const FETCH_QUANTITY = 6;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
+
+const MAX_LIST_SCROLL = (200 + 14) / 2 + 28;
 
 const renderItem = (uri: string, idx: number) => {
   return <ListItem uri={uri} idx={idx} />;
@@ -34,7 +33,6 @@ const GalleryModal = () => {
   const {params} = useRoute<RouteProp<RootStackParamList, 'Gallery'>>();
 
   const [data, setData] = useState<string[]>([]);
-  const [isScrollEnabled, setScrollEnabled] = useState(false);
   const [size, setSize] = useState<{width: number; height: number}>({
     width: 0,
     height: 0,
@@ -51,15 +49,7 @@ const GalleryModal = () => {
   });
 
   const panScrollY = useSharedValue(0);
-
-  // scroll handler for FlatList
-  const handleScroll = useAnimatedScrollHandler({
-    onEndDrag: e => {
-      if (e.contentOffset.y === 0) {
-        runOnJS(setScrollEnabled)(false);
-      }
-    },
-  });
+  const scrollY = useSharedValue(0);
 
   const gestureHandler = useAnimatedGestureHandler({
     onStart: (_, ctx: any) => {
@@ -69,12 +59,15 @@ const GalleryModal = () => {
       panScrollY.value = ctx.startY - event.translationY;
 
       if (panScrollY.value >= size.height) {
-        panScrollY.value = size.height;
-        runOnJS(setScrollEnabled)(true);
+        scrollY.value = interpolate(
+          panScrollY.value,
+          [size.height, size.height + MAX_LIST_SCROLL],
+          [0, -MAX_LIST_SCROLL],
+          Extrapolate.CLAMP,
+        );
+      } else {
+        scrollY.value = 0;
       }
-    },
-    onCancel: () => {
-      panScrollY.value = size.height;
     },
   });
 
@@ -122,6 +115,14 @@ const GalleryModal = () => {
     [size.height],
   );
 
+  const listTransformStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: scrollY.value,
+      },
+    ],
+  }));
+
   // set image size
   useEffect(() => {
     let isMounted = true;
@@ -149,7 +150,7 @@ const GalleryModal = () => {
     return () => {
       isMounted = false;
       panScrollY.value = 0;
-      setScrollEnabled(false);
+      scrollY.value = 0;
       setData([]);
     };
   }, [params.uri]);
@@ -170,16 +171,14 @@ const GalleryModal = () => {
         </Animated.View>
       </View>
 
-      <PanGestureHandler
-        onGestureEvent={gestureHandler}
-        enabled={!isScrollEnabled}>
-        <Animated.View style={[panTransformStyle]}>
+      <PanGestureHandler onGestureEvent={gestureHandler}>
+        <Animated.View style={[panTransformStyle, {overflow: 'hidden'}]}>
           <Animated.FlatList
             data={data}
             numColumns={2}
             showsVerticalScrollIndicator={false}
-            scrollEnabled={isScrollEnabled}
-            onScroll={handleScroll}
+            style={listTransformStyle}
+            scrollEnabled={false}
             keyExtractor={parseImage}
             contentContainerStyle={styles.list}
             renderItem={({item, index}) => renderItem(item, index)}

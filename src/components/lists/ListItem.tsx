@@ -4,19 +4,13 @@ import {
   Pressable,
   StyleSheet,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import React from 'react';
 import {Icon} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {animationConfig, colors} from '../../utils/constants';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {saveToBookmarks} from '../../redux/actions/listActions';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 
