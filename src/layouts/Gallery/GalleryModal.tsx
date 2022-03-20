@@ -25,7 +25,7 @@ const HIGH_BORDER = 56;
 const FETCH_QUANTITY = 6;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
-const MAX_LIST_SCROLL = (200 + 14) / 2 + 28;
+const MAX_LIST_SCROLL = 63;
 const HEADER_HEIGHT = 67.33333587646484;
 const PLATFORM_BORDER = Platform.select({
   ios: 14,
