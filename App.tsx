@@ -14,8 +14,13 @@ import {persistor, store} from './src/redux/configureStore';
 import Navigator from './src/layouts/Navigator/Navigator';
 import {LogBox} from 'react-native';
 import ShareToBottomSheet from './src/components/bottomSheets/ShareToBottomSheet';
-import {notificationRef, shareBottomSheetRef} from './src/utils/constants';
+import {
+  colors,
+  notificationRef,
+  shareBottomSheetRef,
+} from './src/utils/constants';
 import Notifications from './src/components/Notifications';
+import CustomStatusBar from './src/components/CustomStatusBar';
 
 LogBox.ignoreLogs(['[react-native-gesture-handler]', 'Require cycle']);
 

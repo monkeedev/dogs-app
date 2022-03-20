@@ -1,4 +1,4 @@
-import {takeLatest, put, select} from 'redux-saga/effects';
+import {takeLatest, put} from 'redux-saga/effects';
 
 import Api from '../../api/requests';
 import {DogApiResponse} from '../../api/interfaces';

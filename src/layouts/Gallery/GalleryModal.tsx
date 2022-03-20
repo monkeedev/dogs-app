@@ -1,4 +1,4 @@
-import {View, Image, ImageBackground, StyleSheet} from 'react-native';
+import {View, Image, ImageBackground, StyleSheet, Platform} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {Dimensions} from 'react-native';
@@ -13,17 +13,25 @@ import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
+  withSpring,
 } from 'react-native-reanimated';
-import {colors, text} from '../../utils/constants';
+import {colors, springConfig, text} from '../../utils/constants';
 import Api from '../../api/requests';
 import {PanGestureHandler} from 'react-native-gesture-handler';
+import SeeMore from './Components/SeeMore';
+import CustomStatusBar from '../../components/CustomStatusBar';
 
 const HIGH_BORDER = 56;
 const FETCH_QUANTITY = 6;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
-
 const MAX_LIST_SCROLL = (200 + 14) / 2 + 28;
+const HEADER_HEIGHT = 67.33333587646484;
+const PLATFORM_BORDER = Platform.select({
+  ios: 14,
+  android: HIGH_BORDER,
+  default: 14,
+});
 
 const renderItem = (uri: string, idx: number) => {
   return <ListItem uri={uri} idx={idx} />;
@@ -42,7 +50,8 @@ const GalleryModal = () => {
     try {
       const r = await Api.fetchDogBySubbreed(s, FETCH_QUANTITY);
 
-      setData(r.message as string[]);
+      const d = [...data, ...(r.message as string[])];
+      setData(d);
     } catch (err) {
       throw new Error(err as string);
     }
@@ -51,25 +60,28 @@ const GalleryModal = () => {
   const panScrollY = useSharedValue(0);
   const scrollY = useSharedValue(0);
 
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: (_, ctx: any) => {
-      ctx.startY = panScrollY.value;
-    },
-    onActive: (event, ctx) => {
-      panScrollY.value = ctx.startY - event.translationY;
+  const gestureHandler = useAnimatedGestureHandler(
+    {
+      onStart: (_, ctx: any) => {
+        ctx.startY = panScrollY.value;
+      },
+      onActive: (event, ctx) => {
+        panScrollY.value = ctx.startY - event.translationY;
 
-      if (panScrollY.value >= size.height) {
-        scrollY.value = interpolate(
-          panScrollY.value,
-          [size.height, size.height + MAX_LIST_SCROLL],
-          [0, -MAX_LIST_SCROLL],
-          Extrapolate.CLAMP,
-        );
-      } else {
-        scrollY.value = 0;
-      }
+        if (panScrollY.value >= size.height) {
+          scrollY.value = interpolate(
+            panScrollY.value,
+            [size.height, size.height + MAX_LIST_SCROLL],
+            [0, -MAX_LIST_SCROLL],
+            Extrapolate.CLAMP,
+          );
+        } else {
+          scrollY.value = 0;
+        }
+      },
     },
-  });
+    [size.height],
+  );
 
   const backgroundColor = useAnimatedStyle(
     () => ({
@@ -106,7 +118,7 @@ const GalleryModal = () => {
           translateY: interpolate(
             panScrollY.value,
             [0, size.height],
-            [size.height - 14, HIGH_BORDER],
+            [size.height - HEADER_HEIGHT, PLATFORM_BORDER],
             Extrapolate.CLAMP,
           ),
         },
@@ -116,11 +128,7 @@ const GalleryModal = () => {
   );
 
   const listTransformStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: scrollY.value,
-      },
-    ],
+    transform: [{translateY: scrollY.value}],
   }));
 
   // set image size
@@ -136,7 +144,7 @@ const GalleryModal = () => {
         const imageRatio = width / height;
 
         if (imageRatio > ratio) {
-          h = SCREEN_WIDTH / imageRatio;
+          h = SCREEN_WIDTH / imageRatio + HEADER_HEIGHT;
         }
 
         setSize({width: w, height: Math.min(SCREEN_HEIGHT, h)});
@@ -149,30 +157,39 @@ const GalleryModal = () => {
 
     return () => {
       isMounted = false;
-      panScrollY.value = 0;
-      scrollY.value = 0;
+      panScrollY.value = withSpring(0, springConfig);
+      scrollY.value = withSpring(0, springConfig);
       setData([]);
     };
   }, [params.uri]);
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <GoBack />
+      <CustomStatusBar
+        backgroundColor={'transparent'}
+        barStyle={'dark-content'}
+      />
 
-        <View style={styles.goBackContainer}>
-          <Animated.Text style={[styles.goBackText, goBackTransform]}>
-            Go back
-          </Animated.Text>
+      <View style={styles.header}>
+        <View style={Platform.OS === 'android' ? styles.headerButtons : null}>
+          <GoBack />
+
+          <View style={styles.goBackContainer}>
+            <Animated.Text style={[styles.goBackText, goBackTransform]}>
+              Go back
+            </Animated.Text>
+          </View>
         </View>
 
-        <Animated.View style={backgroundColor}>
+        <Animated.View
+          style={[backgroundColor, styles.background]}
+          pointerEvents={'none'}>
           <ImageBackground source={{uri: params.uri}} style={{...size}} />
         </Animated.View>
       </View>
 
       <PanGestureHandler onGestureEvent={gestureHandler}>
-        <Animated.View style={[panTransformStyle, {overflow: 'hidden'}]}>
+        <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
           <Animated.FlatList
             data={data}
             numColumns={2}
@@ -193,17 +210,25 @@ const GalleryModal = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.white,
   },
   header: {
     position: 'absolute',
+  },
+  headerButtons: {
+    position: 'relative',
+    top: 28,
+  },
+  background: {
+    zIndex: -1,
   },
   list: {
     backgroundColor: colors.white,
     borderTopLeftRadius: 21,
     borderTopRightRadius: 21,
     paddingBottom: 7 * 18,
+    paddingHorizontal: 7,
+    height: '100%',
   },
   goBackContainer: {
     backgroundColor: 'transparent',
@@ -217,6 +242,9 @@ const styles = StyleSheet.create({
     fontSize: text.m,
     fontWeight: '900',
     color: colors.darkGray,
+  },
+  panGestureStyle: {
+    overflow: 'hidden',
   },
 });
 

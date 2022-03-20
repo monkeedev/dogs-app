@@ -1,7 +1,12 @@
 import axios, {AxiosResponse} from 'axios';
+import {ErrorMessages, notificationRef} from '../utils/constants';
 import {findBreedInList, flatTree} from '../utils/functions';
 import {DogApiResponse} from './interfaces';
 import {options} from './options';
+
+const returnNetworkError = () => {
+  notificationRef.current?.show(ErrorMessages.Network, 'error');
+};
 
 class DogsApi {
   readonly uri: string;
@@ -21,7 +26,7 @@ class DogsApi {
         .then(res => {
           this.list = flatTree(res.data.message);
         })
-        .catch(err => err);
+        .catch(returnNetworkError);
 
       return req;
     } catch (error) {
@@ -48,13 +53,11 @@ class DogsApi {
               q ? `/${q}` : ''
             }`,
           )
-          .then(res => res)
-          .catch(err => err);
+          .catch(returnNetworkError);
       } else {
         req = await axios
           .get(`${this.uri}/breeds/image/random${q ? `/${q}` : ''}`)
-          .then(res => res)
-          .catch(err => err);
+          .catch(returnNetworkError);
       }
 
       return req.data;
@@ -91,13 +94,11 @@ class DogsApi {
               _s.length === 1 ? `${_s[0]}` : `${_s[0]}/${_s[1]}`
             }/images/random${q ? `/${q}` : ''}`,
           )
-          .then(res => res)
-          .catch(err => err);
+          .catch(returnNetworkError);
 
         return req.data;
       }
     } catch (err) {
-      console.log('@', err);
       throw new Error("Can't fetch doggo");
     }
   };

@@ -1,4 +1,4 @@
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {tabs} from './tabs';
@@ -126,7 +126,10 @@ const MainNavigator = () => (
       <Stack.Group>
         <Stack.Screen name={'CatalogTabs'} component={CatalogTabs} />
       </Stack.Group>
-      <Stack.Group screenOptions={{presentation: 'modal'}}>
+      <Stack.Group
+        screenOptions={{
+          presentation: 'modal',
+        }}>
         <Stack.Screen name={'Gallery'} component={GalleryModal} />
       </Stack.Group>
     </Stack.Navigator>

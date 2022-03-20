@@ -1,7 +1,5 @@
 import {
   View,
-  Text,
-  Pressable,
   TouchableOpacity,
   GestureResponderEvent,
   StyleSheet,
