@@ -31,17 +31,17 @@ const CatalogScreen = () => {
   const [data, setData] = useState<string[]>([]);
 
   // searching dog breed
-  const handleSearch = (str: string) => {
+  const handleSearch = useCallback((str: string) => {
     dispatch(fetchDogsList(str, true, true));
-  };
+  }, []);
 
-  const handleEndReached = useCallback(() => {
+  const handleEndReached = () => {
     if (search) {
       dispatch(fetchDogsList(search, true));
     } else {
       dispatch(fetchDogsList());
     }
-  }, [dispatch]);
+  };
 
   useEffect(() => {
     dispatch(fetchDogsList('', false, true));
@@ -99,13 +99,14 @@ const CatalogScreen = () => {
         renderItem={({item, index}) => renderItem(item, index)}
         bounces={false}
         onEndReached={handleEndReached}
-        ListFooterComponent={() => (
-          <ActivityIndicator
-            size={'small'}
-            style={styles.indicator}
-            hidesWhenStopped={list.loading}
-          />
-        )}
+        scrollEventThrottle={16}
+        ListFooterComponent={() =>
+          list.loading ? (
+            <ActivityIndicator size={'small'} style={styles.indicator} />
+          ) : (
+            <View style={styles.indicator} />
+          )
+        }
       />
     </View>
   );
