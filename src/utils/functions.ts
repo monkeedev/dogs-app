@@ -1,10 +1,6 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Linking} from 'react-native';
-import Share, {
-  ShareOptions,
-  ShareSingleOptions,
-  Social,
-} from 'react-native-share';
+import Share, {Social} from 'react-native-share';
 import RNFetchBlob from 'rn-fetch-blob';
 import {ErrorMessages, notificationRef} from './constants';
 
@@ -61,7 +57,11 @@ export const getBreed = (s: string) => {
     breed = breed.split('-')[0];
   }
 
-  return `${breed}s`;
+  if (breed.toLowerCase() === 'pyrenees') {
+    return breed;
+  } else {
+    return `${breed}s`;
+  }
 };
 
 const shareSingle = async (social: Social, url: string) => {
@@ -90,11 +90,10 @@ const shareSingle = async (social: Social, url: string) => {
     if (isSupported) {
       await Share.shareSingle(options);
     } else {
-      notificationRef.current.show(ErrorMessages.SocialIsMissing, 'warning');
+      notificationRef.current?.show(ErrorMessages.SocialIsMissing, 'warning');
     }
   } catch (error) {
-    console.log('@outer', error);
-    notificationRef.current.show(ErrorMessages.Default, 'warning');
+    notificationRef.current?.show(ErrorMessages.Default, 'warning');
     throw new Error('' + error);
   }
 };

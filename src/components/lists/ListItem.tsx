@@ -4,7 +4,6 @@ import {
   Pressable,
   StyleSheet,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import React from 'react';
 import {Icon} from 'react-native-elements';
@@ -22,6 +21,10 @@ interface Props {
 
 const ICON_SIZE = 35;
 
+const areEqual = (prev: Readonly<Props>, next: Readonly<Props>) => {
+  return prev.uri === next.uri && prev.idx === next.idx;
+};
+
 const ListItem = ({uri, idx}: Props) => {
   const {bookmarks} = useSelector(getDogsCatalog);
   const dispatch = useDispatch();
@@ -31,7 +34,7 @@ const ListItem = ({uri, idx}: Props) => {
 
   const handleSave = () => dispatch(saveToBookmarks(uri));
 
-  const rStyle = useAnimatedStyle(() => {
+  const bStyle = useAnimatedStyle(() => {
     const _active = {
       opacity: withTiming(1, animationConfig),
       backgroundColor: withTiming(colors.turquoise, animationConfig),
@@ -55,7 +58,7 @@ const ListItem = ({uri, idx}: Props) => {
   };
 
   return (
-    <View
+    <Animated.View
       style={[
         styles.container,
         {
@@ -66,7 +69,7 @@ const ListItem = ({uri, idx}: Props) => {
       {uri === '' ? null : (
         <TouchableOpacity activeOpacity={0.9} onPress={openGallery}>
           <Pressable onPress={handleSave}>
-            <Animated.View style={[styles.icon, rStyle]}>
+            <Animated.View style={[styles.icon, bStyle]}>
               <Icon
                 type={'ionicon'}
                 name={`bookmarks`}
@@ -80,11 +83,11 @@ const ListItem = ({uri, idx}: Props) => {
           <Image source={{uri}} style={styles.image} />
         </TouchableOpacity>
       )}
-    </View>
+    </Animated.View>
   );
 };
 
-export default ListItem;
+export default React.memo(ListItem, areEqual);
 
 const styles = StyleSheet.create({
   container: {

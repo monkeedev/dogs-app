@@ -2,26 +2,22 @@ import {
   View,
   StyleSheet,
   ColorValue,
-  SafeAreaView,
   StatusBar,
   StatusBarProps,
   Platform,
 } from 'react-native';
 import React from 'react';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface Props extends StatusBarProps {
-  bg: ColorValue;
+  backgroundColor: ColorValue;
 }
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
-const CustomStatusBar = ({bg, ...props}: Props) => {
-  const insets = useSafeAreaInsets();
-
+const CustomStatusBar = ({backgroundColor, ...props}: Props) => {
   return (
-    <View style={[{height: insets.top}, {backgroundColor: bg}]}>
-      <StatusBar translucent backgroundColor={bg} {...props} />
+    <View style={[styles.appBar, {backgroundColor}]}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
   );
 };
@@ -29,10 +25,6 @@ const CustomStatusBar = ({bg, ...props}: Props) => {
 const styles = StyleSheet.create({
   appBar: {
     height: APPBAR_HEIGHT,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: '#33373B',
   },
 });
 

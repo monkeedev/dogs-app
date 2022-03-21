@@ -1,4 +1,5 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import {NotificationRef} from './types';
 
 export const colors = {
@@ -7,6 +8,7 @@ export const colors = {
   turquoise: '#2BD9A5',
   darkTurquoise: '#2E8A6E',
   darkGray: '#2b2c28',
+  gray: '#bbb',
   black: '#131515',
 };
 
@@ -35,11 +37,17 @@ export const springConfig = {
   stiffness: 500,
 };
 
-export const turquoiseGradientArray = [colors.turquoise, '#2bd9a5aa'];
+export const turquoiseGradientArray = [
+  colors.turquoise,
+  '#2bd9a5ee',
+  '#2bd9a5cc',
+  '#2bd9a5aa',
+];
 
 // Errors
 export enum ErrorMessages {
   Default = 'Something went wrong',
   NotSupported = 'Not supported',
+  Network = 'Network error',
   SocialIsMissing = 'Needed app is not installed',
 }

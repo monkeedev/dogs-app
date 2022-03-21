@@ -1,8 +1,15 @@
-import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import {colors, text, turquoiseGradientArray} from '../../utils/constants';
+import {colors, text} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {parseImage} from '../../utils/functions';
 import ListItem from '../../components/lists/ListItem';
@@ -10,65 +17,41 @@ import EmptyList from '../../components/lists/EmptyList';
 import Animated, {
   Extrapolate,
   interpolate,
-  useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import LinearGradient from 'react-native-linear-gradient';
 import {Icon} from 'react-native-elements';
 import {MainStyles} from '../../assets/styles/MainStyles';
-
-const HEADER_EXPANDED_HEIGHT = 78 + 7 * 2;
 
 const renderItem = (uri: string, idx: number) => {
   return <ListItem uri={uri} idx={idx} />;
 };
 
 const BookmarksScreen = () => {
-  const insets = useSafeAreaInsets();
-  const headerAddedValue = insets.top + 7 * 2;
-
   const {bookmarks} = useSelector(getDogsCatalog);
   const [data, setData] = useState<string[]>([]);
 
   const scrollY = useSharedValue(0);
-  const headerStyle = useAnimatedStyle(() => ({
-    height: interpolate(
-      scrollY.value,
-      [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
-      Extrapolate.CLAMP,
-    ),
-  }));
 
-  const fontStyle = useAnimatedStyle(() => ({
-    fontSize: interpolate(
-      scrollY.value,
-      [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-      [text.l, text.m],
-      Extrapolate.CLAMP,
-    ),
-  }));
-
-  const transformStyle = useAnimatedStyle(() => ({
+  const counterStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(scrollY.value, [0, 49], [0, 1], Extrapolate.CLAMP),
     transform: [
       {
         translateY: interpolate(
           scrollY.value,
-          [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-          [HEADER_EXPANDED_HEIGHT + headerAddedValue + 7, 0],
+          [0, 49],
+          [10, 0],
           Extrapolate.CLAMP,
         ),
       },
     ],
   }));
 
-  // scroll handler for FlatList
-  const handleScroll = useAnimatedScrollHandler({
-    onScroll: e => (scrollY.value = e.contentOffset.y),
-  });
+  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    scrollY.value = e.nativeEvent.contentOffset.y;
+  };
 
+  // scroll handler for FlatList
   useEffect(() => {
     if (bookmarks.length > 4 && bookmarks.length < 7) {
       setData([...bookmarks, '', '']);
@@ -79,25 +62,28 @@ const BookmarksScreen = () => {
 
   return (
     <View style={styles.container}>
-      <CustomStatusBar bg={colors.turquoise} barStyle={'dark-content'} />
+      <CustomStatusBar
+        backgroundColor={colors.turquoise}
+        barStyle={'dark-content'}
+      />
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Favourites:</Text>
 
-      <Animated.View style={[styles.header, {top: insets.top}, headerStyle]}>
-        <LinearGradient colors={turquoiseGradientArray} style={styles.headerBg}>
-          <Animated.Text style={[styles.headerText, fontStyle]}>
-            Favourites:
-          </Animated.Text>
-
-          <View style={styles.counter}>
-            <Text style={styles.headerText}>{bookmarks.length}</Text>
+        <View style={styles.counterContainer}>
+          <Animated.View style={[styles.counter, counterStyle]}>
+            <Text style={[styles.headerText, {fontSize: text.s}]}>
+              {bookmarks.length}
+            </Text>
             <Icon
               name={'bookmarks'}
               type={'ionicon'}
+              size={text.m}
               tvParallaxProperties={false}
               color={colors.white}
             />
-          </View>
-        </LinearGradient>
-      </Animated.View>
+          </Animated.View>
+        </View>
+      </View>
 
       <Animated.FlatList
         data={data}
@@ -112,7 +98,6 @@ const BookmarksScreen = () => {
             ? {height: '100%'}
             : {},
         ]}
-        style={transformStyle}
         bounces={false}
         renderItem={({item, index}) => renderItem(item, index)}
         onScroll={handleScroll}
@@ -129,33 +114,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.turquoise,
     position: 'relative',
   },
+  counterContainer: {
+    width: 49,
+    overflow: 'hidden',
+  },
   counter: {
     ...MainStyles.rowFull,
-    width: 49,
   },
   header: {
-    position: 'absolute',
-    top: 54,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    zIndex: 1,
     ...MainStyles.rowFull,
     alignItems: 'flex-end',
-  },
-  headerBg: {
-    ...MainStyles.rowFull,
-    alignItems: 'flex-end',
-    zIndex: -1,
-    position: 'absolute',
-    width: Dimensions.get('screen').width,
-    height: '100%',
-    top: 0,
-    paddingHorizontal: 14,
-    paddingBottom: 7,
+    marginVertical: 7,
+    marginHorizontal: 14,
   },
   headerText: {
     color: colors.white,
+    fontSize: text.m,
     fontWeight: '900',
   },
   list: {

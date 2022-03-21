@@ -3,91 +3,40 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
-  Text,
-  Image,
   ActivityIndicator,
   Dimensions,
+  FlatList,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import ListItem from '../../components/lists/ListItem';
-import {colors, text, turquoiseGradientArray} from '../../utils/constants';
-import Animated, {
-  Extrapolate,
-  interpolate,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import {colors, text} from '../../utils/constants';
 import {Icon} from 'react-native-elements';
 import CustomStatusBar from '../../components/CustomStatusBar';
-import {images} from '../../assets/images/asData';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchDogsList} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {parseImage} from '../../utils/functions';
-import LinearGradient from 'react-native-linear-gradient';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {RootStackParamList} from '../Navigator/routes';
 
 const ICON_SIZE = 36;
 const AVATAR_SIZE = 78;
-const HEADER_EXPANDED_HEIGHT = AVATAR_SIZE + 7 * 2;
 
 const renderItem = (uri: string, idx: number) => {
   return <ListItem uri={uri} idx={idx} />;
 };
-
 const CatalogScreen = () => {
-  const insets = useSafeAreaInsets();
-  const headerAddedValue = insets.top + 7 * 2;
-
   const dispatch = useDispatch();
+  const route = useRoute<RouteProp<RootStackParamList, 'CatalogTabs'>>();
   const {list} = useSelector(getDogsCatalog);
 
   const [search, setSearch] = useState('');
   const [data, setData] = useState<string[]>([]);
 
-  const scrollY = useSharedValue(0);
-
-  const searchBarStyle = useAnimatedStyle(() => ({
-    height: interpolate(
-      scrollY.value,
-      [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-      [HEADER_EXPANDED_HEIGHT + headerAddedValue, insets.top],
-      Extrapolate.CLAMP,
-    ),
-  }));
-
-  const opacityStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(
-      scrollY.value,
-      [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-      [1, 0],
-      Extrapolate.CLAMP,
-    ),
-  }));
-
-  const transformStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: interpolate(
-          scrollY.value,
-          [0, HEADER_EXPANDED_HEIGHT + headerAddedValue],
-          [HEADER_EXPANDED_HEIGHT + headerAddedValue + 7, 0],
-          Extrapolate.CLAMP,
-        ),
-      },
-    ],
-  }));
-
   // searching dog breed
-  const handleSearch = (str: string) => {
+  const handleSearch = useCallback((str: string) => {
     dispatch(fetchDogsList(str, true, true));
-  };
-
-  // scroll handler for FlatList
-  const handleScroll = useAnimatedScrollHandler({
-    onScroll: e => (scrollY.value = e.contentOffset.y),
-  });
+  }, []);
 
   const handleEndReached = () => {
     if (search) {
@@ -102,49 +51,49 @@ const CatalogScreen = () => {
   }, []);
 
   useEffect(() => {
-    if (list.data.length > 4 && list.data.length < 7) {
-      setData([...list.data, '', '']);
-    } else {
-      setData(list.data);
+    if (!list.loading) {
+      if (list.data.length > 4 && list.data.length < 7) {
+        setData([...list.data, '', '']);
+      } else {
+        setData(list.data);
+      }
     }
   }, [list]);
 
+  useEffect(() => {
+    if (route.params?.search) {
+      setSearch(route.params?.search);
+      handleSearch(route.params?.search);
+    }
+  }, [route]);
+
   return (
     <View style={styles.container}>
-      <CustomStatusBar bg={colors.turquoise} barStyle={'dark-content'} />
-
-      <Animated.View
-        style={[styles.searchBarOuter, {top: insets.top}, searchBarStyle]}>
-        <Animated.View style={[styles.user, opacityStyle]}>
-          <Image source={{uri: images.avatar}} style={styles.userAvatar} />
-          <Text style={styles.userText}>John Doe</Text>
-        </Animated.View>
-        <View style={styles.searchBarInner}>
-          <TextInput
-            style={styles.input}
-            value={search}
-            placeholder={"Write dog's breed here"}
-            onChangeText={setSearch}
-          />
-          <Pressable onPress={() => handleSearch(search)}>
-            <Icon
-              size={21}
-              name={'search'}
-              type={'ionicon'}
-              style={styles.icon}
-              color={colors.black}
-              tvParallaxProperties={false}
-            />
-          </Pressable>
-        </View>
-
-        <LinearGradient
-          colors={turquoiseGradientArray}
-          style={styles.searchBarBg}
+      <CustomStatusBar
+        backgroundColor={colors.turquoise}
+        barStyle={'dark-content'}
+      />
+      <View style={styles.searchBarInner}>
+        <TextInput
+          style={styles.input}
+          value={search}
+          placeholder={"Write dog's breed here"}
+          placeholderTextColor={colors.gray}
+          onChangeText={setSearch}
         />
-      </Animated.View>
+        <Pressable onPress={() => handleSearch(search)}>
+          <Icon
+            size={21}
+            name={'search'}
+            type={'ionicon'}
+            style={styles.icon}
+            color={colors.black}
+            tvParallaxProperties={false}
+          />
+        </Pressable>
+      </View>
 
-      <Animated.FlatList
+      <FlatList
         data={data}
         numColumns={2}
         showsVerticalScrollIndicator={false}
@@ -159,14 +108,14 @@ const CatalogScreen = () => {
         ]}
         renderItem={({item, index}) => renderItem(item, index)}
         bounces={false}
-        scrollEventThrottle={16}
-        style={transformStyle}
         onEndReached={handleEndReached}
-        onScroll={handleScroll}
+        scrollEventThrottle={16}
         ListFooterComponent={() =>
           list.loading ? (
             <ActivityIndicator size={'small'} style={styles.indicator} />
-          ) : null
+          ) : (
+            <View style={styles.indicator} />
+          )
         }
       />
     </View>
@@ -203,14 +152,14 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     overflow: 'hidden',
     backgroundColor: colors.white,
-    marginBottom: 7,
+    marginVertical: 7,
+    marginHorizontal: 7,
   },
   searchBarBg: {
     zIndex: -1,
     position: 'absolute',
     width: Dimensions.get('screen').width,
-    height: '100%',
-    top: 0,
+    bottom: 0,
     paddingHorizontal: 14,
   },
   input: {
@@ -219,6 +168,7 @@ const styles = StyleSheet.create({
     paddingLeft: 14,
     marginRight: 14,
     color: colors.black,
+    height: 36,
   },
   icon: {
     width: ICON_SIZE,
@@ -259,8 +209,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   indicator: {
-    paddingTop: 49,
-    marginBottom: 7,
+    paddingTop: 35,
   },
 });
 
