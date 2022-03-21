@@ -3,8 +3,9 @@ import React from 'react';
 import DefaultButton from '../../../components/buttons/DefaultButton';
 import {colors, text} from '../../../utils/constants';
 import {useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {fetchDogsList} from '../../../redux/actions/listActions';
+import {RootStackParamList} from '../../Navigator/routes';
 
 interface Props {
   search: string;
@@ -12,13 +13,16 @@ interface Props {
 
 const SeeMore = ({search}: Props) => {
   const dispatch = useDispatch();
-  const {goBack, navigate} = useNavigation();
+  const {navigate} =
+    useNavigation<NavigationProp<RootStackParamList, 'CatalogTabs'>>();
 
   const handlePress = () => {
-    console.log('@foo');
-    // goBack();
-    // navigate('CatalogTabs');
-    // dispatch(fetchDogsList(search, true, true));
+    navigate('CatalogTabs', {
+      screen: 'Catalog',
+      params: {
+        search,
+      },
+    });
   };
 
   return (

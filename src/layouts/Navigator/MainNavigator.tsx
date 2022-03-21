@@ -1,10 +1,11 @@
-import {View, TouchableOpacity, StyleSheet, Platform} from 'react-native';
-import React from 'react';
+import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {tabs} from './tabs';
 import {animationConfig, colors} from '../../utils/constants';
 import {Icon} from 'react-native-elements';
 import Animated, {
+  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -12,7 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import GalleryModal from '../Gallery/GalleryModal';
 import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from './routes';
 
 const RADIUS = 14;
@@ -28,6 +29,7 @@ interface TabProps {
 }
 
 const TabBar = ({state, descriptors, navigation}: TabProps) => {
+  const route = useRoute();
   const width = useSharedValue(0);
   const activeIdx = useSharedValue(0);
 
@@ -44,6 +46,14 @@ const TabBar = ({state, descriptors, navigation}: TabProps) => {
   const oStyles = useAnimatedStyle(() => ({
     opacity: withSpring(+(width.value !== 0)),
   }));
+
+  useAnimatedReaction(
+    () => state.index,
+    () => {
+      activeIdx.value = state.index;
+    },
+    [state.index],
+  );
 
   return (
     <View style={styles.container}>
@@ -63,7 +73,10 @@ const TabBar = ({state, descriptors, navigation}: TabProps) => {
 
           if (!isFocused && !event.defaultPrevented) {
             // The `merge: true` option makes sure that the params inside the tab screen are preserved
-            navigation.navigate({name: route.name, merge: true});
+            navigation.navigate(
+              {name: route.name, merge: true},
+              {activeIdx: index},
+            );
           }
         };
 

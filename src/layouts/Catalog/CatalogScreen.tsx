@@ -16,6 +16,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchDogsList} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {parseImage} from '../../utils/functions';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {RootStackParamList} from '../Navigator/routes';
 
 const ICON_SIZE = 36;
 const AVATAR_SIZE = 78;
@@ -25,6 +27,7 @@ const renderItem = (uri: string, idx: number) => {
 };
 const CatalogScreen = () => {
   const dispatch = useDispatch();
+  const route = useRoute<RouteProp<RootStackParamList, 'CatalogTabs'>>();
   const {list} = useSelector(getDogsCatalog);
 
   const [search, setSearch] = useState('');
@@ -56,6 +59,13 @@ const CatalogScreen = () => {
       }
     }
   }, [list]);
+
+  useEffect(() => {
+    if (route.params?.search) {
+      setSearch(route.params?.search);
+      handleSearch(route.params?.search);
+    }
+  }, [route]);
 
   return (
     <View style={styles.container}>

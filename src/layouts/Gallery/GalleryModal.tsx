@@ -1,4 +1,11 @@
-import {View, Image, ImageBackground, StyleSheet, Platform} from 'react-native';
+import {
+  View,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Platform,
+  FlatList,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {Dimensions} from 'react-native';
@@ -188,7 +195,7 @@ const GalleryModal = () => {
 
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
-          <Animated.FlatList
+          <FlatList
             data={data}
             numColumns={2}
             showsVerticalScrollIndicator={false}
@@ -199,6 +206,7 @@ const GalleryModal = () => {
             renderItem={({item, index}) => renderItem(item, index)}
             bounces={false}
             ListHeaderComponent={() => <ListHeader uri={params.uri} />}
+            ListFooterComponent={() => <SeeMore search={params.search ?? ''} />}
           />
         </Animated.View>
       </PanGestureHandler>
