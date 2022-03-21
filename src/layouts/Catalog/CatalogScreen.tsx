@@ -68,6 +68,7 @@ const CatalogScreen = () => {
           style={styles.input}
           value={search}
           placeholder={"Write dog's breed here"}
+          placeholderTextColor={colors.gray}
           onChangeText={setSearch}
         />
         <Pressable onPress={() => handleSearch(search)}>

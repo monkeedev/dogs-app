@@ -8,6 +8,7 @@ export const colors = {
   turquoise: '#2BD9A5',
   darkTurquoise: '#2E8A6E',
   darkGray: '#2b2c28',
+  gray: '#bbb',
   black: '#131515',
 };
 

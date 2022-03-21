@@ -21,15 +21,13 @@ import {PanGestureHandler} from 'react-native-gesture-handler';
 import SeeMore from './Components/SeeMore';
 import CustomStatusBar from '../../components/CustomStatusBar';
 
-const HIGH_BORDER = 56;
 const FETCH_QUANTITY = 6;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
-const MAX_LIST_SCROLL = 63;
 const HEADER_HEIGHT = 67.33333587646484;
 const PLATFORM_BORDER = Platform.select({
   ios: 14,
-  android: HIGH_BORDER,
+  android: 28,
   default: 14,
 });
 
@@ -41,6 +39,7 @@ const GalleryModal = () => {
   const {params} = useRoute<RouteProp<RootStackParamList, 'Gallery'>>();
 
   const [data, setData] = useState<string[]>([]);
+  const [maxScrollHeight, setMaxScrollHeight] = useState(0);
   const [size, setSize] = useState<{width: number; height: number}>({
     width: 0,
     height: 0,
@@ -51,6 +50,9 @@ const GalleryModal = () => {
       const r = await Api.fetchDogBySubbreed(s, FETCH_QUANTITY);
 
       const d = [...data, ...(r.message as string[])];
+      let h = d.length > 4 ? (200 + 7 * 2) / 2 + 28 : 0;
+
+      setMaxScrollHeight(h);
       setData(d);
     } catch (err) {
       throw new Error(err as string);
@@ -71,16 +73,20 @@ const GalleryModal = () => {
         if (panScrollY.value >= size.height) {
           scrollY.value = interpolate(
             panScrollY.value,
-            [size.height, size.height + MAX_LIST_SCROLL],
-            [0, -MAX_LIST_SCROLL],
+            [size.height, size.height + maxScrollHeight],
+            [0, -maxScrollHeight],
             Extrapolate.CLAMP,
           );
+
+          if (scrollY.value <= -maxScrollHeight) {
+            panScrollY.value = size.height + maxScrollHeight;
+          }
         } else {
           scrollY.value = 0;
         }
       },
     },
-    [size.height],
+    [size.height, maxScrollHeight],
   );
 
   const backgroundColor = useAnimatedStyle(
