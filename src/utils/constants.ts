@@ -51,3 +51,9 @@ export enum ErrorMessages {
   Network = 'Network error',
   SocialIsMissing = 'Needed app is not installed',
 }
+
+export interface ExtendedNavigationProp<T, P> {
+  navigate: (T: string, P: any) => void;
+  screen: T;
+  params: P;
+}

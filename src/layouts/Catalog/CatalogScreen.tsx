@@ -16,10 +16,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchDogsList} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {parseImage} from '../../utils/functions';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {RootStackParamList} from '../Navigator/routes';
+import FakeInputButton from '../../components/buttons/FakeInputButton';
+import SearchInput from '../../components/inputs/SearchInput';
 
-const ICON_SIZE = 36;
+// const ICON_SIZE = 36;
 const AVATAR_SIZE = 78;
 
 const renderItem = (uri: string, idx: number) => {
@@ -27,6 +34,8 @@ const renderItem = (uri: string, idx: number) => {
 };
 const CatalogScreen = () => {
   const dispatch = useDispatch();
+  const {navigate} =
+    useNavigation<NavigationProp<RootStackParamList, 'Search'>>();
   const route = useRoute<RouteProp<RootStackParamList, 'CatalogTabs'>>();
   const {list} = useSelector(getDogsCatalog);
 
@@ -34,9 +43,9 @@ const CatalogScreen = () => {
   const [data, setData] = useState<string[]>([]);
 
   // searching dog breed
-  const handleSearch = useCallback((str: string) => {
-    dispatch(fetchDogsList(str, true, true));
-  }, []);
+  // const handleSearch = (str: string) => {
+  //   dispatch(fetchDogsList(str, true, true));
+  // };
 
   const handleEndReached = () => {
     if (search) {
@@ -44,6 +53,10 @@ const CatalogScreen = () => {
     } else {
       dispatch(fetchDogsList());
     }
+  };
+
+  const redirectToSearch = () => {
+    navigate('Search', {search});
   };
 
   useEffect(() => {
@@ -63,7 +76,7 @@ const CatalogScreen = () => {
   useEffect(() => {
     if (route.params?.search) {
       setSearch(route.params?.search);
-      handleSearch(route.params?.search);
+      dispatch(fetchDogsList(route.params?.search, true, true));
     }
   }, [route]);
 
@@ -73,25 +86,14 @@ const CatalogScreen = () => {
         backgroundColor={colors.turquoise}
         barStyle={'dark-content'}
       />
-      <View style={styles.searchBarInner}>
-        <TextInput
-          style={styles.input}
+      <FakeInputButton action={redirectToSearch}>
+        <SearchInput
           value={search}
+          action={() => console.log('@', search)}
+          isDisabled={true}
           placeholder={"Write dog's breed here"}
-          placeholderTextColor={colors.gray}
-          onChangeText={setSearch}
         />
-        <Pressable onPress={() => handleSearch(search)}>
-          <Icon
-            size={21}
-            name={'search'}
-            type={'ionicon'}
-            style={styles.icon}
-            color={colors.black}
-            tvParallaxProperties={false}
-          />
-        </Pressable>
-      </View>
+      </FakeInputButton>
 
       <FlatList
         data={data}
@@ -135,48 +137,6 @@ const styles = StyleSheet.create({
     marginBottom: 7,
     color: colors.white,
   },
-  searchBarOuter: {
-    paddingHorizontal: 14,
-    justifyContent: 'flex-end',
-    position: 'absolute',
-    top: 54,
-    left: 0,
-    width: '100%',
-    zIndex: 1,
-  },
-  searchBarInner: {
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderRadius: 999,
-    overflow: 'hidden',
-    backgroundColor: colors.white,
-    marginVertical: 7,
-    marginHorizontal: 7,
-  },
-  searchBarBg: {
-    zIndex: -1,
-    position: 'absolute',
-    width: Dimensions.get('screen').width,
-    bottom: 0,
-    paddingHorizontal: 14,
-  },
-  input: {
-    flex: 1,
-    padding: 7,
-    paddingLeft: 14,
-    marginRight: 14,
-    color: colors.black,
-    height: 36,
-  },
-  icon: {
-    width: ICON_SIZE,
-    height: ICON_SIZE,
-    borderRadius: ICON_SIZE,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   list: {
     paddingHorizontal: 7,
     paddingTop: 7,
@@ -189,24 +149,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: 0,
     justifyContent: 'center',
-  },
-  user: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 7,
-  },
-  userAvatar: {
-    width: AVATAR_SIZE,
-    height: AVATAR_SIZE,
-    borderWidth: 3,
-    borderRadius: AVATAR_SIZE,
-    borderColor: colors.white,
-  },
-  userText: {
-    marginTop: 7,
-    fontSize: text.m,
-    fontWeight: '900',
-    color: colors.white,
   },
   indicator: {
     paddingTop: 35,

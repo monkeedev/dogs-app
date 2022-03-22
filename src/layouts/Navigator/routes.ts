@@ -1,9 +1,9 @@
 export type RootStackParamList = {
   CatalogTabs: {
-    screen: string;
-    params?: {
-      search?: string;
-    };
+    search?: string;
+  };
+  Search: {
+    search?: string;
   };
   Gallery: {
     uri: string;

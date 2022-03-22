@@ -15,6 +15,7 @@ import GalleryModal from '../Gallery/GalleryModal';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from './routes';
+import SearchScreen from '../Search/SearchScreen';
 
 const RADIUS = 14;
 const TAB_BAR_HEIGHT = 56;
@@ -138,6 +139,11 @@ const MainNavigator = () => (
       }}>
       <Stack.Group>
         <Stack.Screen name={'CatalogTabs'} component={CatalogTabs} />
+        <Stack.Screen
+          options={{presentation: 'card'}}
+          name={'Search'}
+          component={SearchScreen}
+        />
       </Stack.Group>
       <Stack.Group
         screenOptions={{
