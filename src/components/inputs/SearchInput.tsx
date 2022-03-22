@@ -5,14 +5,21 @@ import {colors} from '../../utils/constants';
 
 interface Props {
   value: string;
-  action: (str: string) => void;
+  action?: (str: string) => void;
   placeholder?: string;
   isDisabled?: boolean;
+  isAutofocused?: boolean;
 }
 
 const ICON_SIZE = 36;
 
-const SearchInput = ({value = '', action, placeholder, isDisabled}: Props) => {
+const SearchInput = ({
+  value = '',
+  action,
+  placeholder,
+  isDisabled,
+  isAutofocused,
+}: Props) => {
   const isPlaceholderForDisabledInputPresent = value === '' && placeholder;
 
   return (
@@ -43,6 +50,7 @@ const SearchInput = ({value = '', action, placeholder, isDisabled}: Props) => {
           placeholder={placeholder}
           placeholderTextColor={colors.gray}
           onChangeText={action}
+          autoFocus={isAutofocused}
         />
       )}
     </View>
@@ -61,7 +69,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colors.white,
     marginVertical: 7,
-    marginHorizontal: 7,
   },
   icon: {
     width: ICON_SIZE,

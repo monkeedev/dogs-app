@@ -140,7 +140,10 @@ const MainNavigator = () => (
       <Stack.Group>
         <Stack.Screen name={'CatalogTabs'} component={CatalogTabs} />
         <Stack.Screen
-          options={{presentation: 'card'}}
+          // options={{presentation: 'transparentModal'}}
+          options={{
+            animationEnabled: false,
+          }}
           name={'Search'}
           component={SearchScreen}
         />

@@ -87,12 +87,13 @@ const CatalogScreen = () => {
         barStyle={'dark-content'}
       />
       <FakeInputButton action={redirectToSearch}>
-        <SearchInput
-          value={search}
-          action={() => console.log('@', search)}
-          isDisabled={true}
-          placeholder={"Write dog's breed here"}
-        />
+        <View style={styles.searchBar}>
+          <SearchInput
+            value={search}
+            isDisabled={true}
+            placeholder={"Write dog's breed here"}
+          />
+        </View>
       </FakeInputButton>
 
       <FlatList
@@ -152,6 +153,9 @@ const styles = StyleSheet.create({
   },
   indicator: {
     paddingTop: 35,
+  },
+  searchBar: {
+    marginHorizontal: 7,
   },
 });
 
