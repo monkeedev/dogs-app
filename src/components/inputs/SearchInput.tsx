@@ -1,6 +1,6 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {colors} from '../../utils/constants';
 
 interface Props {
@@ -30,7 +30,6 @@ const SearchInput = ({
         type={'ionicon'}
         style={styles.icon}
         color={colors.gray}
-        tvParallaxProperties={false}
       />
       {isDisabled ? (
         <View style={styles.input}>

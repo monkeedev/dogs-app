@@ -30,8 +30,7 @@ class DogsApi {
         .get(`${this.uri}/breeds/list/all`)
         .catch(returnNetworkError);
 
-      const data = flatTree(req.data.message);
-      this.list = data;
+      this.list = flatTree(req.data.message);
 
       return this.list;
     } catch (error) {

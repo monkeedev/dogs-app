@@ -1,6 +1,6 @@
 import {View, Text, Pressable, StyleSheet} from 'react-native';
 import React from 'react';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {colors} from '../utils/constants';
 import {useNavigation} from '@react-navigation/native';
 
@@ -13,7 +13,6 @@ const GoBack = () => {
         <Icon
           name={'arrow-back'}
           type={'ionicon'}
-          tvParallaxProperties={false}
           size={18}
           color={colors.darkGray}
         />

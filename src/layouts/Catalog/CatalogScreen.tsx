@@ -10,7 +10,7 @@ import {
 import React, {useCallback, useEffect, useState} from 'react';
 import ListItem from '../../components/lists/ListItem';
 import {colors, text} from '../../utils/constants';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchDogsList} from '../../redux/actions/listActions';

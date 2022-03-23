@@ -1,6 +1,6 @@
 import {ColorValue, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {colors} from '../../utils/constants';
 
 interface Props {
@@ -19,7 +19,6 @@ const EmptyList = ({title, color}: Props) => {
         type={'ionicon'}
         size={28}
         color={color ?? colors.turquoise}
-        tvParallaxProperties={false}
       />
     </View>
   );

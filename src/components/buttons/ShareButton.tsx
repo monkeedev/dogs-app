@@ -1,7 +1,7 @@
 import React from 'react';
 import DefaultButton from './DefaultButton';
 import {colors, shareBottomSheetRef} from '../../utils/constants';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 
 interface Props {
   uri: string;
@@ -19,7 +19,6 @@ const ShareButton = ({uri}: Props) => {
         name={`share-social-sharp`}
         color={colors.white}
         size={18}
-        tvParallaxProperties={false}
       />
     </DefaultButton>
   );

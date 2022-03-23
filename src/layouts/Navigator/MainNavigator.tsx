@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {tabs} from './tabs';
 import {animationConfig, colors} from '../../utils/constants';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
@@ -119,7 +119,6 @@ const CatalogTabs = () => {
                   name={focused ? activeName : defaultName}
                   color={focused ? colors.white : colors.turquoise}
                   type={type}
-                  tvParallaxProperties={false}
                   size={size}
                 />
               ),
