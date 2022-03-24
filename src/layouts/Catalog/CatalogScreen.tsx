@@ -26,7 +26,6 @@ import {RootStackParamList} from '../Navigator/routes';
 import FakeInputButton from '../../components/buttons/FakeInputButton';
 import SearchInput from '../../components/inputs/SearchInput';
 
-// const ICON_SIZE = 36;
 const AVATAR_SIZE = 78;
 
 const renderItem = (uri: string, idx: number) => {
@@ -41,11 +40,6 @@ const CatalogScreen = () => {
 
   const [search, setSearch] = useState('');
   const [data, setData] = useState<string[]>([]);
-
-  // searching dog breed
-  // const handleSearch = (str: string) => {
-  //   dispatch(fetchDogsList(str, true, true));
-  // };
 
   const handleEndReached = () => {
     if (search) {

@@ -2,7 +2,7 @@ import {View, StyleSheet} from 'react-native';
 import React, {useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import CustomStatusBar from '../../components/CustomStatusBar';
-import {colors} from '../../utils/constants';
+import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
 import {RootStackParamList} from '../Navigator/routes';
 import Api from '../../api/requests';
 import {SuggestionsList} from './Components/SuggestionsList';
@@ -31,16 +31,26 @@ const SearchScreen = () => {
       setEmptyListVisible(false);
       setSuggestions([]);
     } else {
-      const stringInRequest = str.split(' ').join('-');
+      let stringInRequest = str.toLowerCase().trim().split(' ');
 
       idleTimerRef.current = setTimeout(async () => {
-        const list: string[] = await fetchDogsListRef.current();
-        const filtered = list.filter(i =>
-          i.toLowerCase().includes(stringInRequest.toLowerCase()),
-        );
+        try {
+          const list: string[] = await fetchDogsListRef.current();
+          let stringInRequestFormatted = stringInRequest.join('-');
 
-        setEmptyListVisible(filtered.length === 0);
-        setSuggestions(filtered);
+          let filtered = list.filter(i => i.includes(stringInRequestFormatted));
+
+          if (filtered.length === 0) {
+            stringInRequestFormatted = stringInRequest[0];
+
+            filtered = list.filter(i => i.includes(stringInRequestFormatted));
+          }
+
+          setEmptyListVisible(filtered.length === 0);
+          setSuggestions(filtered);
+        } catch (error) {
+          notificationRef.current?.show(ErrorMessages.Default, 'error');
+        }
       }, TIMER_TIMEOUT);
     }
   };

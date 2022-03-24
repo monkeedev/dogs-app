@@ -132,25 +132,16 @@ const CatalogTabs = () => {
 
 const MainNavigator = () => (
   <NavigationContainer>
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Group>
         <Stack.Screen name={'CatalogTabs'} component={CatalogTabs} />
         <Stack.Screen
-          // options={{presentation: 'transparentModal'}}
-          options={{
-            animationEnabled: false,
-          }}
+          options={{animationEnabled: false}}
           name={'Search'}
           component={SearchScreen}
         />
       </Stack.Group>
-      <Stack.Group
-        screenOptions={{
-          presentation: 'modal',
-        }}>
+      <Stack.Group screenOptions={{presentation: 'modal'}}>
         <Stack.Screen name={'Gallery'} component={GalleryModal} />
       </Stack.Group>
     </Stack.Navigator>
