@@ -1,27 +1,34 @@
-import {View, StyleSheet} from 'react-native';
-import React, {useRef, useState} from 'react';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {View, StyleSheet, Text} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
-import {RootStackParamList} from '../Navigator/routes';
 import Api from '../../api/requests';
 import {SuggestionsList} from './Components/SuggestionsList';
 import {SearchBar} from './Components/SearchBar';
+import {useSelector} from 'react-redux';
+import {getDogsCatalog} from '../../redux/rootSelector';
+import {HistoryList} from './Components/HistoryList';
 
 const TIMER_TIMEOUT = 1500;
 
 const SearchScreen = () => {
-  const {params} = useRoute<RouteProp<RootStackParamList, 'Search'>>();
-
-  const [search, setSearch] = useState(params.search ?? '');
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [isEmptyListVisible, setEmptyListVisible] = useState(false);
+  const {history} = useSelector(getDogsCatalog);
 
   const idleTimerRef = useRef<any>();
   const fetchDogsListRef = useRef(async () => {
     const res = await Api.getListOfDogBreeds();
     return res;
   });
+
+  const [search, setSearch] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isEmptyListVisible, setEmptyListVisible] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(idleTimerRef.current);
+    };
+  }, []);
 
   const handleSearch = (str: string) => {
     setSearch(str);
@@ -63,11 +70,15 @@ const SearchScreen = () => {
       />
 
       <SearchBar value={search} action={handleSearch} />
-      <SuggestionsList
-        value={search}
-        data={suggestions}
-        isEmpty={isEmptyListVisible}
-      />
+      {search === '' ? (
+        <HistoryList data={history ?? []} />
+      ) : (
+        <SuggestionsList
+          value={search}
+          data={suggestions}
+          isEmpty={isEmptyListVisible}
+        />
+      )}
     </View>
   );
 };

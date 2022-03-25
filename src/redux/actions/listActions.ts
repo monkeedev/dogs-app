@@ -1,4 +1,4 @@
-import {ListActions} from '../types/listTypes';
+import {DogItem, ListActions} from '../types/listTypes';
 
 export const fetchDogsList = (
   search?: string,
@@ -18,4 +18,9 @@ export const clearDogsList = () => ({
 export const saveToBookmarks = (img: string) => ({
   type: ListActions.SAVE_TO_BOOKMARKS,
   payload: {img},
+});
+
+export const toggleInHistory = (item: DogItem) => ({
+  type: ListActions.TOGGLE_IN_HISTORY,
+  payload: {item},
 });

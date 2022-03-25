@@ -1,16 +1,7 @@
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  Pressable,
-  ActivityIndicator,
-  Dimensions,
-  FlatList,
-} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import {View, StyleSheet, ActivityIndicator, FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import ListItem from '../../components/lists/ListItem';
 import {colors, text} from '../../utils/constants';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchDogsList} from '../../redux/actions/listActions';
@@ -26,11 +17,10 @@ import {RootStackParamList} from '../Navigator/routes';
 import FakeInputButton from '../../components/buttons/FakeInputButton';
 import SearchInput from '../../components/inputs/SearchInput';
 
-const AVATAR_SIZE = 78;
-
 const renderItem = (uri: string, idx: number) => {
   return <ListItem uri={uri} idx={idx} />;
 };
+
 const CatalogScreen = () => {
   const dispatch = useDispatch();
   const {navigate} =

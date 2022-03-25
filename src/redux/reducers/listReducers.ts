@@ -1,5 +1,9 @@
-import {StatedObject} from '../../utils/types';
-import {ListActions, ListActionsTypes, ListState} from '../types/listTypes';
+import {
+  DogItem,
+  ListActions,
+  ListActionsTypes,
+  ListState,
+} from '../types/listTypes';
 
 const initialState: ListState = {
   list: {
@@ -8,6 +12,27 @@ const initialState: ListState = {
     loading: false,
   },
   bookmarks: [],
+  history: [],
+};
+
+const toggleItemInStorage = (item: string | DogItem, storage: any) => {
+  const _storage: string[] = Object.assign([], storage);
+
+  if (!storage) {
+    _storage.push(item as any);
+  } else {
+    let idx = null;
+
+    if (typeof item === 'string') {
+      idx = storage.indexOf(item);
+    } else if (typeof item === 'object') {
+      idx = storage.findIndex((i: DogItem) => i.img === item.img);
+    }
+
+    idx === -1 ? _storage.push(item as any) : _storage.splice(idx, 1);
+  }
+
+  return _storage;
 };
 
 export const listReducer = (state = initialState, action: ListActionsTypes) => {
@@ -55,14 +80,16 @@ export const listReducer = (state = initialState, action: ListActionsTypes) => {
       };
 
     case ListActions.SAVE_TO_BOOKMARKS:
-      let bookmarks: string[] = Object.assign([], state.bookmarks);
-      const idx = state.bookmarks.indexOf(action.payload.img);
+      return {
+        ...state,
+        bookmarks: toggleItemInStorage(action.payload.img, state.bookmarks),
+      };
 
-      idx === -1
-        ? bookmarks.push(action.payload.img)
-        : bookmarks.splice(idx, 1);
-
-      return {...state, bookmarks};
+    case ListActions.TOGGLE_IN_HISTORY:
+      return {
+        ...state,
+        history: toggleItemInStorage(action.payload.item, state.history),
+      };
 
     default:
       return state;

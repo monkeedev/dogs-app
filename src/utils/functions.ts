@@ -175,14 +175,18 @@ const transformToCamelCase = (s: string) => {
 };
 
 export const parseDog = (str: string) => {
-  const words = str.split('-');
-
-  if (words.length === 1) {
-    return transformToCamelCase(str);
+  if (!str) {
+    return '';
   } else {
-    const f = transformToCamelCase(words[0]);
-    const s = transformToCamelCase(words[1]);
+    const words = str.split('-');
 
-    return `${s} ${f}`;
+    if (words.length === 1) {
+      return transformToCamelCase(str);
+    } else {
+      const f = transformToCamelCase(words[0]);
+      const s = transformToCamelCase(words[1]);
+
+      return `${s} ${f}`;
+    }
   }
 };
