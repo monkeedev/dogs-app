@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {tabs} from './tabs';
 import {animationConfig, colors} from '../../utils/constants';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
@@ -15,6 +15,7 @@ import GalleryModal from '../Gallery/GalleryModal';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from './routes';
+import SearchScreen from '../Search/SearchScreen';
 
 const RADIUS = 14;
 const TAB_BAR_HEIGHT = 56;
@@ -118,7 +119,6 @@ const CatalogTabs = () => {
                   name={focused ? activeName : defaultName}
                   color={focused ? colors.white : colors.turquoise}
                   type={type}
-                  tvParallaxProperties={false}
                   size={size}
                 />
               ),
@@ -132,17 +132,16 @@ const CatalogTabs = () => {
 
 const MainNavigator = () => (
   <NavigationContainer>
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Group>
         <Stack.Screen name={'CatalogTabs'} component={CatalogTabs} />
+        <Stack.Screen
+          options={{animationEnabled: false}}
+          name={'Search'}
+          component={SearchScreen}
+        />
       </Stack.Group>
-      <Stack.Group
-        screenOptions={{
-          presentation: 'modal',
-        }}>
+      <Stack.Group screenOptions={{presentation: 'modal'}}>
         <Stack.Screen name={'Gallery'} component={GalleryModal} />
       </Stack.Group>
     </Stack.Navigator>

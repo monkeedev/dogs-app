@@ -110,7 +110,7 @@ export const shareImage = async (uri: string, type: string) => {
       switch (type) {
         case 'CopyLink':
           Clipboard.setString(`${msg}`);
-          notificationRef.current.show('Link copied!', 'info');
+          notificationRef.current?.show('Link copied!', 'info');
           break;
 
         case 'MsgApp':
@@ -121,20 +121,14 @@ export const shareImage = async (uri: string, type: string) => {
             Clipboard.setString(`${msg}`);
             await Linking.openURL(link);
           } else {
-            notificationRef.current.show(ErrorMessages.NotSupported, 'warning');
+            notificationRef.current?.show(
+              ErrorMessages.NotSupported,
+              'warning',
+            );
           }
           break;
 
         case 'MailApp':
-          // link = `mailto:`;
-          // isSupported = await Linking.canOpenURL(link);
-
-          // if (isSupported) {
-          //   Clipboard.setString(`${msg}`);
-          //   await Linking.openURL(link);
-          // } else {
-          //   notificationRef.current.show('Mailing is not supported', 'warning');
-          // }
           await shareSingle(Social.Email, uri);
 
           break;
@@ -148,7 +142,10 @@ export const shareImage = async (uri: string, type: string) => {
           if (isSupported) {
             await Linking.openURL(link);
           } else {
-            notificationRef.current.show(ErrorMessages.NotSupported, 'warning');
+            notificationRef.current?.show(
+              ErrorMessages.NotSupported,
+              'warning',
+            );
           }
           break;
 
@@ -169,32 +166,27 @@ export const shareImage = async (uri: string, type: string) => {
       throw new Error('' + error);
     }
   }
+};
 
-  // try {
-  //   const res = await RNFetchBlob.config({
-  //     fileCache: true,
-  //   }).fetch('GET', img);
+const transformToCamelCase = (s: string) => {
+  if (s && typeof s === 'string') {
+    return `${s[0].toUpperCase()}${s.slice(1)}`;
+  }
+};
 
-  //   const b64 = await res.readFile('base64');
+export const parseDog = (str: string) => {
+  if (!str) {
+    return '';
+  } else {
+    const words = str.split('-');
 
-  //   const icon = `data:image/png;base64,${b64}`;
+    if (words.length === 1) {
+      return transformToCamelCase(str);
+    } else {
+      const f = transformToCamelCase(words[0]);
+      const s = transformToCamelCase(words[1]);
 
-  //   let options: ShareOptions = {
-  //     title: 'Share image',
-  //     url: icon,
-  //     failOnCancel: false,
-  //   };
-
-  //   const sharedImage = await Share.open(options);
-
-  //   if (sharedImage.success) {
-  //     return sharedImage;
-  //   } else if (sharedImage.dismissedAction) {
-  //     console.warn('@NotShared');
-  //   }
-
-  //   RNFetchBlob.fs.unlink(res.path());
-  // } catch (error) {
-  //   throw new Error(`${error}`);
-  // }
+      return `${s} ${f}`;
+    }
+  }
 };

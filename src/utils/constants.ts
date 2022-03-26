@@ -10,6 +10,7 @@ export const colors = {
   darkGray: '#2b2c28',
   gray: '#bbb',
   black: '#131515',
+  yellow: '#F4B400',
 };
 
 export const text = {
@@ -50,4 +51,10 @@ export enum ErrorMessages {
   NotSupported = 'Not supported',
   Network = 'Network error',
   SocialIsMissing = 'Needed app is not installed',
+}
+
+export interface ExtendedNavigationProp<T, P> {
+  navigate: (T: string, P: any) => void;
+  screen: T;
+  params: P;
 }

@@ -6,7 +6,7 @@ import DefaultButton from '../../../components/buttons/DefaultButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../../redux/rootSelector';
 import {saveToBookmarks} from '../../../redux/actions/listActions';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {MainStyles} from '../../../assets/styles/MainStyles';
 import {getBreed} from '../../../utils/functions';
 
@@ -35,7 +35,6 @@ export const ListHeader = ({uri}: Props) => {
             name={`bookmarks`}
             color={isBookmark ? colors.white : colors.turquoise}
             size={18}
-            tvParallaxProperties={false}
           />
         </DefaultButton>
         <ShareButton uri={uri} />

@@ -20,7 +20,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {MainStyles} from '../../assets/styles/MainStyles';
 
 const renderItem = (uri: string, idx: number) => {
@@ -78,7 +78,6 @@ const BookmarksScreen = () => {
               name={'bookmarks'}
               type={'ionicon'}
               size={text.m}
-              tvParallaxProperties={false}
               color={colors.white}
             />
           </Animated.View>

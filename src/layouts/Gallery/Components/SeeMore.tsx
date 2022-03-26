@@ -1,20 +1,18 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import DefaultButton from '../../../components/buttons/DefaultButton';
-import {colors, text} from '../../../utils/constants';
-import {useDispatch} from 'react-redux';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {fetchDogsList} from '../../../redux/actions/listActions';
-import {RootStackParamList} from '../../Navigator/routes';
+import {colors, ExtendedNavigationProp, text} from '../../../utils/constants';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   search: string;
 }
 
 const SeeMore = ({search}: Props) => {
-  const dispatch = useDispatch();
   const {navigate} =
-    useNavigation<NavigationProp<RootStackParamList, 'CatalogTabs'>>();
+    useNavigation<
+      ExtendedNavigationProp<'CatalogTabs', {params: {search: string}}>
+    >();
 
   const handlePress = () => {
     navigate('CatalogTabs', {

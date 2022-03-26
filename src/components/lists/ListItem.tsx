@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {animationConfig, colors} from '../../utils/constants';
@@ -75,7 +75,6 @@ const ListItem = ({uri, idx}: Props) => {
                 name={`bookmarks`}
                 color={colors.white}
                 size={16}
-                tvParallaxProperties={false}
               />
             </Animated.View>
           </Pressable>

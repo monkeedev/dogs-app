@@ -8,6 +8,11 @@ const returnNetworkError = () => {
   notificationRef.current?.show(ErrorMessages.Network, 'error');
 };
 
+/**
+ * TODO:
+ * 1. [typescript] fix DogApiResponse
+ */
+
 class DogsApi {
   readonly uri: string;
   list: string[];
@@ -23,12 +28,11 @@ class DogsApi {
     try {
       const req = await axios
         .get(`${this.uri}/breeds/list/all`)
-        .then(res => {
-          this.list = flatTree(res.data.message);
-        })
         .catch(returnNetworkError);
 
-      return req;
+      this.list = flatTree(req.data.message);
+
+      return this.list;
     } catch (error) {
       throw new Error("Can't fetch doggos list");
     }

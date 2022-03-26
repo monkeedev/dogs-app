@@ -8,7 +8,7 @@ import {
 import React, {useImperativeHandle, useRef, useState} from 'react';
 import {colors, springConfig} from '../utils/constants';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -97,7 +97,6 @@ const Notifications = React.forwardRef((_, ref: any) => {
             type={'ionicon'}
             size={28}
             color={colors.white}
-            tvParallaxProperties={false}
           />
           <View style={styles.textContainer}>
             <Text style={styles.text}>{text}</Text>

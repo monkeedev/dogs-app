@@ -27,11 +27,9 @@ const rootReducer = (state: any, action: any) => {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const composeEnhancers = compose;
-
 export const store = createStore(
   persistedReducer,
-  composeEnhancers(applyMiddleware(sagaMiddleware)),
+  compose(applyMiddleware(sagaMiddleware)),
 );
 export const persistor = persistStore(store);
 

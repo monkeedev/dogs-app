@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {ReactElement, useEffect, useRef, useState} from 'react';
 import {colors, springConfig, text} from '../../utils/constants';
-import {Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -119,7 +119,6 @@ const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
             type={'ionicon'}
             size={21}
             color={colors.darkTurquoise}
-            tvParallaxProperties={false}
           />
         </Pressable>
         <Text style={styles.headerText}>Share doggo</Text>
@@ -143,7 +142,6 @@ const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
                 name={item.name}
                 size={28}
                 color={item.iconColor === 'light' ? colors.white : colors.black}
-                tvParallaxProperties={false}
               />
             </View>
             <Text style={styles.listItemPlaceholder} numberOfLines={2}>
