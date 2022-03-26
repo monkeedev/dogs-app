@@ -16,7 +16,7 @@ const initialState: ListState = {
 };
 
 const toggleItemInStorage = (item: string | DogItem, storage: any) => {
-  const _storage: string[] = Object.assign([], storage);
+  let _storage: string[] = Object.assign([], storage);
 
   if (!storage) {
     _storage.push(item as any);
@@ -29,7 +29,11 @@ const toggleItemInStorage = (item: string | DogItem, storage: any) => {
       idx = storage.findIndex((i: DogItem) => i.img === item.img);
     }
 
-    idx === -1 ? _storage.push(item as any) : _storage.splice(idx, 1);
+    if (idx === -1) {
+      _storage = [item as any, ..._storage];
+    } else {
+      _storage.splice(idx, 1);
+    }
   }
 
   return _storage;

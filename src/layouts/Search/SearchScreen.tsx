@@ -8,6 +8,7 @@ import {SearchBar} from './Components/SearchBar';
 import {useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {HistoryList} from './Components/HistoryList';
+import {DogItem} from '../../redux/types/listTypes';
 
 const TIMER_TIMEOUT = 1500;
 
@@ -22,6 +23,7 @@ const SearchScreen = () => {
 
   const [search, setSearch] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [filteredHistory, setFilteredHistory] = useState<DogItem[]>([]);
   const [isEmptyListVisible, setEmptyListVisible] = useState(false);
 
   useEffect(() => {
@@ -29,6 +31,14 @@ const SearchScreen = () => {
       clearTimeout(idleTimerRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    if (history && typeof history !== 'undefined') {
+      setFilteredHistory(
+        history.filter(i => i.name.includes(search.toLowerCase())),
+      );
+    }
+  }, [search, history]);
 
   const handleSearch = (str: string) => {
     setSearch(str);
@@ -70,8 +80,8 @@ const SearchScreen = () => {
       />
 
       <SearchBar value={search} action={handleSearch} />
-      {search === '' ? (
-        <HistoryList data={history ?? []} />
+      {search === '' || filteredHistory.length > 0 ? (
+        <HistoryList data={filteredHistory} />
       ) : (
         <SuggestionsList
           value={search}

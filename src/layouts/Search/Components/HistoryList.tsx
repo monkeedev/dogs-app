@@ -14,7 +14,7 @@ const renderItem = (value: DogItem) => {
 export const HistoryList = ({data}: Props) => {
   return (
     <FlatList
-      data={data.reverse().slice(0, 10)}
+      data={data.slice(0, 10)}
       keyExtractor={i => i.name}
       renderItem={({item}) => renderItem(item)}
     />
