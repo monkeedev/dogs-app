@@ -15,6 +15,9 @@ import {colors, ExtendedNavigationProp, text} from '../../../utils/constants';
 import {parseDog} from '../../../utils/functions';
 import {DogItem} from '../../../redux/types/listTypes';
 import {toggleInHistory} from '../../../redux/actions/listActions';
+import HighlightedWord from '../../../components/HighlightedWord';
+import {useContext} from 'react';
+import {SearchContext} from '../SearchScreen';
 
 interface Props {
   name: string;
@@ -24,8 +27,11 @@ interface Props {
 const ICON_SIZE = 40;
 
 export const DogInfo = ({name, img}: Props) => {
+  const search = useContext(SearchContext);
+
   const dispatch = useDispatch();
   const {history} = useSelector(getDogsCatalog);
+
   const {navigate} =
     useNavigation<
       ExtendedNavigationProp<'CatalogTabs', {params: {search: string}}>
@@ -64,7 +70,12 @@ export const DogInfo = ({name, img}: Props) => {
           resizeMode={'cover'}
           style={styles.icon}
         />
-        <Text style={styles.text}>{parsedDog}</Text>
+        <HighlightedWord
+          text={parsedDog ?? ''}
+          highlight={search.trim()}
+          style={styles.text}
+          highlightStyle={styles.highlight}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -79,6 +90,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: text.m,
     color: colors.darkGray,
+  },
+  highlight: {
+    backgroundColor: colors.yellow,
   },
   icon: {
     width: ICON_SIZE,

@@ -12,6 +12,8 @@ import {DogItem} from '../../redux/types/listTypes';
 
 const TIMER_TIMEOUT = 1500;
 
+export const SearchContext = React.createContext('');
+
 const SearchScreen = () => {
   const {history} = useSelector(getDogsCatalog);
 
@@ -80,15 +82,17 @@ const SearchScreen = () => {
       />
 
       <SearchBar value={search} action={handleSearch} />
-      {search === '' || filteredHistory.length > 0 ? (
-        <HistoryList data={filteredHistory} />
-      ) : (
-        <SuggestionsList
-          value={search}
-          data={suggestions}
-          isEmpty={isEmptyListVisible}
-        />
-      )}
+      <SearchContext.Provider value={search}>
+        {search === '' || filteredHistory.length > 0 ? (
+          <HistoryList data={filteredHistory} />
+        ) : (
+          <SuggestionsList
+            value={search}
+            data={suggestions}
+            isEmpty={isEmptyListVisible}
+          />
+        )}
+      </SearchContext.Provider>
     </View>
   );
 };

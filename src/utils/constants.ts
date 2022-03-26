@@ -10,6 +10,7 @@ export const colors = {
   darkGray: '#2b2c28',
   gray: '#bbb',
   black: '#131515',
+  yellow: '#F4B400',
 };
 
 export const text = {
