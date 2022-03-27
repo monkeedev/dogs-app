@@ -37,7 +37,7 @@ const SearchInput = ({
             style={
               isPlaceholderForDisabledInputPresent
                 ? styles.placeholderText
-                : null
+                : {color: colors.black}
             }>
             {isPlaceholderForDisabledInputPresent ? placeholder : value}
           </Text>

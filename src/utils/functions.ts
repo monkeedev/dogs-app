@@ -1,5 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard';
-import {Linking} from 'react-native';
+import {Linking, Platform} from 'react-native';
 import Share, {Social} from 'react-native-share';
 import RNFetchBlob from 'rn-fetch-blob';
 import RNFS from 'react-native-fs';
@@ -252,7 +252,9 @@ export const checkImageCache = async (uri: string = '') => {
   const hash = sh2(uri);
 
   const path = RNFS.CachesDirectoryPath;
-  const filePath = `${path}/${hash}${uri.slice(uri.lastIndexOf('.'))}`;
+  const filePath = `${
+    Platform.OS === 'ios' ? '' : 'file://'
+  }${path}/${hash}${uri.slice(uri.lastIndexOf('.'))}`;
 
   try {
     const doesFileExist = await RNFS.exists(filePath);

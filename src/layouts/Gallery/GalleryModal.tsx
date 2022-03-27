@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Platform,
   FlatList,
+  Text,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -24,7 +25,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {colors, springConfig, text} from '../../utils/constants';
 import Api from '../../api/requests';
-import {PanGestureHandler} from 'react-native-gesture-handler';
+import {PanGestureHandler, ScrollView} from 'react-native-gesture-handler';
 import SeeMore from './Components/SeeMore';
 import CustomStatusBar from '../../components/CustomStatusBar';
 
@@ -132,10 +133,6 @@ const GalleryModal = () => {
     [size.height],
   );
 
-  const listTransformStyle = useAnimatedStyle(() => ({
-    transform: [{translateY: scrollY.value}],
-  }));
-
   // set image size
   useEffect(() => {
     let isMounted = false;
@@ -199,7 +196,6 @@ const GalleryModal = () => {
             data={data}
             numColumns={2}
             showsVerticalScrollIndicator={false}
-            style={listTransformStyle}
             scrollEnabled={false}
             keyExtractor={parseImage}
             contentContainerStyle={styles.list}
