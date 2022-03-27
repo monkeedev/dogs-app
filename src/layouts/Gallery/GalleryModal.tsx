@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Platform,
   FlatList,
+  Text,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -24,7 +25,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {colors, springConfig, text} from '../../utils/constants';
 import Api from '../../api/requests';
-import {PanGestureHandler} from 'react-native-gesture-handler';
+import {PanGestureHandler, ScrollView} from 'react-native-gesture-handler';
 import SeeMore from './Components/SeeMore';
 import CustomStatusBar from '../../components/CustomStatusBar';
 
@@ -132,16 +133,12 @@ const GalleryModal = () => {
     [size.height],
   );
 
-  const listTransformStyle = useAnimatedStyle(() => ({
-    transform: [{translateY: scrollY.value}],
-  }));
-
   // set image size
   useEffect(() => {
-    let isMounted = true;
+    let isMounted = false;
 
     Image.getSize(params.uri, (width, height) => {
-      if (isMounted) {
+      if (!isMounted) {
         let w = SCREEN_WIDTH;
         let h = SCREEN_HEIGHT / 1.5;
 
@@ -161,7 +158,7 @@ const GalleryModal = () => {
     }
 
     return () => {
-      isMounted = false;
+      isMounted = true;
       panScrollY.value = withSpring(0, springConfig);
       scrollY.value = withSpring(0, springConfig);
       setData([]);
@@ -189,7 +186,7 @@ const GalleryModal = () => {
         <Animated.View
           style={[backgroundColor, styles.background]}
           pointerEvents={'none'}>
-          <ImageBackground source={{uri: params.uri}} style={{...size}} />
+          <ImageBackground source={{uri: params.img}} style={{...size}} />
         </Animated.View>
       </View>
 
@@ -199,7 +196,6 @@ const GalleryModal = () => {
             data={data}
             numColumns={2}
             showsVerticalScrollIndicator={false}
-            style={listTransformStyle}
             scrollEnabled={false}
             keyExtractor={parseImage}
             contentContainerStyle={styles.list}

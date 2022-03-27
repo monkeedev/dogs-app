@@ -4,15 +4,17 @@ import {
   Pressable,
   StyleSheet,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {animationConfig, colors} from '../../utils/constants';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {saveToBookmarks} from '../../redux/actions/listActions';
-import {RouteProp, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {checkImageCache} from '../../utils/functions';
 
 interface Props {
   uri: string;
@@ -30,9 +32,9 @@ const ListItem = ({uri, idx}: Props) => {
   const dispatch = useDispatch();
   const {navigate} = useNavigation<any>();
 
-  const isBookmarked = bookmarks.indexOf(uri) !== -1;
+  const [img, setImg] = useState('');
 
-  const handleSave = () => dispatch(saveToBookmarks(uri));
+  const isBookmarked = bookmarks.indexOf(uri) !== -1;
 
   const bStyle = useAnimatedStyle(() => {
     const _active = {
@@ -48,14 +50,30 @@ const ListItem = ({uri, idx}: Props) => {
     return isBookmarked ? _active : _default;
   }, [isBookmarked]);
 
+  const handleSave = () => dispatch(saveToBookmarks(uri));
+
   const openGallery = () => {
     const search = uri.slice(
       uri.indexOf('breeds') + 'breeds/'.length,
       uri.lastIndexOf('/'),
     );
 
-    navigate('Gallery', {uri, search});
+    navigate('Gallery', {uri, search, img});
   };
+
+  useEffect(() => {
+    let isMounted = false;
+
+    checkImageCache(uri).then(res => {
+      if (!isMounted) {
+        setImg(res);
+      }
+    });
+
+    return () => {
+      isMounted = true;
+    };
+  }, []);
 
   return (
     <Animated.View
@@ -79,7 +97,11 @@ const ListItem = ({uri, idx}: Props) => {
             </Animated.View>
           </Pressable>
 
-          <Image source={{uri}} style={styles.image} />
+          {img !== '' ? (
+            <Image source={{uri: img}} style={styles.image} />
+          ) : (
+            <View style={styles.image} />
+          )}
         </TouchableOpacity>
       )}
     </Animated.View>
@@ -101,6 +123,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 20,
     zIndex: -1,
+    backgroundColor: colors.lightGray,
   },
   icon: {
     position: 'absolute',

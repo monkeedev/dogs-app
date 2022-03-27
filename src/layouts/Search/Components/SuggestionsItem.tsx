@@ -20,7 +20,7 @@ const data: DogsJSONItems = DogsJSON;
 export const SuggestionsItem = ({value}: Props) => {
   return data[value] ? (
     <View style={styles.container}>
-      <DogInfo name={data[value].name} img={data[value].img} />
+      <DogInfo name={data[value].name} uri={data[value].img} />
       <View style={styles.icon} pointerEvents={'none'}>
         <Icon name={'chevron-right'} type={'feather'} color={colors.darkGray} />
       </View>

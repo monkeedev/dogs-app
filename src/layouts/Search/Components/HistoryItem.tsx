@@ -25,7 +25,7 @@ export const HistoryItem = ({value}: Props) => {
 
   return value.name ? (
     <View style={styles.container}>
-      <DogInfo name={value.name} img={value.img} />
+      <DogInfo name={value.name} uri={value.img} />
 
       <View style={styles.icon}>
         <TouchableOpacity onPress={deleteFromHistory}>

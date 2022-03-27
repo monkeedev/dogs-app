@@ -7,6 +7,7 @@ export type RootStackParamList = {
   };
   Gallery: {
     uri: string;
+    img: string;
     search?: string;
   };
 };
