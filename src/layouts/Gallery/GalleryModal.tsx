@@ -138,10 +138,10 @@ const GalleryModal = () => {
 
   // set image size
   useEffect(() => {
-    let isMounted = true;
+    let isMounted = false;
 
     Image.getSize(params.uri, (width, height) => {
-      if (isMounted) {
+      if (!isMounted) {
         let w = SCREEN_WIDTH;
         let h = SCREEN_HEIGHT / 1.5;
 
@@ -161,7 +161,7 @@ const GalleryModal = () => {
     }
 
     return () => {
-      isMounted = false;
+      isMounted = true;
       panScrollY.value = withSpring(0, springConfig);
       scrollY.value = withSpring(0, springConfig);
       setData([]);
@@ -189,7 +189,7 @@ const GalleryModal = () => {
         <Animated.View
           style={[backgroundColor, styles.background]}
           pointerEvents={'none'}>
-          <ImageBackground source={{uri: params.uri}} style={{...size}} />
+          <ImageBackground source={{uri: params.img}} style={{...size}} />
         </Animated.View>
       </View>
 

@@ -6,13 +6,13 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {MainStyles} from '../../../assets/styles/MainStyles';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../../redux/rootSelector';
 import {useNavigation} from '@react-navigation/native';
 import {colors, ExtendedNavigationProp, text} from '../../../utils/constants';
-import {parseDog} from '../../../utils/functions';
+import {checkImageCache, parseDog} from '../../../utils/functions';
 import {DogItem} from '../../../redux/types/listTypes';
 import {toggleInHistory} from '../../../redux/actions/listActions';
 import HighlightedWord from '../../../components/HighlightedWord';
@@ -21,12 +21,12 @@ import {SearchContext} from '../SearchScreen';
 
 interface Props {
   name: string;
-  img: string;
+  uri: string;
 }
 
 const ICON_SIZE = 40;
 
-export const DogInfo = ({name, img}: Props) => {
+export const DogInfo = ({name, uri}: Props) => {
   const search = useContext(SearchContext);
 
   const dispatch = useDispatch();
@@ -37,11 +37,10 @@ export const DogInfo = ({name, img}: Props) => {
       ExtendedNavigationProp<'CatalogTabs', {params: {search: string}}>
     >();
 
-  const parsedDog = parseDog(name);
+  const [img, setImg] = useState('');
 
-  const addToHistory = () => {
-    dispatch(toggleInHistory({name, img}));
-  };
+  const parsedDog = parseDog(name);
+  const addToHistory = () => dispatch(toggleInHistory({name, img: uri}));
 
   const redirect = () => {
     if (parsedDog && typeof parsedDog !== 'undefined' && parsedDog !== '') {
@@ -62,14 +61,32 @@ export const DogInfo = ({name, img}: Props) => {
     }
   };
 
+  useEffect(() => {
+    let isMounted = false;
+
+    checkImageCache(uri).then(res => {
+      if (!isMounted) {
+        setImg(res);
+      }
+    });
+
+    return () => {
+      isMounted = true;
+    };
+  }, []);
+
   return (
     <TouchableOpacity onPress={redirect}>
       <View style={styles.container}>
-        <ImageBackground
-          source={{uri: img}}
-          resizeMode={'cover'}
-          style={styles.icon}
-        />
+        {img !== '' ? (
+          <ImageBackground
+            source={{uri: img}}
+            resizeMode={'cover'}
+            style={styles.icon}
+          />
+        ) : (
+          <View style={styles.icon} />
+        )}
         <HighlightedWord
           text={parsedDog ?? ''}
           highlight={search.trim()}
@@ -100,5 +117,6 @@ const styles = StyleSheet.create({
     marginRight: 7,
     borderRadius: ICON_SIZE,
     overflow: 'hidden',
+    backgroundColor: colors.lightGray,
   },
 });

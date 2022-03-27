@@ -4,10 +4,10 @@ import {NotificationRef} from './types';
 
 export const colors = {
   white: '#fffafb',
-  lightGray: '#E3F1EA',
+  lightGray: '#ededed',
   turquoise: '#2BD9A5',
   darkTurquoise: '#2E8A6E',
-  darkGray: '#2b2c28',
+  darkGray: '#2b2c2c',
   gray: '#bbb',
   black: '#131515',
   yellow: '#F4B400',

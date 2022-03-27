@@ -2,8 +2,16 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {Linking} from 'react-native';
 import Share, {Social} from 'react-native-share';
 import RNFetchBlob from 'rn-fetch-blob';
+import RNFS from 'react-native-fs';
 import {ErrorMessages, notificationRef} from './constants';
+import sh2 from 'shorthash2';
 
+/**
+ * Tree with dogs
+ *
+ * @param o object with breeds
+ * @returns array with possible variations with breed and subbreed
+ */
 export const flatTree = (o: any): string[] => {
   const _o = Object.assign({}, o);
   const keys = Object.keys(_o);
@@ -21,6 +29,13 @@ export const flatTree = (o: any): string[] => {
   return keys;
 };
 
+/**
+ * Get dog image
+ *
+ * @param list list with breeds
+ * @param breed
+ * @returns breed
+ */
 export const findBreedInList = (list: string[], breed: string) => {
   const _arr = JSON.parse(JSON.stringify(list));
   const splitted = breed.toLowerCase().split(' ');
@@ -42,6 +57,12 @@ export const findBreedInList = (list: string[], breed: string) => {
   }
 };
 
+/**
+ * Get dog image
+ *
+ * @param s string with image
+ * @returns image
+ */
 export const parseImage = (s: string) => {
   const fromBreed = s.slice(s.indexOf('breeds'));
   const arr = fromBreed.split('/');
@@ -49,8 +70,14 @@ export const parseImage = (s: string) => {
   return `${arr[2]}`;
 };
 
-export const getBreed = (s: string) => {
-  const fromBreed = s.slice(s.indexOf('breeds'));
+/**
+ * Get dog breed
+ *
+ * @param uri string with breed
+ * @returns transformed string of dog breed
+ */
+export const getBreed = (uri: string) => {
+  const fromBreed = uri.slice(uri.indexOf('breeds'));
   let breed = fromBreed.split('/')[1];
 
   if (breed.indexOf('-') !== -1) {
@@ -64,6 +91,12 @@ export const getBreed = (s: string) => {
   }
 };
 
+/**
+ * Share image to singe social
+ *
+ * @param social
+ * @param url image address
+ */
 const shareSingle = async (social: Social, url: string) => {
   try {
     let _url = url;
@@ -98,6 +131,12 @@ const shareSingle = async (social: Social, url: string) => {
   }
 };
 
+/**
+ * Share image
+ *
+ * @param uri image address
+ * @param type destination
+ */
 export const shareImage = async (uri: string, type: string) => {
   if (uri === null || uri === '') {
     return false;
@@ -168,12 +207,24 @@ export const shareImage = async (uri: string, type: string) => {
   }
 };
 
-const transformToCamelCase = (s: string) => {
-  if (s && typeof s === 'string') {
-    return `${s[0].toUpperCase()}${s.slice(1)}`;
+/**
+ * Word to camel case
+ *
+ * @param word
+ * @returns word transformed to camel case
+ */
+const transformToCamelCase = (word: string) => {
+  if (word && typeof word === 'string') {
+    return `${word[0].toUpperCase()}${word.slice(1)}`;
   }
 };
 
+/**
+ * Camel case dog breed
+ *
+ * @param str
+ * @returns string transformed to camel case
+ */
 export const parseDog = (str: string) => {
   if (!str) {
     return '';
@@ -188,5 +239,41 @@ export const parseDog = (str: string) => {
 
       return `${s} ${f}`;
     }
+  }
+};
+
+/**
+ * Adds file to cache
+ *
+ * @param uri file destination
+ * @returns filepath
+ */
+export const checkImageCache = async (uri: string = '') => {
+  const hash = sh2(uri);
+
+  const path = RNFS.CachesDirectoryPath;
+  const filePath = `${path}/${hash}${uri.slice(uri.lastIndexOf('.'))}`;
+
+  try {
+    const doesFileExist = await RNFS.exists(filePath);
+
+    // check file in filesystem
+    if (!doesFileExist) {
+      const res = await RNFS.downloadFile({
+        fromUrl: uri,
+        toFile: filePath,
+      }).promise;
+
+      if (res.statusCode === 200) {
+        return filePath;
+      } else {
+        // TODO: return error
+        return '';
+      }
+    } else {
+      return filePath;
+    }
+  } catch (error) {
+    throw new Error('' + error);
   }
 };
