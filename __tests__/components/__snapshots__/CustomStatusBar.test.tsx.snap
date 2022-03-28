@@ -3,14 +3,10 @@
 exports[`CustomStatusBar matches snapshot 1`] = `
 <View
   style={
-    Array [
-      Object {
-        "height": 44,
-      },
-      Object {
-        "backgroundColor": "transparent",
-      },
-    ]
+    Object {
+      "backgroundColor": "transparent",
+      "height": 44,
+    }
   }
   testID="StatusBar"
 />

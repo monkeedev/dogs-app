@@ -1,6 +1,5 @@
 import {
   View,
-  StyleSheet,
   ColorValue,
   StatusBar,
   StatusBarProps,
@@ -16,16 +15,10 @@ const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
 const CustomStatusBar = ({backgroundColor, ...props}: Props) => {
   return (
-    <View testID={'StatusBar'} style={[styles.appBar, {backgroundColor}]}>
+    <View testID={'StatusBar'} style={{height: APPBAR_HEIGHT, backgroundColor}}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  appBar: {
-    height: APPBAR_HEIGHT,
-  },
-});
 
 export default CustomStatusBar;

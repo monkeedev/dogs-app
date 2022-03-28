@@ -9,7 +9,7 @@ const GoBack = () => {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={goBack}>
+      <Pressable testID={'GoBack_Button'} onPress={goBack}>
         <Icon
           name={'arrow-back'}
           type={'ionicon'}
