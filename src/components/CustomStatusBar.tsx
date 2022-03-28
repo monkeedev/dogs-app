@@ -16,7 +16,7 @@ const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
 const CustomStatusBar = ({backgroundColor, ...props}: Props) => {
   return (
-    <View style={[styles.appBar, {backgroundColor}]}>
+    <View testID={'StatusBar'} style={[styles.appBar, {backgroundColor}]}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
   );
