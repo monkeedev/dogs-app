@@ -279,3 +279,6 @@ export const checkImageCache = async (uri: string = '') => {
     throw new Error('' + error);
   }
 };
+
+// needed for tests
+export const isAndroid = () => Platform.OS === 'android';

@@ -8,6 +8,5 @@ exports[`CustomStatusBar matches snapshot 1`] = `
       "height": 44,
     }
   }
-  testID="StatusBar"
 />
 `;

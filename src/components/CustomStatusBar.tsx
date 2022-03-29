@@ -1,21 +1,16 @@
-import {
-  View,
-  ColorValue,
-  StatusBar,
-  StatusBarProps,
-  Platform,
-} from 'react-native';
+import {View, ColorValue, StatusBar, StatusBarProps} from 'react-native';
 import React from 'react';
+import {isAndroid} from '../utils/functions';
 
 interface Props extends StatusBarProps {
   backgroundColor: ColorValue;
 }
 
-const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+const APPBAR_HEIGHT = isAndroid() ? 56 : 44;
 
 const CustomStatusBar = ({backgroundColor, ...props}: Props) => {
   return (
-    <View testID={'StatusBar'} style={{height: APPBAR_HEIGHT, backgroundColor}}>
+    <View style={{height: APPBAR_HEIGHT, backgroundColor}}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
   );

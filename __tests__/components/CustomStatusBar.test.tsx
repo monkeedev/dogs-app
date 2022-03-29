@@ -1,8 +1,11 @@
 import React from 'react';
-import {Platform, PlatformOSType} from 'react-native';
 import renderer from 'react-test-renderer';
 import CustomStatusBar from '../../src/components/CustomStatusBar';
 import {shallow} from 'enzyme';
+
+jest.mock('../../src/utils/functions', () => ({
+  isAndroid: jest.fn(() => false),
+}));
 
 describe('CustomStatusBar', () => {
   it('matches snapshot', () => {
