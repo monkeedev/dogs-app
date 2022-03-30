@@ -111,7 +111,7 @@ const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
   }));
 
   const Content = () => (
-    <View style={styles.container}>
+    <View testID={'ShareToBottomSheet_View'} style={styles.container}>
       <View style={styles.headerBlock}>
         <Pressable onPress={() => ref.current.toggle()}>
           <Icon

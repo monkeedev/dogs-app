@@ -4,10 +4,6 @@ import Loading from '../../src/components/Loading';
 import {shallow} from 'enzyme';
 
 describe('Loading', () => {
-  // const expectedIndicatorSize = [
-  //   expect.stringMatching(/(small|large)/),
-  // ];
-
   it('snapshot', () => {
     const tree = renderer.create(<Loading />).toJSON();
     expect(tree).toMatchSnapshot();

@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DefaultButton matches snapshot 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+  testID="DefaultButton_TouchableOpacity"
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#fffafb",
+        "borderRadius": 7,
+        "margin": 3.5,
+        "padding": 10,
+      }
+    }
+    testID="DefaultButton_View"
+  >
+    <Text>
+      foo
+    </Text>
+  </View>
+</View>
+`;

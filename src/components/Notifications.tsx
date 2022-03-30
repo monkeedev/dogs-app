@@ -21,6 +21,7 @@ import {
   NotificationColor,
   NotificationIcon,
   NotificationNumber,
+  NotificationRef,
   NotificationType,
 } from '../utils/types';
 
@@ -62,11 +63,10 @@ const Notifications = React.forwardRef((_, ref: any) => {
   };
 
   useImperativeHandle(ref, () => ({
-    stack: [],
     show: (msg: string, t: NotificationType = 'info') => {
-      if (!msg || msg === '') {
-        return;
-      } else {
+      let isVisible = false;
+
+      if (msg || msg !== '') {
         ref.current?.hide();
 
         isOpened.value = withSpring(1, springConfig);
@@ -77,17 +77,24 @@ const Notifications = React.forwardRef((_, ref: any) => {
 
         colorNow.value = withSpring(NotificationNumber[t], springConfig);
         timerRef.current = setTimeout(ref.current?.hide, TIMEOUT);
+
+        isVisible = true;
       }
+
+      return isVisible;
     },
     hide: () => {
       isOpened.value = withSpring(0, springConfig);
 
       clearTimeout(timerRef.current);
+
+      return null;
     },
   }));
 
   return (
     <Animated.View
+      testID={'Notification'}
       style={[styles.container, {top: -height}, notificationStyles, rStyles]}
       onLayout={e => setHeight(e.nativeEvent.layout.height)}>
       <TouchableOpacity onPress={ref.current?.hide}>

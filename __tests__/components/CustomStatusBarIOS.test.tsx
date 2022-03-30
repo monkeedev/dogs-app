@@ -7,7 +7,7 @@ jest.mock('../../src/utils/functions', () => ({
   isAndroid: jest.fn(() => false),
 }));
 
-describe('CustomStatusBar', () => {
+describe('CustomStatusBar (for iOS)', () => {
   it('matches snapshot', () => {
     const tree = renderer
       .create(<CustomStatusBar backgroundColor={'transparent'} />)

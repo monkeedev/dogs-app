@@ -12,8 +12,8 @@ export interface StatedObject<T> {
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
 
 export type NotificationRef = {
-  show: (msg: string, t: NotificationType) => void;
-  hide: () => void;
+  show: (msg: string, t: NotificationType) => boolean;
+  hide: () => null;
 };
 
 export enum NotificationNumber {

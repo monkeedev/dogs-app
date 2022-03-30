@@ -9,14 +9,14 @@ interface Props {
 const FakeInputButton = ({children, action}: Props) => {
   const handleRedirect = () => {
     if (!action || typeof action !== 'function') {
-      throw new Error('No action provided');
+      return 'No action provided';
     } else {
-      action();
+      return action();
     }
   };
 
   return (
-    <Pressable onPress={handleRedirect}>
+    <Pressable testID={'FakeInputButton_Pressable'} onPress={handleRedirect}>
       <View>{children}</View>
     </Pressable>
   );
