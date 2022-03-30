@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1648590903915" clover="3.2.0">
-  <project timestamp="1648590903915" name="All files">
-    <metrics statements="5" coveredstatements="5" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3" elements="14" coveredelements="14" complexity="0" loc="5" ncloc="5" packages="1" files="1" classes="1"/>
-    <file name="HighlightedWord.tsx" path="/Users/noxcontest/Documents/Code/DogsApp/src/components/HighlightedWord.tsx">
-      <metrics statements="5" coveredstatements="5" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3"/>
-      <line num="11" count="1" type="stmt"/>
-      <line num="17" count="3" type="stmt"/>
-      <line num="19" count="10" type="stmt"/>
-      <line num="21" count="3" type="stmt"/>
-      <line num="25" count="8" type="cond" truecount="2" falsecount="0"/>
-    </file>
+<coverage generated="1648590992708" clover="3.2.0">
+  <project timestamp="1648590992708" name="All files">
+    <metrics statements="22" coveredstatements="22" conditionals="10" coveredconditionals="10" methods="6" coveredmethods="6" elements="38" coveredelements="38" complexity="0" loc="22" ncloc="22" packages="2" files="5" classes="5"/>
+    <package name="components">
+      <metrics statements="15" coveredstatements="15" conditionals="10" coveredconditionals="10" methods="6" coveredmethods="6"/>
+      <file name="CustomStatusBar.tsx" path="/Users/noxcontest/Documents/Code/DogsApp/src/components/CustomStatusBar.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="9" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+      </file>
+      <file name="GoBack.tsx" path="/Users/noxcontest/Documents/Code/DogsApp/src/components/GoBack.tsx">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+      </file>
+      <file name="HighlightedWord.tsx" path="/Users/noxcontest/Documents/Code/DogsApp/src/components/HighlightedWord.tsx">
+        <metrics statements="5" coveredstatements="5" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="19" count="10" type="stmt"/>
+        <line num="21" count="3" type="stmt"/>
+        <line num="25" count="8" type="cond" truecount="2" falsecount="0"/>
+      </file>
+      <file name="Loading.tsx" path="/Users/noxcontest/Documents/Code/DogsApp/src/components/Loading.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="16" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="17" count="5" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="utils">
+      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="constants.ts" path="/Users/noxcontest/Documents/Code/DogsApp/src/utils/constants.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>
