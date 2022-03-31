@@ -25,9 +25,9 @@ describe('ShareButton', () => {
 
   it('opens bottomsheet', () => {
     render(<ShareToBottomSheet ref={shareBottomSheetRef} />);
-    const {getByTestId: btnTestID} = render(<ShareButton uri={'foo'} />);
+    const {getByTestId} = render(<ShareButton uri={'foo'} />);
 
-    const btn = btnTestID('DefaultButton_TouchableOpacity');
+    const btn = getByTestId('DefaultButton_TouchableOpacity');
     const spy = jest.spyOn(shareBottomSheetRef.current, 'toggle');
 
     act(() => {

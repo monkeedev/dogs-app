@@ -107,13 +107,17 @@ const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
 
       setUri(u);
       setOpened(prev => !prev);
+
+      return v;
     },
   }));
 
   const Content = () => (
     <View testID={'ShareToBottomSheet_View'} style={styles.container}>
       <View style={styles.headerBlock}>
-        <Pressable onPress={() => ref.current.toggle()}>
+        <Pressable
+          testID={'ShareToBottomSheet_CloseBtn'}
+          onPress={() => ref.current.toggle()}>
           <Icon
             name={'close-sharp'}
             type={'ionicon'}
@@ -134,6 +138,7 @@ const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
         renderItem={({item}) => (
           <TouchableOpacity
             activeOpacity={0.85}
+            testID={`ShareToBottomSheet_Content_${item.placeholder}`}
             onPress={() => handleShareRef.current(uri, item.action)}>
             <View
               style={[styles.listItemIcon, {backgroundColor: item.bgColor}]}>
@@ -166,6 +171,7 @@ const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
         <TouchableOpacity
           style={{flex: 1}}
           activeOpacity={1}
+          testID={'ShareToBottomSheet_OpenBtn'}
           onPress={() => ref.current.toggle()}>
           <Animated.View
             style={[styles.bottomSheetBackgroundInner, bgOpacity]}

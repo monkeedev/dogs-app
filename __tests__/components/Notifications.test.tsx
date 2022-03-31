@@ -1,10 +1,8 @@
-import React, {Ref, RefObject} from 'react';
+import React from 'react';
 import renderer, {act} from 'react-test-renderer';
 import {render, fireEvent} from '@testing-library/react-native';
-import {shallow} from 'enzyme';
 import Notifications from '../../src/components/Notifications';
 import {notificationRef} from '../../src/utils/constants';
-import * as ReactNative from 'react-native';
 
 describe('Notifications', () => {
   it('matches snapshot', () => {
