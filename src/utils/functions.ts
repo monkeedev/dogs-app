@@ -161,7 +161,7 @@ const shareSingle = async (social: Social, url: string) => {
  * @param type destination
  */
 export const shareImage = async (uri: string, type: string) => {
-  if (uri === null || uri === '') {
+  if (!uri || uri === '' || typeof uri !== 'string') {
     return false;
   } else {
     const msg = `Look at this cute doggo!\n${uri}`;
@@ -190,11 +190,6 @@ export const shareImage = async (uri: string, type: string) => {
           }
           break;
 
-        case 'MailApp':
-          await shareSingle(Social.Email, uri);
-
-          break;
-
         case 'TelegramApp':
           link = `https://t.me/share/url?url=${encodeURI(
             uri,
@@ -211,19 +206,23 @@ export const shareImage = async (uri: string, type: string) => {
           }
           break;
 
+        case 'MailApp':
+          await shareSingle(Social.Email, uri);
+          break;
+
         case 'FacebookApp':
           await shareSingle(Social.Facebook, uri);
-
           break;
 
         case 'InstagramApp':
           await shareSingle(Social.Instagram, uri);
-
           break;
 
         default:
           break;
       }
+
+      return true;
     } catch (error) {
       throw new Error('' + error);
     }
@@ -275,9 +274,9 @@ export const checkImageCache = async (uri: string = '') => {
   const hash = sh2(uri);
 
   const path = RNFS.CachesDirectoryPath;
-  const filePath = `${
-    Platform.OS === 'ios' ? '' : 'file://'
-  }${path}/${hash}${uri.slice(uri.lastIndexOf('.'))}`;
+  const filePath = `${isAndroid() ? 'file://' : ''}${path}/${hash}${uri.slice(
+    uri.lastIndexOf('.'),
+  )}`;
 
   try {
     const doesFileExist = await RNFS.exists(filePath);
@@ -293,12 +292,14 @@ export const checkImageCache = async (uri: string = '') => {
         return filePath;
       } else {
         // TODO: return error
-        return '';
+        notificationRef.current?.show(ErrorMessages.Default, 'warning');
+        return false;
       }
     } else {
       return filePath;
     }
   } catch (error) {
+    notificationRef.current?.show(ErrorMessages.Default, 'warning');
     throw new Error('' + error);
   }
 };

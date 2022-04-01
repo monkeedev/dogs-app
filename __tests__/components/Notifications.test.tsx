@@ -1,18 +1,16 @@
 import React from 'react';
-import renderer, {act} from 'react-test-renderer';
+import {act, create} from 'react-test-renderer';
 import {render, fireEvent} from '@testing-library/react-native';
 import Notifications from '../../src/components/Notifications';
 import {notificationRef} from '../../src/utils/constants';
 
 describe('Notifications', () => {
   it('matches snapshot', () => {
-    act(() => {
-      const tree = renderer
-        .create(<Notifications ref={notificationRef} />)
-        .toJSON();
+    jest.useFakeTimers();
 
-      expect(tree).toMatchSnapshot();
-    });
+    const tree = create(<Notifications ref={notificationRef} />).toJSON();
+
+    expect(tree).toMatchSnapshot();
   });
 
   it('does not show notification with empty message', () => {

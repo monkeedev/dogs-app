@@ -1,3 +1,132 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Notifications matches snapshot 1`] = `null`;
+exports[`Notifications matches snapshot 1`] = `
+<View
+  animatedStyle={
+    Object {
+      "value": Object {
+        "backgroundColor": "rgba(2, 117, 216, 1)",
+        "transform": Array [
+          Object {
+            "translateY": 0,
+          },
+        ],
+      },
+    }
+  }
+  collapsable={false}
+  onLayout={[Function]}
+  style={
+    Object {
+      "backgroundColor": "rgba(2, 117, 216, 1)",
+      "left": 0,
+      "paddingTop": NaN,
+      "position": "absolute",
+      "top": -1334,
+      "transform": Array [
+        Object {
+          "translateY": 0,
+        },
+      ],
+    }
+  }
+  testID="Notification"
+>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+          "paddingBottom": 14,
+          "paddingHorizontal": 21,
+          "width": 750,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "overflow": "hidden",
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "transparent",
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              selectable={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#fffafb",
+                    "fontSize": 28,
+                  },
+                  Object {
+                    "backgroundColor": "transparent",
+                  },
+                  Object {
+                    "fontFamily": "Ionicons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+              testID="iconIcon"
+            >
+              
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flex": 1,
+            "paddingLeft": 7,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#fffafb",
+              "flexShrink": 1,
+              "fontSize": 16,
+              "fontWeight": "500",
+            }
+          }
+        >
+          
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

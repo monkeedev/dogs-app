@@ -1,4 +1,10 @@
+import React from 'react';
+import {render, act} from '@testing-library/react-native';
+import {notificationRef} from '../../src/utils/constants';
 import * as Functions from '../../src/utils/functions';
+import Notifications from '../../src/components/Notifications';
+import {Linking} from 'react-native';
+import {downloadFile, exists} from 'react-native-fs';
 
 const URI_LABRADOR =
   'https://images.dog.ceo/breeds/labrador/n02099712_5648.jpg';
@@ -135,5 +141,88 @@ describe('parseDog', () => {
   it('transforms multiple words', () => {
     const dog = Functions.parseDog('golden-retriever');
     expect(dog).toBe('Golden Retriever');
+  });
+});
+
+describe('shareImage', () => {
+  it('is not working with any other type but string or emprty strings', async () => {
+    const data = await Functions.shareImage('', '');
+    expect(data).toBe(false);
+  });
+
+  it('breaks on default', async () => {
+    const data = await Functions.shareImage('foo', '');
+    expect(data).toBe(true);
+  });
+
+  it('works with CopyLink', async () => {
+    render(<Notifications ref={notificationRef} />);
+    const spy = jest.spyOn(notificationRef.current, 'show');
+
+    await act(async () => {
+      const data = await Functions.shareImage('foo', 'CopyLink');
+
+      expect(spy).toHaveBeenCalled();
+      expect(data).toBe(true);
+    });
+  });
+
+  it('works with MsgApp', async () => {
+    const data = await Functions.shareImage('foo', 'MsgApp');
+
+    expect(data).toBe(true);
+  });
+
+  it('works with TelegramApp', async () => {
+    const data = await Functions.shareImage('foo', 'TelegramApp');
+
+    expect(data).toBe(true);
+  });
+
+  it('works with MailApp', async () => {
+    const data = await Functions.shareImage('foo', 'MailApp');
+
+    expect(data).toBe(true);
+  });
+
+  it('works with FacebookApp', async () => {
+    const data = await Functions.shareImage('foo', 'FacebookApp');
+
+    expect(data).toBe(true);
+  });
+
+  it('works with Instagram', async () => {
+    const data = await Functions.shareImage('foo', 'InstagramApp');
+
+    expect(data).toBe(true);
+  });
+
+  it('throws an error if app is not supported/installed', async () => {
+    Linking.canOpenURL.mockImplementationOnce(() => Promise.resolve(false));
+
+    const data = await Functions.shareImage('foo', 'InstagramApp');
+    expect(data).toBe(true);
+  });
+
+  it('throws an error if app is not supported/installed', async () => {
+    Linking.canOpenURL.mockImplementationOnce(() => Promise.reject());
+    const data = await Functions.shareImage('foo', 'InstagramApp').catch(err =>
+      expect(err).toBe(err),
+    );
+  });
+});
+
+describe('checkImageCache', () => {
+  it('works correctly if file exists', async () => {
+    exists.mockImplementationOnce(() => Promise.resolve(true));
+
+    const data = await Functions.checkImageCache('foo.jpg');
+    expect(data).toBe('test_cache/ZNg1gt.jpg');
+  });
+
+  it('throws an error if something is wrong', async () => {
+    await Functions.checkImageCache('foo.jpg').catch(err =>
+      expect(typeof err).toBe('object'),
+    );
   });
 });

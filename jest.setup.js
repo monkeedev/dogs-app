@@ -3,7 +3,7 @@ import {configure} from 'enzyme';
 import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 
 require('react-native-reanimated/lib/reanimated2/jestUtils').setUpTests();
-jest.useFakeTimers();
+// jest.useFakeTimers();
 
 configure({adapter: new Adapter()});
 
@@ -17,11 +17,23 @@ jest.mock('react-native-safe-area-context', () => ({
 
 jest.mock('react-native-share', () => ({
   Share: jest.fn(),
+  Social: jest.fn(),
+  shareSingle: jest.fn(),
 }));
 
-jest.mock('rn-fetch-blob', () => {});
+jest.mock('rn-fetch-blob', () => ({
+  config: () => ({
+    fetch: () => ({
+      readFile: jest.fn(),
+    }),
+  }),
+}));
 
-jest.mock('react-native-fs', () => {});
+jest.mock('react-native-fs', () => ({
+  CachesDirectoryPath: 'test_cache',
+  exists: jest.fn(),
+  downloadFile: jest.fn(),
+}));
 
 export const mockedNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
@@ -35,3 +47,5 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
 }));
+
+jest.mock('@react-native-clipboard/clipboard');
