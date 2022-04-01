@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmptyList matches snapshot 1`] = `
+<View>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontSize": 21,
+          "fontWeight": "bold",
+          "marginBottom": 7,
+          "textAlign": "center",
+        },
+        Object {
+          "color": "#2BD9A5",
+        },
+      ]
+    }
+  >
+    List is empty
+  </Text>
+  <View
+    style={
+      Object {
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "transparent",
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          selectable={false}
+          style={
+            Array [
+              Object {
+                "color": "#2BD9A5",
+                "fontSize": 28,
+              },
+              Object {
+                "backgroundColor": "transparent",
+              },
+              Object {
+                "fontFamily": "Ionicons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+          testID="iconIcon"
+        >
+          
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

@@ -23,8 +23,15 @@ jest.mock('rn-fetch-blob', () => {});
 
 jest.mock('react-native-fs', () => {});
 
+export const mockedNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({
+    navigate: mockedNavigate,
     goBack: () => jest.fn(),
   }),
+}));
+
+jest.mock('react-redux', () => ({
+  useSelector: jest.fn(),
+  useDispatch: jest.fn(),
 }));

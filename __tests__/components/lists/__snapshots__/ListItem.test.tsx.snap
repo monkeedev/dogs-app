@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListItem matches snapshot 1`] = `
+<View
+  animatedStyle={
+    Object {
+      "value": Object {},
+    }
+  }
+  collapsable={false}
+  style={
+    Object {
+      "flex": 1,
+      "marginHorizontal": 7,
+      "marginVertical": 7,
+      "maxWidth": 354,
+      "minHeight": 70,
+      "position": "relative",
+      "top": 28,
+    }
+  }
+  testID="DogImageListItem_View"
+>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+    testID="DogImageListItem_GalleryBtn"
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+    >
+      <View
+        animatedStyle={
+          Object {
+            "value": Object {
+              "backgroundColor": "transparent",
+              "opacity": 0.75,
+            },
+          }
+        }
+        collapsable={false}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "transparent",
+            "borderRadius": 999,
+            "elevation": 1,
+            "height": 35,
+            "justifyContent": "center",
+            "opacity": 0.75,
+            "position": "absolute",
+            "right": 7,
+            "top": 7,
+            "width": 35,
+            "zIndex": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "overflow": "hidden",
+            }
+          }
+        >
+          <View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                selectable={false}
+                style={
+                  Array [
+                    Object {
+                      "color": "#fffafb",
+                      "fontSize": 16,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                    },
+                    Object {
+                      "fontFamily": "Ionicons",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {},
+                  ]
+                }
+                testID="iconIcon"
+              >
+                
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#ededed",
+          "borderRadius": 20,
+          "height": 200,
+          "width": "100%",
+          "zIndex": -1,
+        }
+      }
+      testID="DogImageListItem_EmptyView"
+    />
+  </View>
+</View>
+`;

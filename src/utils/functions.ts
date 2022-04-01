@@ -13,20 +13,33 @@ import sh2 from 'shorthash2';
  * @returns array with possible variations with breed and subbreed
  */
 export const flatTree = (o: any): string[] => {
-  const _o = Object.assign({}, o);
-  const keys = Object.keys(_o);
+  if (Object.keys(o).length === 0) {
+    return [];
+  } else {
+    const _o = Object.assign({}, o);
+    const keys = Object.keys(_o).filter(i => Array.isArray(_o[i]));
+    const res = [];
 
-  for (let k in _o) {
-    if (_o[k].length > 0) {
-      let a = _o[k].map((i: string) => `${k}-${i}`);
+    for (let k in _o) {
+      if (!Array.isArray(_o[k])) {
+        continue;
+      } else {
+        if (_o[k].length === 0) {
+          res.push(k);
+        } else {
+          let a = _o[k]
+            .filter((i: any) => typeof i === 'string')
+            .map((i: string) => `${k}-${i}`);
 
-      let idx = keys.indexOf(k);
+          let idx = keys.indexOf(k);
 
-      keys.splice(idx, 1, ...a);
+          res.push(...a);
+        }
+      }
     }
-  }
 
-  return keys;
+    return res;
+  }
 };
 
 /**
@@ -38,17 +51,22 @@ export const flatTree = (o: any): string[] => {
  */
 export const findBreedInList = (list: string[], breed: string) => {
   const _arr = JSON.parse(JSON.stringify(list));
-  const splitted = breed.toLowerCase().split(' ');
+  const splitted = breed
+    .toLowerCase()
+    .split(' ')
+    .filter(i => i !== '');
 
   if (
     _arr.indexOf(splitted.join('-')) !== -1 ||
     _arr.indexOf(splitted.reverse().join('-')) !== -1
   ) {
+    // found something
     const normal = _arr.indexOf(splitted.join('-'));
     const reversed = _arr.indexOf(splitted.reverse().join('-'));
 
     return normal !== -1 ? _arr[normal] : _arr[reversed];
   } else {
+    // not found
     const res = _arr.filter((w: string) => {
       return splitted.filter(i => w.match(i)).length > 0;
     });
@@ -64,6 +82,8 @@ export const findBreedInList = (list: string[], breed: string) => {
  * @returns image
  */
 export const parseImage = (s: string) => {
+  if (s === '' || typeof s !== 'string') return '';
+
   const fromBreed = s.slice(s.indexOf('breeds'));
   const arr = fromBreed.split('/');
 
@@ -77,6 +97,8 @@ export const parseImage = (s: string) => {
  * @returns transformed string of dog breed
  */
 export const getBreed = (uri: string) => {
+  if (uri === '' || typeof uri !== 'string') return '';
+
   const fromBreed = uri.slice(uri.indexOf('breeds'));
   let breed = fromBreed.split('/')[1];
 
@@ -84,7 +106,8 @@ export const getBreed = (uri: string) => {
     breed = breed.split('-')[0];
   }
 
-  if (breed.toLowerCase() === 'pyrenees') {
+  const breedLow = breed.toLowerCase();
+  if (breedLow.indexOf('ees') === breedLow.length - 3) {
     return breed;
   } else {
     return `${breed}s`;
@@ -214,7 +237,7 @@ export const shareImage = async (uri: string, type: string) => {
  * @returns word transformed to camel case
  */
 const transformToCamelCase = (word: string) => {
-  if (word && typeof word === 'string') {
+  if (word && typeof word === 'string' && word !== '') {
     return `${word[0].toUpperCase()}${word.slice(1)}`;
   }
 };
@@ -226,7 +249,7 @@ const transformToCamelCase = (word: string) => {
  * @returns string transformed to camel case
  */
 export const parseDog = (str: string) => {
-  if (!str) {
+  if (!str || str === '' || typeof str !== 'string') {
     return '';
   } else {
     const words = str.split('-');
@@ -237,7 +260,7 @@ export const parseDog = (str: string) => {
       const f = transformToCamelCase(words[0]);
       const s = transformToCamelCase(words[1]);
 
-      return `${s} ${f}`;
+      return `${f} ${s}`;
     }
   }
 };

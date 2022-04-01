@@ -14,7 +14,7 @@ import GoBack from '../../components/GoBack';
 import {RootStackParamList} from '../Navigator/routes';
 import {ListHeader} from './Components/ListHeader';
 import {parseImage} from '../../utils/functions';
-import ListItem from '../../components/lists/ListItem';
+import DogImageListItem from '../../components/lists/ListItem';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -28,6 +28,7 @@ import Api from '../../api/requests';
 import {PanGestureHandler, ScrollView} from 'react-native-gesture-handler';
 import SeeMore from './Components/SeeMore';
 import CustomStatusBar from '../../components/CustomStatusBar';
+import Loading from '../../components/Loading';
 
 const FETCH_QUANTITY = 4;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
@@ -40,7 +41,7 @@ const PLATFORM_BORDER = Platform.select({
 });
 
 const renderItem = (uri: string, idx: number) => {
-  return <ListItem uri={uri} idx={idx} />;
+  return <DogImageListItem uri={uri} idx={idx} />;
 };
 
 const GalleryModal = () => {
@@ -169,7 +170,7 @@ const GalleryModal = () => {
     <View style={styles.container}>
       <CustomStatusBar
         backgroundColor={'transparent'}
-        barStyle={'dark-content'}
+        barStyle={'light-content'}
       />
 
       <View style={styles.header}>
@@ -190,22 +191,26 @@ const GalleryModal = () => {
         </Animated.View>
       </View>
 
-      <PanGestureHandler onGestureEvent={gestureHandler}>
-        <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
-          <FlatList
-            data={data}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            scrollEnabled={false}
-            keyExtractor={parseImage}
-            contentContainerStyle={styles.list}
-            renderItem={({item, index}) => renderItem(item, index)}
-            bounces={false}
-            ListHeaderComponent={() => <ListHeader uri={params.uri} />}
-            ListFooterComponent={() => <SeeMore search={params.search ?? ''} />}
-          />
-        </Animated.View>
-      </PanGestureHandler>
+      {size.height !== 0 && (
+        <PanGestureHandler onGestureEvent={gestureHandler}>
+          <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
+            <FlatList
+              data={data}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              scrollEnabled={false}
+              keyExtractor={parseImage}
+              contentContainerStyle={styles.list}
+              renderItem={({item, index}) => renderItem(item, index)}
+              bounces={false}
+              ListHeaderComponent={() => <ListHeader uri={params.uri} />}
+              ListFooterComponent={() => (
+                <SeeMore search={params.search ?? ''} />
+              )}
+            />
+          </Animated.View>
+        </PanGestureHandler>
+      )}
     </View>
   );
 };
@@ -213,6 +218,7 @@ const GalleryModal = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
+    height: Dimensions.get('screen').height,
   },
   header: {
     position: 'absolute',

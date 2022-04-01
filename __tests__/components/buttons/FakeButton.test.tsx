@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {shallow} from 'enzyme';
 import {Text} from 'react-native';
 import FakeInputButton from '../../../src/components/buttons/FakeInputButton';
 import {render, fireEvent, act} from '@testing-library/react-native';

@@ -4,12 +4,12 @@ import GoBack from '../../src/components/GoBack';
 import {shallow} from 'enzyme';
 
 describe('GoBack', () => {
-  it('snapshot', () => {
+  it('matches snapshot', () => {
     const tree = renderer.create(<GoBack />).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
-  it('event', () => {
+  it('triggers event', () => {
     const wrapper = shallow(<GoBack />)
       .find({testID: 'GoBack_Button'})
       .first();

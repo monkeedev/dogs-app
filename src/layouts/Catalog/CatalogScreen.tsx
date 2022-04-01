@@ -1,6 +1,6 @@
 import {View, StyleSheet, ActivityIndicator, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import ListItem from '../../components/lists/ListItem';
+import DogImageListItem from '../../components/lists/ListItem';
 import {colors, text} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,7 +18,7 @@ import FakeInputButton from '../../components/buttons/FakeInputButton';
 import SearchInput from '../../components/inputs/SearchInput';
 
 const renderItem = (uri: string, idx: number) => {
-  return <ListItem uri={uri} idx={idx} />;
+  return <DogImageListItem uri={uri} idx={idx} />;
 };
 
 const CatalogScreen = () => {

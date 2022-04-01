@@ -32,7 +32,7 @@ const SearchInput = ({
         color={colors.gray}
       />
       {isDisabled ? (
-        <View style={styles.input}>
+        <View testID={'SearchInput_Disabled'} style={styles.input}>
           <Text
             style={
               isPlaceholderForDisabledInputPresent

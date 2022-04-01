@@ -73,51 +73,17 @@ const ICONS = [
   },
 ];
 
-const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
-  const [isOpened, setOpened] = useState(false);
-  const [uri, setUri] = useState('');
-
+const BottomSheet = ({refLink, uri}) => {
   const handleShareRef = useRef(async (uri: string, type: string) => {
     await shareImage(uri, type);
   });
 
-  const bottomSheet = useSharedValue(0);
-
-  const bgOpacity = useAnimatedStyle(() => ({
-    opacity: interpolate(bottomSheet.value, [0, 1], [0, 0.85]),
-  }));
-
-  const translation = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: interpolate(
-          bottomSheet.value,
-          [0, 1],
-          [PANEL_HEIGHT, 0],
-          Extrapolate.CLAMP,
-        ),
-      },
-    ],
-  }));
-
-  useImperativeHandle(ref, () => ({
-    toggle: (u: string) => {
-      const v = bottomSheet.value === 0 ? 1 : 0;
-      bottomSheet.value = withSpring(v, springConfig);
-
-      setUri(u);
-      setOpened(prev => !prev);
-
-      return v;
-    },
-  }));
-
-  const Content = () => (
+  return (
     <View testID={'ShareToBottomSheet_View'} style={styles.container}>
       <View style={styles.headerBlock}>
         <Pressable
           testID={'ShareToBottomSheet_CloseBtn'}
-          onPress={() => ref.current.toggle()}>
+          onPress={() => refLink.current.toggle()}>
           <Icon
             name={'close-sharp'}
             type={'ionicon'}
@@ -157,13 +123,47 @@ const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
       />
     </View>
   );
+};
+
+const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
+  const [isOpened, setOpened] = useState(false);
+  const [uri, setUri] = useState('');
+
+  const bottomSheet = useSharedValue(0);
+
+  const bgOpacity = useAnimatedStyle(() => ({
+    opacity: interpolate(bottomSheet.value, [0, 1], [0, 0.85]),
+  }));
+
+  const translation = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: interpolate(
+          bottomSheet.value,
+          [0, 1],
+          [PANEL_HEIGHT, 0],
+          Extrapolate.CLAMP,
+        ),
+      },
+    ],
+  }));
+
+  useImperativeHandle(ref, () => ({
+    toggle: (u: string) => {
+      const v = bottomSheet.value === 0 ? 1 : 0;
+      bottomSheet.value = withSpring(v, springConfig);
+
+      setUri(u);
+      setOpened(prev => !prev);
+    },
+  }));
 
   return (
     <>
       <Animated.View
         ref={ref}
         style={[styles.bottomSheetContainer, translation]}>
-        <Content />
+        <BottomSheet uri={uri} refLink={ref} />
       </Animated.View>
       <View
         style={styles.bottomSheetBackgroundContainer}

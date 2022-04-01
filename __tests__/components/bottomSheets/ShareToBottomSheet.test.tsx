@@ -4,6 +4,8 @@ import ShareToBottomSheet from '../../../src/components/bottomSheets/ShareToBott
 import {shareBottomSheetRef} from '../../../src/utils/constants';
 import {render, fireEvent, act} from '@testing-library/react-native';
 
+// TODO: pointerEvents issue
+
 describe('ShareToBottomSheet', () => {
   it('matches snapshot', () => {
     const tree = create(
@@ -32,23 +34,13 @@ describe('ShareToBottomSheet', () => {
       <ShareToBottomSheet ref={shareBottomSheetRef} />,
     );
     const btn = getByTestId('ShareToBottomSheet_CloseBtn');
-    const evt = fireEvent(btn, 'onPress');
+    const spy = jest.spyOn(shareBottomSheetRef.current, 'toggle');
 
-    expect(evt).toBe(1);
+    act(() => {
+      const evt = fireEvent(btn, 'onPress');
+
+      expect(spy).toHaveBeenCalled();
+      expect(evt).toBeUndefined();
+    });
   });
-
-  // it('opens and hides bottomsheet when pressing on a specified buttons', () => {
-  //   const {getByTestId} = render(
-  //     <ShareToBottomSheet ref={shareBottomSheetRef} />,
-  //   );
-  //   const oBtn = getByTestId('ShareToBottomSheet_OpenBtn');
-  //   const cBtn = getByTestId('ShareToBottomSheet_CloseBtn');
-
-  //   act(() => {
-  //     // open bottomsheet
-  //     const oEvt = fireEvent(oBtn, 'onPress');
-  //     console.log('@', oEvt);
-  //     expect(oEvt).toBe(1);
-  //   });
-  // });
 });
