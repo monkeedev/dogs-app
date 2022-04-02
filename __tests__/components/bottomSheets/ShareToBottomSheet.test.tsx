@@ -5,7 +5,6 @@ import {shareBottomSheetRef} from '../../../src/utils/constants';
 import {render, fireEvent, act} from '@testing-library/react-native';
 
 // TODO: pointerEvents issue
-
 describe('ShareToBottomSheet', () => {
   it('matches snapshot', () => {
     const tree = create(

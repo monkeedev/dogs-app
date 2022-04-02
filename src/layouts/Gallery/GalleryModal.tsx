@@ -14,7 +14,7 @@ import GoBack from '../../components/GoBack';
 import {RootStackParamList} from '../Navigator/routes';
 import {ListHeader} from './Components/ListHeader';
 import {parseImage} from '../../utils/functions';
-import DogImageListItem from '../../components/lists/ListItem';
+import DogImageListItem from '../../components/lists/DogImageListItem';
 import Animated, {
   Extrapolate,
   interpolate,

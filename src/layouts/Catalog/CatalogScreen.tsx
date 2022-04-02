@@ -1,6 +1,6 @@
 import {View, StyleSheet, ActivityIndicator, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import DogImageListItem from '../../components/lists/ListItem';
+import DogImageListItem from '../../components/lists/DogImageListItem';
 import {colors, text} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {useDispatch, useSelector} from 'react-redux';

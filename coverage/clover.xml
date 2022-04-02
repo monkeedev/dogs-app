@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1648854331380" clover="3.2.0">
-  <project timestamp="1648854331380" name="All files">
-    <metrics statements="251" coveredstatements="240" conditionals="130" coveredconditionals="110" methods="62" coveredmethods="53" elements="443" coveredelements="403" complexity="0" loc="251" ncloc="251" packages="9" files="18" classes="18"/>
+<coverage generated="1648900822312" clover="3.2.0">
+  <project timestamp="1648900822312" name="All files">
+    <metrics statements="251" coveredstatements="242" conditionals="130" coveredconditionals="111" methods="62" coveredmethods="54" elements="443" coveredelements="407" complexity="0" loc="251" ncloc="251" packages="9" files="18" classes="18"/>
     <package name="components">
       <metrics statements="45" coveredstatements="45" conditionals="15" coveredconditionals="15" methods="12" coveredmethods="12"/>
       <file name="CustomStatusBar.tsx" path="/Users/noxcontest/Documents/Code/DogsApp/src/components/CustomStatusBar.tsx">
@@ -43,7 +43,7 @@
         <line num="37" count="7" type="stmt"/>
         <line num="39" count="7" type="stmt"/>
         <line num="40" count="7" type="stmt"/>
-        <line num="42" count="7" type="stmt"/>
+        <line num="42" count="8" type="stmt"/>
         <line num="60" count="7" type="stmt"/>
         <line num="65" count="7" type="stmt"/>
         <line num="67" count="4" type="stmt"/>
@@ -136,41 +136,41 @@
       </file>
     </package>
     <package name="components.lists">
-      <metrics statements="29" coveredstatements="26" conditionals="20" coveredconditionals="14" methods="9" coveredmethods="6"/>
+      <metrics statements="29" coveredstatements="28" conditionals="20" coveredconditionals="16" methods="9" coveredmethods="7"/>
+      <file name="DogImageListItem.tsx" path="/Users/noxcontest/Documents/Code/DogsApp/src/components/lists/DogImageListItem.tsx">
+        <metrics statements="26" coveredstatements="25" conditionals="14" coveredconditionals="10" methods="8" coveredmethods="6"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="11" type="stmt"/>
+        <line num="32" count="11" type="stmt"/>
+        <line num="33" count="11" type="stmt"/>
+        <line num="35" count="11" type="stmt"/>
+        <line num="37" count="11" type="stmt"/>
+        <line num="39" count="11" type="stmt"/>
+        <line num="40" count="15" type="stmt"/>
+        <line num="45" count="15" type="stmt"/>
+        <line num="50" count="15" type="cond" truecount="1" falsecount="1"/>
+        <line num="53" count="11" type="stmt"/>
+        <line num="55" count="11" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="64" count="11" type="stmt"/>
+        <line num="65" count="5" type="stmt"/>
+        <line num="67" count="5" type="stmt"/>
+        <line num="68" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="69" count="5" type="stmt"/>
+        <line num="73" count="5" type="stmt"/>
+        <line num="74" count="4" type="stmt"/>
+        <line num="78" count="11" type="cond" truecount="4" falsecount="0"/>
+        <line num="119" count="1" type="stmt"/>
+      </file>
       <file name="EmptyList.tsx" path="/Users/noxcontest/Documents/Code/DogsApp/src/components/lists/EmptyList.tsx">
         <metrics statements="3" coveredstatements="3" conditionals="6" coveredconditionals="6" methods="1" coveredmethods="1"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
-      </file>
-      <file name="ListItem.tsx" path="/Users/noxcontest/Documents/Code/DogsApp/src/components/lists/ListItem.tsx">
-        <metrics statements="26" coveredstatements="23" conditionals="14" coveredconditionals="8" methods="8" coveredmethods="5"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="30" count="1" type="stmt"/>
-        <line num="31" count="6" type="stmt"/>
-        <line num="32" count="6" type="stmt"/>
-        <line num="33" count="6" type="stmt"/>
-        <line num="35" count="6" type="stmt"/>
-        <line num="37" count="6" type="stmt"/>
-        <line num="39" count="6" type="stmt"/>
-        <line num="40" count="15" type="stmt"/>
-        <line num="45" count="15" type="stmt"/>
-        <line num="50" count="15" type="cond" truecount="1" falsecount="1"/>
-        <line num="53" count="6" type="stmt"/>
-        <line num="55" count="6" type="stmt"/>
-        <line num="56" count="1" type="stmt"/>
-        <line num="61" count="1" type="stmt"/>
-        <line num="64" count="6" type="stmt"/>
-        <line num="65" count="5" type="stmt"/>
-        <line num="67" count="5" type="stmt"/>
-        <line num="68" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="69" count="0" type="stmt"/>
-        <line num="73" count="5" type="stmt"/>
-        <line num="74" count="4" type="stmt"/>
-        <line num="78" count="6" type="cond" truecount="4" falsecount="0"/>
-        <line num="119" count="1" type="stmt"/>
       </file>
     </package>
     <package name="redux">
@@ -198,19 +198,19 @@
       </file>
     </package>
     <package name="utils">
-      <metrics statements="125" coveredstatements="119" conditionals="67" coveredconditionals="56" methods="16" coveredmethods="16"/>
+      <metrics statements="125" coveredstatements="119" conditionals="67" coveredconditionals="55" methods="16" coveredmethods="16"/>
       <file name="constants.ts" path="/Users/noxcontest/Documents/Code/DogsApp/src/utils/constants.ts">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="4" count="9" type="stmt"/>
-        <line num="15" count="9" type="stmt"/>
-        <line num="24" count="9" type="stmt"/>
-        <line num="26" count="9" type="stmt"/>
-        <line num="28" count="9" type="stmt"/>
-        <line num="32" count="9" type="stmt"/>
-        <line num="40" count="9" type="stmt"/>
+        <line num="4" count="10" type="stmt"/>
+        <line num="15" count="10" type="stmt"/>
+        <line num="24" count="10" type="stmt"/>
+        <line num="26" count="10" type="stmt"/>
+        <line num="28" count="10" type="stmt"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="40" count="10" type="stmt"/>
       </file>
       <file name="functions.ts" path="/Users/noxcontest/Documents/Code/DogsApp/src/utils/functions.ts">
-        <metrics statements="118" coveredstatements="112" conditionals="67" coveredconditionals="56" methods="16" coveredmethods="16"/>
+        <metrics statements="118" coveredstatements="112" conditionals="67" coveredconditionals="55" methods="16" coveredmethods="16"/>
         <line num="15" count="4" type="stmt"/>
         <line num="16" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="17" count="1" type="stmt"/>
@@ -313,22 +313,22 @@
         <line num="259" count="1" type="stmt"/>
         <line num="260" count="1" type="stmt"/>
         <line num="262" count="1" type="stmt"/>
-        <line num="273" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="274" count="7" type="stmt"/>
-        <line num="276" count="7" type="stmt"/>
-        <line num="277" count="7" type="cond" truecount="1" falsecount="1"/>
-        <line num="281" count="7" type="stmt"/>
-        <line num="282" count="7" type="stmt"/>
-        <line num="285" count="7" type="cond" truecount="2" falsecount="0"/>
-        <line num="286" count="6" type="stmt"/>
+        <line num="273" count="4" type="cond" truecount="0" falsecount="1"/>
+        <line num="274" count="2" type="stmt"/>
+        <line num="276" count="2" type="stmt"/>
+        <line num="277" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="281" count="2" type="stmt"/>
+        <line num="282" count="2" type="stmt"/>
+        <line num="285" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="286" count="1" type="stmt"/>
         <line num="291" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="292" count="0" type="stmt"/>
         <line num="295" count="0" type="stmt"/>
         <line num="296" count="0" type="stmt"/>
         <line num="299" count="1" type="stmt"/>
-        <line num="302" count="6" type="stmt"/>
-        <line num="303" count="6" type="stmt"/>
-        <line num="308" count="7" type="stmt"/>
+        <line num="302" count="1" type="stmt"/>
+        <line num="303" count="1" type="stmt"/>
+        <line num="308" count="4" type="stmt"/>
       </file>
       <file name="types.ts" path="/Users/noxcontest/Documents/Code/DogsApp/src/utils/types.ts">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>

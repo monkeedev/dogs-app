@@ -12,7 +12,7 @@ import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, text} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {parseImage} from '../../utils/functions';
-import DogImageListItem from '../../components/lists/ListItem';
+import DogImageListItem from '../../components/lists/DogImageListItem';
 import EmptyList from '../../components/lists/EmptyList';
 import Animated, {
   Extrapolate,
