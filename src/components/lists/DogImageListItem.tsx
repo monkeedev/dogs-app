@@ -27,7 +27,7 @@ const areEqual = (prev: Readonly<Props>, next: Readonly<Props>) => {
   return prev.uri === next.uri && prev.idx === next.idx;
 };
 
-const ListItem = ({uri, idx}: Props) => {
+const DogImageListItem = ({uri, idx}: Props) => {
   const {bookmarks} = useSelector(getDogsCatalog);
   const dispatch = useDispatch();
   const {navigate} = useNavigation<any>();
@@ -75,8 +75,9 @@ const ListItem = ({uri, idx}: Props) => {
     };
   }, []);
 
-  return (
+  return typeof uri !== 'string' || uri === '' ? null : (
     <Animated.View
+      testID={'DogImageListItem_View'}
       style={[
         styles.container,
         {
@@ -84,31 +85,38 @@ const ListItem = ({uri, idx}: Props) => {
           top: idx % 2 !== 0 ? 28 : 0,
         },
       ]}>
-      {uri === '' ? null : (
-        <TouchableOpacity activeOpacity={0.9} onPress={openGallery}>
-          <Pressable onPress={handleSave}>
-            <Animated.View style={[styles.icon, bStyle]}>
-              <Icon
-                type={'ionicon'}
-                name={`bookmarks`}
-                color={colors.white}
-                size={16}
-              />
-            </Animated.View>
-          </Pressable>
+      <TouchableOpacity
+        testID={'DogImageListItem_GalleryBtn'}
+        activeOpacity={0.9}
+        onPress={openGallery}>
+        <Pressable onPress={handleSave}>
+          <Animated.View
+            testID={'DogImageListItem_Bookmarks'}
+            style={[styles.icon, bStyle]}>
+            <Icon
+              type={'ionicon'}
+              name={`bookmarks`}
+              color={colors.white}
+              size={16}
+            />
+          </Animated.View>
+        </Pressable>
 
-          {img !== '' ? (
-            <Image source={{uri: img}} style={styles.image} />
-          ) : (
-            <View style={styles.image} />
-          )}
-        </TouchableOpacity>
-      )}
+        {img !== '' ? (
+          <Image
+            testID={'DogImageListItem_Image'}
+            source={{uri: img}}
+            style={styles.image}
+          />
+        ) : (
+          <View testID={'DogImageListItem_EmptyView'} style={styles.image} />
+        )}
+      </TouchableOpacity>
     </Animated.View>
   );
 };
 
-export default React.memo(ListItem, areEqual);
+export default React.memo(DogImageListItem, areEqual);
 
 const styles = StyleSheet.create({
   container: {

@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchInput matches snapshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "flex-end",
+      "backgroundColor": "#fffafb",
+      "borderRadius": 999,
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "marginVertical": 7,
+      "overflow": "hidden",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "borderRadius": 36,
+          "height": 36,
+          "justifyContent": "center",
+          "left": 7,
+          "position": "relative",
+          "width": 36,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "transparent",
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          selectable={false}
+          style={
+            Array [
+              Object {
+                "color": "#bbb",
+                "fontSize": 21,
+              },
+              Object {
+                "backgroundColor": "transparent",
+              },
+              Object {
+                "fontFamily": "Ionicons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+          testID="iconIcon"
+        >
+          
+        </Text>
+      </View>
+    </View>
+  </View>
+  <TextInput
+    placeholderTextColor="#bbb"
+    style={
+      Object {
+        "color": "#131515",
+        "flex": 1,
+        "height": 36,
+        "justifyContent": "center",
+        "marginRight": 14,
+        "padding": 7,
+      }
+    }
+    testID="SearchInput_Input"
+    value=""
+  />
+</View>
+`;

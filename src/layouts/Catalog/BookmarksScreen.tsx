@@ -12,7 +12,7 @@ import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, text} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {parseImage} from '../../utils/functions';
-import ListItem from '../../components/lists/ListItem';
+import DogImageListItem from '../../components/lists/DogImageListItem';
 import EmptyList from '../../components/lists/EmptyList';
 import Animated, {
   Extrapolate,
@@ -24,7 +24,7 @@ import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {MainStyles} from '../../assets/styles/MainStyles';
 
 const renderItem = (uri: string, idx: number) => {
-  return <ListItem uri={uri} idx={idx} />;
+  return <DogImageListItem uri={uri} idx={idx} />;
 };
 
 const BookmarksScreen = () => {
@@ -85,6 +85,7 @@ const BookmarksScreen = () => {
       </View>
 
       <Animated.FlatList
+        testID={'BookmarksScreen_List'}
         data={data}
         numColumns={2}
         showsVerticalScrollIndicator={false}

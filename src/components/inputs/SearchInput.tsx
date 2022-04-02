@@ -32,7 +32,7 @@ const SearchInput = ({
         color={colors.gray}
       />
       {isDisabled ? (
-        <View style={styles.input}>
+        <View testID={'SearchInput_Disabled'} style={styles.input}>
           <Text
             style={
               isPlaceholderForDisabledInputPresent
@@ -48,6 +48,7 @@ const SearchInput = ({
           value={value}
           placeholder={placeholder}
           placeholderTextColor={colors.gray}
+          testID={'SearchInput_Input'}
           onChangeText={action}
           autoFocus={isAutofocused}
         />

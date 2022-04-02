@@ -1,4 +1,4 @@
-import {View, Text, TextStyle, StyleSheet} from 'react-native';
+import {View, Text, TextStyle} from 'react-native';
 import React from 'react';
 
 interface Props {
@@ -14,7 +14,9 @@ const HighlightedWord = ({
   style = null,
   highlightStyle = null,
 }: Props) => {
-  const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+  const parts = text
+    .split(new RegExp(`(${highlight})`, 'gi'))
+    .filter(i => i !== '');
 
   return (
     <View>
@@ -22,6 +24,7 @@ const HighlightedWord = ({
         {parts.map((i, k) =>
           i.toLowerCase() === highlight.toLowerCase() ? (
             <Text
+              testID={`Highlighted`}
               key={`${text}-${k}`}
               style={highlightStyle ?? {fontWeight: '800'}}>
               {i}

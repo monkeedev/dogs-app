@@ -3,6 +3,7 @@ import React from 'react';
 import DefaultButton from '../../../components/buttons/DefaultButton';
 import {colors, ExtendedNavigationProp, text} from '../../../utils/constants';
 import {useNavigation} from '@react-navigation/native';
+import {parseDog} from '../../../utils/functions';
 
 interface Props {
   search: string;
@@ -18,7 +19,7 @@ const SeeMore = ({search}: Props) => {
     navigate('CatalogTabs', {
       screen: 'Catalog',
       params: {
-        search,
+        search: parseDog(search),
       },
     });
   };

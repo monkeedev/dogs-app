@@ -1,0 +1,937 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShareToBottomSheet matches snapshot 1`] = `
+Array [
+  <View
+    animatedStyle={
+      Object {
+        "value": Object {
+          "transform": Array [
+            Object {
+              "translateY": 177,
+            },
+          ],
+        },
+      }
+    }
+    collapsable={false}
+    forwardedRef={
+      Object {
+        "current": Object {
+          "toggle": [Function],
+        },
+      }
+    }
+    style={
+      Object {
+        "bottom": 0,
+        "height": 177,
+        "position": "absolute",
+        "transform": Array [
+          Object {
+            "translateY": 177,
+          },
+        ],
+        "zIndex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "#fffafb",
+          "borderTopLeftRadius": 14,
+          "borderTopRightRadius": 14,
+          "height": "100%",
+          "paddingBottom": 14,
+          "paddingTop": 21,
+          "width": 750,
+        }
+      }
+      testID="ShareToBottomSheet_View"
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+            "marginLeft": 14,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="ShareToBottomSheet_CloseBtn"
+        >
+          <View
+            style={
+              Object {
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "transparent",
+                    "justifyContent": "center",
+                  }
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  selectable={false}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#2E8A6E",
+                        "fontSize": 21,
+                      },
+                      Object {
+                        "backgroundColor": "transparent",
+                      },
+                      Object {
+                        "fontFamily": "Ionicons",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                      Object {},
+                    ]
+                  }
+                  testID="iconIcon"
+                >
+                  
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <Text
+          style={
+            Object {
+              "color": "#2b2c2c",
+              "fontSize": 21,
+              "fontWeight": "900",
+              "marginLeft": 7,
+            }
+          }
+        >
+          Share doggo
+        </Text>
+      </View>
+      <RCTScrollView
+        ItemSeparatorComponent={[Function]}
+        contentContainerStyle={
+          Object {
+            "marginTop": 21,
+            "paddingHorizontal": 14,
+          }
+        }
+        data={
+          Array [
+            Object {
+              "action": "CopyLink",
+              "bgColor": "#2E8A6E",
+              "iconColor": "light",
+              "name": "link-2",
+              "placeholder": "Link",
+              "type": "feather",
+            },
+            Object {
+              "action": "MsgApp",
+              "bgColor": "#2E8A6E",
+              "iconColor": "light",
+              "name": "message-circle",
+              "placeholder": "Message",
+              "type": "feather",
+            },
+            Object {
+              "action": "MailApp",
+              "bgColor": "#2E8A6E",
+              "iconColor": "light",
+              "name": "mail",
+              "placeholder": "Mail",
+              "type": "feather",
+            },
+            Object {
+              "action": "TelegramApp",
+              "bgColor": "#2E8A6E",
+              "iconColor": "light",
+              "name": "paper-plane",
+              "placeholder": "Telegram",
+              "type": "ionicon",
+            },
+            Object {
+              "action": "FacebookApp",
+              "bgColor": "#2E8A6E",
+              "iconColor": "light",
+              "name": "facebook",
+              "placeholder": "Facebook",
+              "type": "feather",
+            },
+            Object {
+              "action": "InstagramApp",
+              "bgColor": "#2E8A6E",
+              "iconColor": "light",
+              "name": "instagram",
+              "placeholder": "Instagram",
+              "type": "feather",
+            },
+          ]
+        }
+        getItem={[Function]}
+        getItemCount={[Function]}
+        horizontal={true}
+        keyExtractor={[Function]}
+        onContentSizeChange={[Function]}
+        onLayout={[Function]}
+        onMomentumScrollBegin={[Function]}
+        onMomentumScrollEnd={[Function]}
+        onScroll={[Function]}
+        onScrollBeginDrag={[Function]}
+        onScrollEndDrag={[Function]}
+        removeClippedSubviews={false}
+        renderItem={[Function]}
+        scrollEventThrottle={50}
+        showsHorizontalScrollIndicator={false}
+        stickyHeaderIndices={Array []}
+        viewabilityConfigCallbackPairs={Array []}
+      >
+        <View>
+          <View
+            onLayout={[Function]}
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+              testID="ShareToBottomSheet_Content_Link"
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "borderRadius": 56,
+                      "height": 56,
+                      "justifyContent": "center",
+                      "width": 56,
+                    },
+                    Object {
+                      "backgroundColor": "#2E8A6E",
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                    }
+                  }
+                >
+                  <View>
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "transparent",
+                          "justifyContent": "center",
+                        }
+                      }
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        selectable={false}
+                        style={
+                          Array [
+                            Object {
+                              "color": "#fffafb",
+                              "fontSize": 28,
+                            },
+                            Object {
+                              "backgroundColor": "transparent",
+                            },
+                            Object {
+                              "fontFamily": "Feather",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            },
+                            Object {},
+                          ]
+                        }
+                        testID="iconIcon"
+                      >
+                        
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <Text
+                numberOfLines={2}
+                style={
+                  Object {
+                    "color": "#2b2c2c",
+                    "fontSize": 12,
+                    "marginTop": 3.5,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                Link
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "width": 14,
+                }
+              }
+            />
+          </View>
+          <View
+            onLayout={[Function]}
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+              testID="ShareToBottomSheet_Content_Message"
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "borderRadius": 56,
+                      "height": 56,
+                      "justifyContent": "center",
+                      "width": 56,
+                    },
+                    Object {
+                      "backgroundColor": "#2E8A6E",
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                    }
+                  }
+                >
+                  <View>
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "transparent",
+                          "justifyContent": "center",
+                        }
+                      }
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        selectable={false}
+                        style={
+                          Array [
+                            Object {
+                              "color": "#fffafb",
+                              "fontSize": 28,
+                            },
+                            Object {
+                              "backgroundColor": "transparent",
+                            },
+                            Object {
+                              "fontFamily": "Feather",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            },
+                            Object {},
+                          ]
+                        }
+                        testID="iconIcon"
+                      >
+                        
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <Text
+                numberOfLines={2}
+                style={
+                  Object {
+                    "color": "#2b2c2c",
+                    "fontSize": 12,
+                    "marginTop": 3.5,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                Message
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "width": 14,
+                }
+              }
+            />
+          </View>
+          <View
+            onLayout={[Function]}
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+              testID="ShareToBottomSheet_Content_Mail"
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "borderRadius": 56,
+                      "height": 56,
+                      "justifyContent": "center",
+                      "width": 56,
+                    },
+                    Object {
+                      "backgroundColor": "#2E8A6E",
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                    }
+                  }
+                >
+                  <View>
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "transparent",
+                          "justifyContent": "center",
+                        }
+                      }
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        selectable={false}
+                        style={
+                          Array [
+                            Object {
+                              "color": "#fffafb",
+                              "fontSize": 28,
+                            },
+                            Object {
+                              "backgroundColor": "transparent",
+                            },
+                            Object {
+                              "fontFamily": "Feather",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            },
+                            Object {},
+                          ]
+                        }
+                        testID="iconIcon"
+                      >
+                        
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <Text
+                numberOfLines={2}
+                style={
+                  Object {
+                    "color": "#2b2c2c",
+                    "fontSize": 12,
+                    "marginTop": 3.5,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                Mail
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "width": 14,
+                }
+              }
+            />
+          </View>
+          <View
+            onLayout={[Function]}
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+              testID="ShareToBottomSheet_Content_Telegram"
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "borderRadius": 56,
+                      "height": 56,
+                      "justifyContent": "center",
+                      "width": 56,
+                    },
+                    Object {
+                      "backgroundColor": "#2E8A6E",
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                    }
+                  }
+                >
+                  <View>
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "transparent",
+                          "justifyContent": "center",
+                        }
+                      }
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        selectable={false}
+                        style={
+                          Array [
+                            Object {
+                              "color": "#fffafb",
+                              "fontSize": 28,
+                            },
+                            Object {
+                              "backgroundColor": "transparent",
+                            },
+                            Object {
+                              "fontFamily": "Ionicons",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            },
+                            Object {},
+                          ]
+                        }
+                        testID="iconIcon"
+                      >
+                        
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <Text
+                numberOfLines={2}
+                style={
+                  Object {
+                    "color": "#2b2c2c",
+                    "fontSize": 12,
+                    "marginTop": 3.5,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                Telegram
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "width": 14,
+                }
+              }
+            />
+          </View>
+          <View
+            onLayout={[Function]}
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+              testID="ShareToBottomSheet_Content_Facebook"
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "borderRadius": 56,
+                      "height": 56,
+                      "justifyContent": "center",
+                      "width": 56,
+                    },
+                    Object {
+                      "backgroundColor": "#2E8A6E",
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                    }
+                  }
+                >
+                  <View>
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "transparent",
+                          "justifyContent": "center",
+                        }
+                      }
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        selectable={false}
+                        style={
+                          Array [
+                            Object {
+                              "color": "#fffafb",
+                              "fontSize": 28,
+                            },
+                            Object {
+                              "backgroundColor": "transparent",
+                            },
+                            Object {
+                              "fontFamily": "Feather",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            },
+                            Object {},
+                          ]
+                        }
+                        testID="iconIcon"
+                      >
+                        
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <Text
+                numberOfLines={2}
+                style={
+                  Object {
+                    "color": "#2b2c2c",
+                    "fontSize": 12,
+                    "marginTop": 3.5,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                Facebook
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "width": 14,
+                }
+              }
+            />
+          </View>
+          <View
+            onLayout={[Function]}
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+              testID="ShareToBottomSheet_Content_Instagram"
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "borderRadius": 56,
+                      "height": 56,
+                      "justifyContent": "center",
+                      "width": 56,
+                    },
+                    Object {
+                      "backgroundColor": "#2E8A6E",
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "overflow": "hidden",
+                    }
+                  }
+                >
+                  <View>
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "transparent",
+                          "justifyContent": "center",
+                        }
+                      }
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        selectable={false}
+                        style={
+                          Array [
+                            Object {
+                              "color": "#fffafb",
+                              "fontSize": 28,
+                            },
+                            Object {
+                              "backgroundColor": "transparent",
+                            },
+                            Object {
+                              "fontFamily": "Feather",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            },
+                            Object {},
+                          ]
+                        }
+                        testID="iconIcon"
+                      >
+                        
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <Text
+                numberOfLines={2}
+                style={
+                  Object {
+                    "color": "#2b2c2c",
+                    "fontSize": 12,
+                    "marginTop": 3.5,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                Instagram
+              </Text>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </View>,
+  <View
+    pointerEvents="none"
+    style={
+      Object {
+        "bottom": 0,
+        "height": 1334,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+        "width": 750,
+      }
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "flex": 1,
+          "opacity": 1,
+        }
+      }
+      testID="ShareToBottomSheet_OpenBtn"
+    >
+      <View
+        animatedStyle={
+          Object {
+            "value": Object {
+              "opacity": 0,
+            },
+          }
+        }
+        collapsable={false}
+        style={
+          Object {
+            "backgroundColor": "#131515",
+            "flex": 1,
+            "opacity": 0,
+          }
+        }
+      />
+    </View>
+  </View>,
+]
+`;

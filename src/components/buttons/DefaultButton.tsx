@@ -6,6 +6,7 @@ import {
   ColorValue,
 } from 'react-native';
 import React, {ReactElement} from 'react';
+import {colors} from '../../utils/constants';
 
 interface Props {
   children: ReactElement;
@@ -14,24 +15,19 @@ interface Props {
   isCircle?: boolean;
 }
 
-const DefaultButton = ({
-  children,
-  onPress,
-  isCircle = false,
-  color = 'red',
-}: Props) => {
-  const handlePress = (e: GestureResponderEvent) => {
-    onPress();
-  };
-
+const DefaultButton = ({children, onPress, isCircle, color}: Props) => {
   return (
-    <TouchableOpacity onPress={handlePress} activeOpacity={0.9}>
+    <TouchableOpacity
+      testID={'DefaultButton_TouchableOpacity'}
+      onPress={onPress}
+      activeOpacity={0.9}>
       <View
-        style={[
-          styles.container,
-          isCircle ? styles.circle : styles.square,
-          {backgroundColor: color},
-        ]}>
+        testID={'DefaultButton_View'}
+        style={{
+          ...styles.container,
+          ...styles[isCircle ? 'circle' : 'square'],
+          backgroundColor: color ?? colors.white,
+        }}>
         {children}
       </View>
     </TouchableOpacity>

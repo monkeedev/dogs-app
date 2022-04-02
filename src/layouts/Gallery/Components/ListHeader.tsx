@@ -16,9 +16,9 @@ interface Props {
 
 export const ListHeader = ({uri}: Props) => {
   const {bookmarks} = useSelector(getDogsCatalog);
+  const dispatch = useDispatch();
 
   const handleToogleBookmark = () => dispatch(saveToBookmarks(uri));
-  const dispatch = useDispatch();
 
   const isBookmark = bookmarks.indexOf(uri) !== -1;
 
@@ -31,6 +31,7 @@ export const ListHeader = ({uri}: Props) => {
           onPress={handleToogleBookmark}
           color={isBookmark ? colors.turquoise : colors.lightGray}>
           <Icon
+            testID={'ListHeader_Icon'}
             type={'ionicon'}
             name={`bookmarks`}
             color={isBookmark ? colors.white : colors.turquoise}

@@ -3,7 +3,6 @@ import {
   ActivityIndicatorProps,
   StyleProp,
   StyleSheet,
-  Text,
   View,
   ViewStyle,
 } from 'react-native';
@@ -14,10 +13,10 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
-const Loading = (props: Props) => {
+const Loading = ({size = 'large', style = {}}: Props) => {
   return (
-    <View style={[styles.container, props.style]}>
-      <ActivityIndicator size={props.size ?? 'large'} />
+    <View testID={'Loading_View'} style={[styles.container, style]}>
+      <ActivityIndicator testID={'Loading_Indicator'} size={size} />
     </View>
   );
 };

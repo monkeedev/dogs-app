@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Platform,
   FlatList,
-  Text,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -14,7 +13,7 @@ import GoBack from '../../components/GoBack';
 import {RootStackParamList} from '../Navigator/routes';
 import {ListHeader} from './Components/ListHeader';
 import {parseImage} from '../../utils/functions';
-import ListItem from '../../components/lists/ListItem';
+import DogImageListItem from '../../components/lists/DogImageListItem';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -40,7 +39,7 @@ const PLATFORM_BORDER = Platform.select({
 });
 
 const renderItem = (uri: string, idx: number) => {
-  return <ListItem uri={uri} idx={idx} />;
+  return <DogImageListItem uri={uri} idx={idx} />;
 };
 
 const GalleryModal = () => {
@@ -55,7 +54,6 @@ const GalleryModal = () => {
   const fetchDogs = useRef(async (s: string) => {
     try {
       const r = await Api.fetchDogBySubbreed(s, FETCH_QUANTITY);
-
       const d = [...data, ...(r.message as string[])];
 
       setData(d);
@@ -169,7 +167,7 @@ const GalleryModal = () => {
     <View style={styles.container}>
       <CustomStatusBar
         backgroundColor={'transparent'}
-        barStyle={'dark-content'}
+        barStyle={'light-content'}
       />
 
       <View style={styles.header}>
@@ -190,22 +188,29 @@ const GalleryModal = () => {
         </Animated.View>
       </View>
 
-      <PanGestureHandler onGestureEvent={gestureHandler}>
-        <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
-          <FlatList
-            data={data}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            scrollEnabled={false}
-            keyExtractor={parseImage}
-            contentContainerStyle={styles.list}
-            renderItem={({item, index}) => renderItem(item, index)}
-            bounces={false}
-            ListHeaderComponent={() => <ListHeader uri={params.uri} />}
-            ListFooterComponent={() => <SeeMore search={params.search ?? ''} />}
-          />
-        </Animated.View>
-      </PanGestureHandler>
+      {size.height !== 0 && (
+        <PanGestureHandler
+          testID={'GalleryModal_GestureHandler'}
+          onGestureEvent={gestureHandler}>
+          <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
+            <FlatList
+              testID={'GalleryModal_List'}
+              data={data}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              scrollEnabled={false}
+              keyExtractor={parseImage}
+              contentContainerStyle={styles.list}
+              renderItem={({item, index}) => renderItem(item, index)}
+              bounces={false}
+              ListHeaderComponent={() => <ListHeader uri={params.uri} />}
+              ListFooterComponent={() => (
+                <SeeMore search={params.search ?? ''} />
+              )}
+            />
+          </Animated.View>
+        </PanGestureHandler>
+      )}
     </View>
   );
 };
@@ -213,6 +218,7 @@ const GalleryModal = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
+    height: Dimensions.get('screen').height,
   },
   header: {
     position: 'absolute',

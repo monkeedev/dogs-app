@@ -9,7 +9,9 @@ interface Props {
 
 const ShareButton = ({uri}: Props) => {
   const openBottomSheetNavigator = () => {
-    shareBottomSheetRef.current.toggle(uri);
+    if (uri && uri !== '') {
+      return shareBottomSheetRef.current.toggle(uri);
+    }
   };
 
   return (

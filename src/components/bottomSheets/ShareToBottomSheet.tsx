@@ -73,13 +73,61 @@ const ICONS = [
   },
 ];
 
-const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
-  const [isOpened, setOpened] = useState(false);
-  const [uri, setUri] = useState('');
-
+const BottomSheet = ({refLink, uri}) => {
   const handleShareRef = useRef(async (uri: string, type: string) => {
     await shareImage(uri, type);
   });
+
+  return (
+    <View testID={'ShareToBottomSheet_View'} style={styles.container}>
+      <View style={styles.headerBlock}>
+        <Pressable
+          testID={'ShareToBottomSheet_CloseBtn'}
+          onPress={() => refLink.current.toggle()}>
+          <Icon
+            name={'close-sharp'}
+            type={'ionicon'}
+            size={21}
+            color={colors.darkTurquoise}
+          />
+        </Pressable>
+        <Text style={styles.headerText}>Share doggo</Text>
+      </View>
+
+      <FlatList
+        data={ICONS}
+        horizontal={true}
+        contentContainerStyle={styles.list}
+        keyExtractor={item => `${item.type}_${item.name}`}
+        ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            activeOpacity={0.85}
+            testID={`ShareToBottomSheet_Content_${item.placeholder}`}
+            onPress={() => handleShareRef.current(uri, item.action)}>
+            <View
+              style={[styles.listItemIcon, {backgroundColor: item.bgColor}]}>
+              <Icon
+                type={item.type}
+                name={item.name}
+                size={28}
+                color={item.iconColor === 'light' ? colors.white : colors.black}
+              />
+            </View>
+            <Text style={styles.listItemPlaceholder} numberOfLines={2}>
+              {item.placeholder}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  );
+};
+
+const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
+  const [isOpened, setOpened] = useState(false);
+  const [uri, setUri] = useState('');
 
   const bottomSheet = useSharedValue(0);
 
@@ -110,55 +158,12 @@ const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
     },
   }));
 
-  const Content = () => (
-    <View style={styles.container}>
-      <View style={styles.headerBlock}>
-        <Pressable onPress={() => ref.current.toggle()}>
-          <Icon
-            name={'close-sharp'}
-            type={'ionicon'}
-            size={21}
-            color={colors.darkTurquoise}
-          />
-        </Pressable>
-        <Text style={styles.headerText}>Share doggo</Text>
-      </View>
-
-      <FlatList
-        data={ICONS}
-        horizontal={true}
-        contentContainerStyle={styles.list}
-        keyExtractor={item => `${item.type}_${item.name}`}
-        ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            activeOpacity={0.85}
-            onPress={() => handleShareRef.current(uri, item.action)}>
-            <View
-              style={[styles.listItemIcon, {backgroundColor: item.bgColor}]}>
-              <Icon
-                type={item.type}
-                name={item.name}
-                size={28}
-                color={item.iconColor === 'light' ? colors.white : colors.black}
-              />
-            </View>
-            <Text style={styles.listItemPlaceholder} numberOfLines={2}>
-              {item.placeholder}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
-    </View>
-  );
-
   return (
     <>
       <Animated.View
         ref={ref}
         style={[styles.bottomSheetContainer, translation]}>
-        <Content />
+        <BottomSheet uri={uri} refLink={ref} />
       </Animated.View>
       <View
         style={styles.bottomSheetBackgroundContainer}
@@ -166,6 +171,7 @@ const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
         <TouchableOpacity
           style={{flex: 1}}
           activeOpacity={1}
+          testID={'ShareToBottomSheet_OpenBtn'}
           onPress={() => ref.current.toggle()}>
           <Animated.View
             style={[styles.bottomSheetBackgroundInner, bgOpacity]}
