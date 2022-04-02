@@ -7,9 +7,13 @@ require('react-native-reanimated/lib/reanimated2/jestUtils').setUpTests();
 
 configure({adapter: new Adapter()});
 
+jest.mock('axios');
+
 jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
+
+jest.mock('react-native-gesture-handler', () => ({}));
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => jest.fn(),

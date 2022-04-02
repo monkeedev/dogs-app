@@ -1,4 +1,4 @@
-import {act, fireEvent, render} from '@testing-library/react-native';
+import {act, render} from '@testing-library/react-native';
 import {shallow} from 'enzyme';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Platform,
   FlatList,
-  Text,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -28,7 +27,6 @@ import Api from '../../api/requests';
 import {PanGestureHandler, ScrollView} from 'react-native-gesture-handler';
 import SeeMore from './Components/SeeMore';
 import CustomStatusBar from '../../components/CustomStatusBar';
-import Loading from '../../components/Loading';
 
 const FETCH_QUANTITY = 4;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
@@ -56,7 +54,6 @@ const GalleryModal = () => {
   const fetchDogs = useRef(async (s: string) => {
     try {
       const r = await Api.fetchDogBySubbreed(s, FETCH_QUANTITY);
-
       const d = [...data, ...(r.message as string[])];
 
       setData(d);
@@ -192,9 +189,12 @@ const GalleryModal = () => {
       </View>
 
       {size.height !== 0 && (
-        <PanGestureHandler onGestureEvent={gestureHandler}>
+        <PanGestureHandler
+          testID={'GalleryModal_GestureHandler'}
+          onGestureEvent={gestureHandler}>
           <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
             <FlatList
+              testID={'GalleryModal_List'}
               data={data}
               numColumns={2}
               showsVerticalScrollIndicator={false}
