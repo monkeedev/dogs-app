@@ -85,6 +85,7 @@ const BookmarksScreen = () => {
       </View>
 
       <Animated.FlatList
+        testID={'BookmarksScreen_List'}
         data={data}
         numColumns={2}
         showsVerticalScrollIndicator={false}

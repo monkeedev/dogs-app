@@ -36,16 +36,20 @@ jest.mock('react-native-fs', () => ({
 }));
 
 export const mockedNavigate = jest.fn();
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => ({
-    navigate: mockedNavigate,
-    goBack: () => jest.fn(),
-  }),
-}));
+jest.mock('@react-navigation/native', () => {
+  return {
+    useRoute: jest.fn(),
+    useNavigation: () => ({
+      navigate: mockedNavigate,
+      goBack: () => jest.fn(),
+    }),
+  };
+});
 
+export const mockedDispatch = jest.fn();
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
-  useDispatch: jest.fn(),
+  useDispatch: mockedDispatch,
 }));
 
 jest.mock('@react-native-clipboard/clipboard');

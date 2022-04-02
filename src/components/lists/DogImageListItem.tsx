@@ -90,7 +90,9 @@ const DogImageListItem = ({uri, idx}: Props) => {
         activeOpacity={0.9}
         onPress={openGallery}>
         <Pressable onPress={handleSave}>
-          <Animated.View style={[styles.icon, bStyle]}>
+          <Animated.View
+            testID={'DogImageListItem_Bookmarks'}
+            style={[styles.icon, bStyle]}>
             <Icon
               type={'ionicon'}
               name={`bookmarks`}

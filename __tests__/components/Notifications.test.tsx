@@ -9,7 +9,6 @@ describe('Notifications', () => {
     jest.useFakeTimers();
 
     const tree = create(<Notifications ref={notificationRef} />).toJSON();
-
     expect(tree).toMatchSnapshot();
   });
 

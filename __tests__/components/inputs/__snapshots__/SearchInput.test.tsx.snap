@@ -83,6 +83,7 @@ exports[`SearchInput matches snapshot 1`] = `
         "padding": 7,
       }
     }
+    testID="SearchInput_Input"
     value=""
   />
 </View>

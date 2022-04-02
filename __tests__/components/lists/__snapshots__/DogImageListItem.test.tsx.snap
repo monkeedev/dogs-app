@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ListItem matches snapshot 1`] = `
+exports[`DogImageListItem matches snapshot 1`] = `
 <View
   animatedStyle={
     Object {
@@ -79,6 +79,7 @@ exports[`ListItem matches snapshot 1`] = `
             "zIndex": 1,
           }
         }
+        testID="DogImageListItem_Bookmarks"
       >
         <View
           style={

@@ -83,6 +83,7 @@ const CatalogScreen = () => {
       <FlatList
         data={data}
         numColumns={2}
+        testID={'CatalogScreen_List'}
         showsVerticalScrollIndicator={false}
         keyExtractor={parseImage}
         contentContainerStyle={[
@@ -99,9 +100,13 @@ const CatalogScreen = () => {
         scrollEventThrottle={16}
         ListFooterComponent={() =>
           list.loading ? (
-            <ActivityIndicator size={'small'} style={styles.indicator} />
+            <ActivityIndicator
+              testID={'ActivityIndicator_Loading'}
+              size={'small'}
+              style={styles.indicator}
+            />
           ) : (
-            <View style={styles.indicator} />
+            <View testID={'ActivityIndicator_Blank'} style={styles.indicator} />
           )
         }
       />

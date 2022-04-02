@@ -3,7 +3,6 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {create} from 'react-test-renderer';
 import DogImageListItem from '../../../src/components/lists/DogImageListItem';
-import {useNavigation} from '@react-navigation/native';
 import {mockedNavigate} from '../../../jest.setup';
 import {shallow} from 'enzyme';
 import * as Functions from '../../../src/utils/functions';
@@ -12,7 +11,7 @@ const resolved = 'file://test_cache/some_img.jpg';
 
 jest.mock('../../../src/utils/functions');
 
-describe('ListItem', () => {
+describe('DogImageListItem', () => {
   beforeEach(() => {
     useSelector.mockReturnValue({bookmarks: []});
   });

@@ -48,6 +48,7 @@ const SearchInput = ({
           value={value}
           placeholder={placeholder}
           placeholderTextColor={colors.gray}
+          testID={'SearchInput_Input'}
           onChangeText={action}
           autoFocus={isAutofocused}
         />
