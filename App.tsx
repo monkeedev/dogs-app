@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -8,10 +8,15 @@ import {LogBox} from 'react-native';
 import ShareToBottomSheet from './src/components/bottomSheets/ShareToBottomSheet';
 import {notificationRef, shareBottomSheetRef} from './src/utils/constants';
 import Notifications from './src/components/Notifications';
+import SplashScreen from 'react-native-splash-screen';
 
-LogBox.ignoreLogs(['[react-native-gesture-handler]', 'Require cycle']);
+LogBox.ignoreLogs(['[react-native-gesture-handler]']);
 
 const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
     <SafeAreaProvider>
       <Provider store={store}>

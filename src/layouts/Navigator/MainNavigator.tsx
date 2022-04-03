@@ -1,5 +1,5 @@
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {tabs} from './tabs';
 import {animationConfig, colors} from '../../utils/constants';

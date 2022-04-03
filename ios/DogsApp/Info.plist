@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>DogsApp</string>
+	<string>Dogterest</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -60,7 +60,7 @@
 		<string>facebook</string>
 		<string>email</string>
 	</array>
-	  <key>NSPhotoLibraryAddUsageDescription</key>
-  <string>$(PRODUCT_NAME) wants to save photos</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) wants to save photos</string>
 </dict>
 </plist>
