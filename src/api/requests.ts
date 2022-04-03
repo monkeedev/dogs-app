@@ -13,7 +13,7 @@ const returnNetworkError = () => {
  * 1. [typescript] fix DogApiResponse
  */
 
-export class DogsApi {
+class DogsApi {
   readonly uri: string;
   list: string[];
 

@@ -6,7 +6,7 @@ import CustomStatusBar from '../../components/CustomStatusBar';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchDogsList} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import {checkImageCache, parseImage} from '../../utils/functions';
+import {parseImage} from '../../utils/functions';
 import {
   NavigationProp,
   RouteProp,
