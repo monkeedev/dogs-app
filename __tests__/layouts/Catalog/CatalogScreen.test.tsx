@@ -1,6 +1,7 @@
 import {useRoute} from '@react-navigation/native';
 import {act, fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
+import {Dimensions} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {create} from 'react-test-renderer';
 import {mockedDispatch, mockedNavigate} from '../../../jest.setup';
@@ -12,9 +13,18 @@ const LIST = [
   'https://images.dog.ceo/breeds/pyrenees/n02111500_7483.jpg',
 ];
 
+// Dimensions
+// const mockDimensions = ({width, height}) => {
+//   jest.resetModules();
+//   jest.doMock('react-native/Libraries/Utilities/Dimensions', () => ({
+//     get: jest.fn().mockReturnValue({width, height}),
+//   }));
+// };
+
 describe('CatalogScreen', () => {
   beforeEach(() => {
     useDispatch.mockReturnValue(mockedDispatch);
+    jest.spyOn(Dimensions, 'get').mockReturnValue({width: 414, height: 818});
   });
 
   it('matches snapshot', async () => {
@@ -117,8 +127,8 @@ describe('CatalogScreen', () => {
       bookmarks: ['foo'],
     });
 
-    const {getByTestId, rerender} = render(<CatalogScreen />);
-    const list = getByTestId('CatalogScreen_List');
+    const {getByTestId} = render(<CatalogScreen />);
+    const list = getByTestId('GalleryList');
 
     act(() => {
       fireEvent(list, 'onEndReached');
@@ -134,11 +144,28 @@ describe('CatalogScreen', () => {
       bookmarks: ['foo'],
     });
 
-    const {getByTestId, rerender} = render(<CatalogScreen />);
-    const list = getByTestId('CatalogScreen_List');
+    const {getByTestId} = render(<CatalogScreen />);
+    const list = getByTestId('GalleryList');
 
     act(() => {
       fireEvent(list, 'onEndReached');
+
+      expect(mockedDispatch).toHaveBeenCalled();
+    });
+  });
+
+  it('clears input when ClearTextButton pressed', async () => {
+    useRoute.mockReturnValue({params: {search: 'foo'}});
+    useSelector.mockReturnValue({
+      list: {data: ['foo', 'bar', 'baz'], error: '', loading: false},
+      bookmarks: ['foo'],
+    });
+
+    const {getByTestId} = render(<CatalogScreen />);
+    const btn = getByTestId('ClearTextButton_Button');
+
+    act(() => {
+      fireEvent(btn, 'onPress');
 
       expect(mockedDispatch).toHaveBeenCalled();
     });

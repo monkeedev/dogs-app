@@ -1,4 +1,4 @@
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Pressable, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {colors, text} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
@@ -15,6 +15,8 @@ import {RootStackParamList} from '../Navigator/routes';
 import FakeInputButton from '../../components/buttons/FakeInputButton';
 import SearchInput from '../../components/inputs/SearchInput';
 import GalleryList from '../../components/lists/GalleryList';
+import ClearTextButton from '../../components/buttons/ClearTextButton';
+import {MainStyles} from '../../assets/styles/MainStyles';
 
 const CatalogScreen = () => {
   const dispatch = useDispatch();
@@ -47,21 +49,33 @@ const CatalogScreen = () => {
     navigate('Search', {search});
   };
 
+  const clearSearch = () => {
+    setSearch('');
+    dispatch(fetchDogsList('', false, true));
+  };
+
   return (
     <View style={styles.container}>
       <CustomStatusBar
         backgroundColor={colors.turquoise}
         barStyle={'dark-content'}
       />
-      <FakeInputButton action={redirectToSearch}>
-        <View style={styles.searchBar}>
-          <SearchInput
-            value={search}
-            isDisabled={true}
-            placeholder={"Write dog's breed here"}
-          />
-        </View>
-      </FakeInputButton>
+      <View style={MainStyles.pr}>
+        <FakeInputButton onPress={redirectToSearch}>
+          <View style={styles.searchBar}>
+            <SearchInput
+              value={search}
+              isDisabled={true}
+              placeholder={"Write dog's breed here"}
+            />
+          </View>
+        </FakeInputButton>
+        {search.length > 0 && (
+          <View style={styles.clearButton}>
+            <ClearTextButton onPress={clearSearch} />
+          </View>
+        )}
+      </View>
 
       <GalleryList
         images={list.data}
@@ -87,6 +101,13 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     marginHorizontal: 7,
+  },
+  clearButton: {
+    position: 'absolute',
+    right: 7,
+    top: 7,
+    zIndex: 1,
+    elevation: 1,
   },
 });
 

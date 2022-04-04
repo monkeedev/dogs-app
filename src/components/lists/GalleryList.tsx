@@ -6,8 +6,8 @@ import {
   NativeSyntheticEvent,
   StyleSheet,
   View,
+  FlatList,
 } from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import {colors} from '../../utils/constants';
 import {parseImage} from '../../utils/functions';
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 21,
     borderTopRightRadius: 21,
     backgroundColor: colors.white,
-    // height: Dimensions.get('screen').height,
+    minHeight: Dimensions.get('screen').height - 56,
   },
   emptyList: {
     flex: 1,

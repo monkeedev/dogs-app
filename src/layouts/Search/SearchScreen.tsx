@@ -81,7 +81,7 @@ const SearchScreen = () => {
         barStyle={'dark-content'}
       />
 
-      <SearchBar value={search} action={handleSearch} />
+      <SearchBar value={search} onChangeText={handleSearch} />
       <SearchContext.Provider value={search}>
         {search === '' || filteredHistory.length > 0 ? (
           <HistoryList data={filteredHistory} />

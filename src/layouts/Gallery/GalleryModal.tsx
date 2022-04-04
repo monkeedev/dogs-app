@@ -67,8 +67,8 @@ const GalleryModal = () => {
       onStart: (_, ctx: any) => {
         ctx.startY = panScrollY.value;
       },
-      onActive: (event, ctx) => {
-        panScrollY.value = ctx.startY - event.translationY;
+      onActive: (evt, ctx) => {
+        panScrollY.value = ctx.startY - evt.translationY;
 
         if (panScrollY.value <= 0) {
           panScrollY.value = 0;
@@ -78,6 +78,13 @@ const GalleryModal = () => {
           } else {
             scrollY.value = 0;
           }
+        }
+      },
+      onEnd: evt => {
+        if (evt.translationY < 0) {
+          panScrollY.value = withSpring(size.height, springConfig);
+        } else {
+          panScrollY.value = withSpring(0, springConfig);
         }
       },
     },

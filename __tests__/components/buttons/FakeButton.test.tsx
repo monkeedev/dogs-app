@@ -8,7 +8,7 @@ describe('FakeButton', () => {
   it('matches snapshot', () => {
     const tree = renderer
       .create(
-        <FakeInputButton action={() => console.log('@foo')}>
+        <FakeInputButton onPress={() => console.log('@foo')}>
           <Text>foo</Text>
         </FakeInputButton>,
       )
@@ -28,7 +28,7 @@ describe('FakeButton', () => {
     act(() => {
       const evt = fireEvent(view, 'onPress');
 
-      expect(evt).toBe('No action provided');
+      expect(evt).toBeUndefined();
     });
   });
 
@@ -36,7 +36,7 @@ describe('FakeButton', () => {
     const mockedFn = jest.fn().mockImplementation(() => true);
 
     const {getByTestId} = render(
-      <FakeInputButton action={mockedFn}>
+      <FakeInputButton onPress={mockedFn}>
         <Text>foo</Text>
       </FakeInputButton>,
     );
