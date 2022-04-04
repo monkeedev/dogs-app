@@ -11,8 +11,6 @@ import {useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, text} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
-import {parseImage} from '../../utils/functions';
-import DogImageListItem from '../../components/lists/DogImageListItem';
 import EmptyList from '../../components/lists/EmptyList';
 import Animated, {
   Extrapolate,
@@ -22,15 +20,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {MainStyles} from '../../assets/styles/MainStyles';
-
-const renderItem = (uri: string, idx: number) => {
-  return <DogImageListItem uri={uri} idx={idx} />;
-};
+import GalleryList from '../../components/lists/GalleryList';
 
 const BookmarksScreen = () => {
   const {bookmarks} = useSelector(getDogsCatalog);
-  const [data, setData] = useState<string[]>([]);
-
   const scrollY = useSharedValue(0);
 
   const counterStyle = useAnimatedStyle(() => ({
@@ -50,15 +43,6 @@ const BookmarksScreen = () => {
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     scrollY.value = e.nativeEvent.contentOffset.y;
   };
-
-  // scroll handler for FlatList
-  useEffect(() => {
-    if (bookmarks.length > 4 && bookmarks.length < 7) {
-      setData([...bookmarks, '', '']);
-    } else {
-      setData(bookmarks);
-    }
-  }, [bookmarks]);
 
   return (
     <View style={styles.container}>
@@ -84,25 +68,11 @@ const BookmarksScreen = () => {
         </View>
       </View>
 
-      <Animated.FlatList
-        testID={'BookmarksScreen_List'}
-        data={data}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={parseImage}
-        contentContainerStyle={[
-          styles.list,
-          data.length === 0
-            ? styles.emptyList
-            : data.length <= 6
-            ? {height: '100%'}
-            : {},
-        ]}
-        bounces={false}
-        renderItem={({item, index}) => renderItem(item, index)}
+      <GalleryList
+        images={bookmarks}
+        isAnimated={true}
         onScroll={handleScroll}
-        scrollEventThrottle={16}
-        ListEmptyComponent={EmptyList}
+        EmptyComponent={<EmptyList />}
       />
     </View>
   );

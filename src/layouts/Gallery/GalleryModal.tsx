@@ -13,7 +13,6 @@ import GoBack from '../../components/GoBack';
 import {RootStackParamList} from '../Navigator/routes';
 import {ListHeader} from './Components/ListHeader';
 import {parseImage} from '../../utils/functions';
-import DogImageListItem from '../../components/lists/DogImageListItem';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -27,6 +26,8 @@ import Api from '../../api/requests';
 import {PanGestureHandler, ScrollView} from 'react-native-gesture-handler';
 import SeeMore from './Components/SeeMore';
 import CustomStatusBar from '../../components/CustomStatusBar';
+import {renderItem} from '../../components/lists/helpers';
+import GalleryList from '../../components/lists/GalleryList';
 
 const FETCH_QUANTITY = 4;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
@@ -37,10 +38,6 @@ const PLATFORM_BORDER = Platform.select({
   android: 28,
   default: 14,
 });
-
-const renderItem = (uri: string, idx: number) => {
-  return <DogImageListItem uri={uri} idx={idx} />;
-};
 
 const GalleryModal = () => {
   const {params} = useRoute<RouteProp<RootStackParamList, 'Gallery'>>();
@@ -135,6 +132,8 @@ const GalleryModal = () => {
   useEffect(() => {
     let isMounted = false;
 
+    // we can use precalculated props from previous screen
+    // e.g. pass them with uri
     Image.getSize(params.uri, (width, height) => {
       if (!isMounted) {
         let w = SCREEN_WIDTH;
@@ -193,20 +192,10 @@ const GalleryModal = () => {
           testID={'GalleryModal_GestureHandler'}
           onGestureEvent={gestureHandler}>
           <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
-            <FlatList
-              testID={'GalleryModal_List'}
-              data={data}
-              numColumns={2}
-              showsVerticalScrollIndicator={false}
-              scrollEnabled={false}
-              keyExtractor={parseImage}
-              contentContainerStyle={styles.list}
-              renderItem={({item, index}) => renderItem(item, index)}
-              bounces={false}
-              ListHeaderComponent={() => <ListHeader uri={params.uri} />}
-              ListFooterComponent={() => (
-                <SeeMore search={params.search ?? ''} />
-              )}
+            <GalleryList
+              images={data}
+              HeaderComponent={<ListHeader uri={params.uri} />}
+              FooterComponent={<SeeMore search={params.search ?? ''} />}
             />
           </Animated.View>
         </PanGestureHandler>
