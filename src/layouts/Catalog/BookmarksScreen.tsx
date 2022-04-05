@@ -47,7 +47,7 @@ const BookmarksScreen = () => {
   return (
     <View style={styles.container}>
       <CustomStatusBar
-        backgroundColor={colors.turquoise}
+        backgroundColor={'transparent'}
         barStyle={'dark-content'}
       />
       <View style={styles.header}>

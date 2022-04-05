@@ -10,7 +10,12 @@ import React, {useEffect, useState} from 'react';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import {animationConfig, colors} from '../../utils/constants';
+import {
+  animationConfig,
+  colors,
+  ErrorMessages,
+  notificationRef,
+} from '../../utils/constants';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {saveToBookmarks} from '../../redux/actions/listActions';
 import {useNavigation} from '@react-navigation/native';
@@ -61,19 +66,25 @@ const DogImageListItem = ({uri, idx}: Props) => {
       uri.lastIndexOf('/'),
     );
 
-    Image.getSize(uri, (width, height) => {
-      let w = SCREEN_WIDTH;
-      let h = SCREEN_HEIGHT / 1.5;
+    Image.getSize(
+      uri,
+      (width, height) => {
+        let w = SCREEN_WIDTH;
+        let h = SCREEN_HEIGHT / 1.5;
 
-      const ratio = w / h;
-      const imageRatio = width / height;
+        const ratio = w / h;
+        const imageRatio = width / height;
 
-      if (imageRatio > ratio) {
-        h = SCREEN_WIDTH / imageRatio + HEADER_HEIGHT;
-      }
+        if (imageRatio > ratio) {
+          h = SCREEN_WIDTH / imageRatio + HEADER_HEIGHT;
+        }
 
-      navigate('Gallery', {uri, search, img, size: {w, h}});
-    });
+        navigate('Gallery', {uri, search, img, size: {w, h}});
+      },
+      () => {
+        notificationRef.current?.show(ErrorMessages.Default, 'error');
+      },
+    );
   };
 
   useEffect(() => {

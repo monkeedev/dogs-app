@@ -17,6 +17,7 @@ import SearchInput from '../../components/inputs/SearchInput';
 import GalleryList from '../../components/lists/GalleryList';
 import ClearTextButton from '../../components/buttons/ClearTextButton';
 import {MainStyles} from '../../assets/styles/MainStyles';
+import Loading from '../../components/Loading';
 
 const CatalogScreen = () => {
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ const CatalogScreen = () => {
   return (
     <View style={styles.container}>
       <CustomStatusBar
-        backgroundColor={colors.turquoise}
+        backgroundColor={'transparent'}
         barStyle={'dark-content'}
       />
       <View style={MainStyles.pr}>
@@ -78,11 +79,15 @@ const CatalogScreen = () => {
       </View>
 
       <View style={styles.galleryContainer}>
-        <GalleryList
-          images={list.data}
-          isLoading={list.loading}
-          onEndReached={handleEndReached}
-        />
+        {list.data.length === 0 ? (
+          <Loading size={'large'} />
+        ) : (
+          <GalleryList
+            images={list.data}
+            isLoading={list.loading}
+            onEndReached={handleEndReached}
+          />
+        )}
       </View>
     </View>
   );
