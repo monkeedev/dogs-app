@@ -1,18 +1,11 @@
-import {
-  View,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Platform,
-  FlatList,
-} from 'react-native';
+import {View, ImageBackground, StyleSheet} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {Dimensions} from 'react-native';
 import GoBack from '../../components/GoBack';
 import {RootStackParamList} from '../Navigator/routes';
 import {ListHeader} from './Components/ListHeader';
-import {parseImage} from '../../utils/functions';
+import {isAndroid} from '../../utils/functions';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -23,29 +16,26 @@ import Animated, {
 } from 'react-native-reanimated';
 import {colors, springConfig, text} from '../../utils/constants';
 import Api from '../../api/requests';
-import {PanGestureHandler, ScrollView} from 'react-native-gesture-handler';
+import {PanGestureHandler} from 'react-native-gesture-handler';
 import SeeMore from './Components/SeeMore';
 import CustomStatusBar from '../../components/CustomStatusBar';
-import {renderItem} from '../../components/lists/helpers';
 import GalleryList from '../../components/lists/GalleryList';
+import Loading from '../../components/Loading';
 
 const FETCH_QUANTITY = 4;
-const SCREEN_WIDTH = Dimensions.get('screen').width;
+// const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
 const HEADER_HEIGHT = 67.33333587646484;
-const PLATFORM_BORDER = Platform.select({
-  ios: 14,
-  android: 28,
-  default: 14,
-});
+const LOADING_STYLE = isAndroid() ? 'loadingAndroid' : 'loadingIOS';
+const PLATFORM_BORDER = isAndroid() ? 28 : 14;
 
 const GalleryModal = () => {
   const {params} = useRoute<RouteProp<RootStackParamList, 'Gallery'>>();
 
   const [data, setData] = useState<string[]>([]);
   const [size, setSize] = useState<{width: number; height: number}>({
-    width: 0,
-    height: 0,
+    width: params.size.w,
+    height: params.size.h,
   });
 
   const fetchDogs = useRef(async (s: string) => {
@@ -119,8 +109,11 @@ const GalleryModal = () => {
     [size.height],
   );
 
-  const panTransformStyle = useAnimatedStyle(
-    () => ({
+  const panTransformStyle = useAnimatedStyle(() => {
+    // if (size.height === 0) {
+    //   return {};
+    // } else {
+    return {
       transform: [
         {
           translateY: interpolate(
@@ -131,38 +124,19 @@ const GalleryModal = () => {
           ),
         },
       ],
-    }),
-    [size.height],
-  );
+    };
+    // }
+  }, [size.height]);
 
   // set image size
   useEffect(() => {
-    let isMounted = false;
-
-    // we can use precalculated props from previous screen
-    // e.g. pass them with uri
-    Image.getSize(params.uri, (width, height) => {
-      if (!isMounted) {
-        let w = SCREEN_WIDTH;
-        let h = SCREEN_HEIGHT / 1.5;
-
-        const ratio = w / h;
-        const imageRatio = width / height;
-
-        if (imageRatio > ratio) {
-          h = SCREEN_WIDTH / imageRatio + HEADER_HEIGHT;
-        }
-
-        setSize({width: w, height: Math.min(SCREEN_HEIGHT, h)});
-      }
-    });
+    setSize({width: params.size.w, height: params.size.h});
 
     if (params.search) {
       fetchDogs.current(params.search);
     }
 
     return () => {
-      isMounted = true;
       panScrollY.value = withSpring(0, springConfig);
       scrollY.value = withSpring(0, springConfig);
       setData([]);
@@ -176,36 +150,40 @@ const GalleryModal = () => {
         barStyle={'light-content'}
       />
 
-      <View style={styles.header}>
-        <View style={Platform.OS === 'android' ? styles.headerButtons : null}>
-          <GoBack />
+      {size.height === 0 ? (
+        <Loading size={'large'} style={styles[LOADING_STYLE]} />
+      ) : (
+        <>
+          <View style={styles.header}>
+            <View style={isAndroid() ? styles.headerButtons : null}>
+              <GoBack />
 
-          <View style={styles.goBackContainer}>
-            <Animated.Text style={[styles.goBackText, goBackTransform]}>
-              Go back
-            </Animated.Text>
+              <View style={styles.goBackContainer}>
+                <Animated.Text style={[styles.goBackText, goBackTransform]}>
+                  Go back
+                </Animated.Text>
+              </View>
+            </View>
+
+            <Animated.View
+              style={[backgroundColor, styles.background]}
+              pointerEvents={'none'}>
+              <ImageBackground source={{uri: params.img}} style={{...size}} />
+            </Animated.View>
           </View>
-        </View>
 
-        <Animated.View
-          style={[backgroundColor, styles.background]}
-          pointerEvents={'none'}>
-          <ImageBackground source={{uri: params.img}} style={{...size}} />
-        </Animated.View>
-      </View>
-
-      {size.height !== 0 && (
-        <PanGestureHandler
-          testID={'GalleryModal_GestureHandler'}
-          onGestureEvent={gestureHandler}>
-          <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
-            <GalleryList
-              images={data}
-              HeaderComponent={<ListHeader uri={params.uri} />}
-              FooterComponent={<SeeMore search={params.search ?? ''} />}
-            />
-          </Animated.View>
-        </PanGestureHandler>
+          <PanGestureHandler
+            testID={'GalleryModal_GestureHandler'}
+            onGestureEvent={gestureHandler}>
+            <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
+              <GalleryList
+                images={data}
+                HeaderComponent={<ListHeader uri={params.uri} />}
+                FooterComponent={<SeeMore search={params.search ?? ''} />}
+              />
+            </Animated.View>
+          </PanGestureHandler>
+        </>
       )}
     </View>
   );
@@ -226,14 +204,6 @@ const styles = StyleSheet.create({
   background: {
     zIndex: -1,
   },
-  list: {
-    backgroundColor: colors.white,
-    borderTopLeftRadius: 21,
-    borderTopRightRadius: 21,
-    paddingBottom: 7 * 18,
-    paddingHorizontal: 7,
-    height: '100%',
-  },
   goBackContainer: {
     backgroundColor: 'transparent',
     position: 'absolute',
@@ -249,6 +219,12 @@ const styles = StyleSheet.create({
   },
   panGestureStyle: {
     overflow: 'hidden',
+  },
+  loadingIOS: {
+    maxHeight: Dimensions.get('screen').height - 56 * 2,
+  },
+  loadingAndroid: {
+    maxHeight: Dimensions.get('screen').height,
   },
 });
 

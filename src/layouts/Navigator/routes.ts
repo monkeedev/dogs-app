@@ -8,6 +8,10 @@ export type RootStackParamList = {
   Gallery: {
     uri: string;
     img: string;
+    size: {
+      w: number;
+      h: number;
+    };
     search?: string;
   };
 };

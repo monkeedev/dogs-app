@@ -22,6 +22,9 @@ interface Props {
 }
 
 const ICON_SIZE = 35;
+const SCREEN_WIDTH = Dimensions.get('screen').width;
+const SCREEN_HEIGHT = Dimensions.get('screen').height;
+const HEADER_HEIGHT = 67.33333587646484;
 
 const areEqual = (prev: Readonly<Props>, next: Readonly<Props>) => {
   return prev.uri === next.uri && prev.idx === next.idx;
@@ -58,7 +61,19 @@ const DogImageListItem = ({uri, idx}: Props) => {
       uri.lastIndexOf('/'),
     );
 
-    navigate('Gallery', {uri, search, img});
+    Image.getSize(uri, (width, height) => {
+      let w = SCREEN_WIDTH;
+      let h = SCREEN_HEIGHT / 1.5;
+
+      const ratio = w / h;
+      const imageRatio = width / height;
+
+      if (imageRatio > ratio) {
+        h = SCREEN_WIDTH / imageRatio + HEADER_HEIGHT;
+      }
+
+      navigate('Gallery', {uri, search, img, size: {w, h}});
+    });
   };
 
   useEffect(() => {

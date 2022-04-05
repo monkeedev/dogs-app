@@ -11,13 +11,14 @@ import {MainStyles} from '../../../assets/styles/MainStyles';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../../redux/rootSelector';
 import {useNavigation} from '@react-navigation/native';
-import {colors, ExtendedNavigationProp, text} from '../../../utils/constants';
+import {colors, text} from '../../../utils/constants';
 import {checkImageCache, parseDog} from '../../../utils/functions';
 import {DogItem} from '../../../redux/types/listTypes';
 import {toggleInHistory} from '../../../redux/actions/listActions';
 import HighlightedWord from '../../../components/HighlightedWord';
 import {useContext} from 'react';
 import {SearchContext} from '../SearchScreen';
+import {ExtendedNavigationProp} from '../../../utils/types';
 
 interface Props {
   name: string;
