@@ -15,10 +15,17 @@ const getPersistedConfig = (key: string) => {
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  blacklist: ['list'],
+};
+
+const listConfig = {
+  key: 'list',
+  storage: AsyncStorage,
+  blacklist: ['list'],
 };
 
 const appReducer = combineReducers({
-  list: persistReducer(getPersistedConfig('list'), listReducer),
+  list: persistReducer(listConfig, listReducer),
 });
 
 const rootReducer = (state: any, action: any) => {

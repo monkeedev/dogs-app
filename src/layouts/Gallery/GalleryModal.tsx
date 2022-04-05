@@ -23,8 +23,6 @@ import GalleryList from '../../components/lists/GalleryList';
 import Loading from '../../components/Loading';
 
 const FETCH_QUANTITY = 4;
-// const SCREEN_WIDTH = Dimensions.get('screen').width;
-const SCREEN_HEIGHT = Dimensions.get('screen').height;
 const HEADER_HEIGHT = 67.33333587646484;
 const LOADING_STYLE = isAndroid() ? 'loadingAndroid' : 'loadingIOS';
 const PLATFORM_BORDER = isAndroid() ? 28 : 14;
@@ -110,9 +108,6 @@ const GalleryModal = () => {
   );
 
   const panTransformStyle = useAnimatedStyle(() => {
-    // if (size.height === 0) {
-    //   return {};
-    // } else {
     return {
       transform: [
         {
@@ -125,7 +120,6 @@ const GalleryModal = () => {
         },
       ],
     };
-    // }
   }, [size.height]);
 
   // set image size
@@ -179,7 +173,13 @@ const GalleryModal = () => {
               <GalleryList
                 images={data}
                 HeaderComponent={<ListHeader uri={params.uri} />}
-                FooterComponent={<SeeMore search={params.search ?? ''} />}
+                FooterComponent={
+                  data.length >= 4 ? (
+                    <SeeMore search={params.search ?? ''} />
+                  ) : (
+                    <View />
+                  )
+                }
               />
             </Animated.View>
           </PanGestureHandler>

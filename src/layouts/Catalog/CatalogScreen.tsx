@@ -1,4 +1,4 @@
-import {View, StyleSheet, Pressable, Text} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {colors, text} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
@@ -77,11 +77,13 @@ const CatalogScreen = () => {
         )}
       </View>
 
-      <GalleryList
-        images={list.data}
-        isLoading={list.loading}
-        onEndReached={handleEndReached}
-      />
+      <View style={styles.galleryContainer}>
+        <GalleryList
+          images={list.data}
+          isLoading={list.loading}
+          onEndReached={handleEndReached}
+        />
+      </View>
     </View>
   );
 };
@@ -90,6 +92,10 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     backgroundColor: colors.turquoise,
+  },
+  galleryContainer: {
+    flex: 1,
+    backgroundColor: colors.white,
   },
   text: {
     fontSize: text.l,

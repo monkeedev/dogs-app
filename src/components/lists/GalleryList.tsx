@@ -1,7 +1,6 @@
 import React, {ReactElement, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
@@ -113,11 +112,7 @@ const GalleryList = ({
     keyExtractor: parseImage,
     contentContainerStyle: [
       styles.list,
-      images.length === 0
-        ? styles.emptyList
-        : images.length < 7
-        ? {height: '100%'}
-        : {},
+      images.length === 0 ? styles.emptyList : {},
     ],
     renderItem: ({item, index}: {item: string; index: number}) =>
       renderItem(item, index),
@@ -138,15 +133,13 @@ const styles = StyleSheet.create({
   list: {
     paddingHorizontal: 7,
     paddingTop: 7,
-    paddingBottom: 49,
+    paddingBottom: 28,
     borderTopLeftRadius: 21,
     borderTopRightRadius: 21,
     backgroundColor: colors.white,
-    minHeight: Dimensions.get('screen').height - 56,
   },
   emptyList: {
     flex: 1,
-    paddingBottom: 0,
     justifyContent: 'center',
   },
   footerComponent: {

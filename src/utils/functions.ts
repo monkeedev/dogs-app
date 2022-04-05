@@ -136,6 +136,20 @@ const shareSingle = async (social: Social, url: string) => {
       _url = `data:image/png;base64,${b64}`;
     }
 
+    // if (social === Social.Email) {
+    //   const mailOptions: any = {
+    //     url: _url,
+    //     message: 'Look at this cute doggo!',
+    //     social,
+    //     subject: 'Cute dogo',
+    //   };
+
+    //   await Share.shareSingle(mailOptions).catch(err => {
+    //     console.log('@err', err);
+    //     notificationRef.current?.show(ErrorMessages.SocialIsMissing, 'warning');
+    //   });
+    // }
+
     const options: any = {
       message: 'Look at this cute doggo!',
       url: _url,
@@ -146,7 +160,7 @@ const shareSingle = async (social: Social, url: string) => {
     const isSupported = await Linking.canOpenURL(`${social}://`);
 
     if (isSupported) {
-      await Share.shareSingle(options);
+      await Share.shareSingle(options).catch(err => console.log('@err', err));
     } else {
       notificationRef.current?.show(ErrorMessages.SocialIsMissing, 'warning');
     }
@@ -195,31 +209,33 @@ export const shareImage = async (uri: string, type: string) => {
           break;
 
         case 'TelegramApp':
-          link = `https://t.me/share/url?url=${encodeURI(
-            uri,
-          )}&text=Look at this cute doggo!`;
-          isSupported = await Linking.canOpenURL(link);
+          // link = `https://t.me/share/url?url=${encodeURI(url)}&text=${encodeURI(
+          //   'Look at this cute doggo!',
+          // )}`;
+          // console.log('@', link);
+          // isSupported = await Linking.canOpenURL(link);
 
-          if (isSupported) {
-            await Linking.openURL(link);
-          } else {
-            notificationRef.current?.show(
-              ErrorMessages.NotSupported,
-              'warning',
-            );
-          }
+          // if (isSupported) {
+          //   await Linking.openURL(link);
+          // } else {
+          //   notificationRef.current?.show(
+          //     ErrorMessages.NotSupported,
+          //     'warning',
+          //   );
+          // }
+          await shareSingle(Social.Telegram, url);
           break;
 
         case 'MailApp':
-          await shareSingle(Social.Email, uri);
+          await shareSingle(Social.Email, url);
           break;
 
         case 'FacebookApp':
-          await shareSingle(Social.Facebook, uri);
+          await shareSingle(Social.Facebook, url);
           break;
 
         case 'InstagramApp':
-          await shareSingle(Social.Instagram, uri);
+          await shareSingle(Social.Instagram, url);
           break;
 
         default:

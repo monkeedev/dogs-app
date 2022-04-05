@@ -6,7 +6,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, text} from '../../utils/constants';
@@ -68,12 +68,14 @@ const BookmarksScreen = () => {
         </View>
       </View>
 
-      <GalleryList
-        images={bookmarks}
-        isAnimated={true}
-        onScroll={handleScroll}
-        EmptyComponent={<EmptyList />}
-      />
+      <View style={styles.galleryContainer}>
+        <GalleryList
+          images={bookmarks}
+          isAnimated={true}
+          onScroll={handleScroll}
+          EmptyComponent={<EmptyList />}
+        />
+      </View>
     </View>
   );
 };
@@ -83,6 +85,10 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: colors.turquoise,
     position: 'relative',
+  },
+  galleryContainer: {
+    flex: 1,
+    backgroundColor: colors.white,
   },
   counterContainer: {
     width: 49,
