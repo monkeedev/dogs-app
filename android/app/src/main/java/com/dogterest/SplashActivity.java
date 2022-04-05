@@ -1,4 +1,4 @@
-package com.dogsapp;
+package com.dogterest;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.dogsapp;
+package com.dogterest;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

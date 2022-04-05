@@ -75,6 +75,7 @@ const ICONS = [
 
 const BottomSheet = ({refLink, uri}) => {
   const handleShareRef = useRef(async (uri: string, type: string) => {
+    refLink.current.toggle();
     await shareImage(uri, type);
   });
 

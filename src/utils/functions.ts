@@ -5,6 +5,8 @@ import RNFetchBlob from 'rn-fetch-blob';
 import RNFS from 'react-native-fs';
 import {ErrorMessages, notificationRef} from './constants';
 import sh2 from 'shorthash2';
+import axios from 'axios';
+import {createTinyUrl} from './tinyUrlHelper';
 
 /**
  * Tree with dogs
@@ -164,7 +166,9 @@ export const shareImage = async (uri: string, type: string) => {
   if (!uri || uri === '' || typeof uri !== 'string') {
     return false;
   } else {
-    const msg = `Look at this cute doggo!\n${uri}`;
+    const url = await createTinyUrl(uri).catch(_ => uri);
+
+    const msg = `Look at this cute doggo!\n${url}`;
     let link = '';
     let isSupported = false;
 

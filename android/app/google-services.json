@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "188467269890",
+    "project_id": "dogterest-433a7",
+    "storage_bucket": "dogterest-433a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188467269890:android:727cc2bd95b89051de321b",
+        "android_client_info": {
+          "package_name": "com.dogterest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188467269890-0gb9cdb37nt3pgj9hcr7ren2o75ho4c6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoUykgKk7wjEX5flEHMdOtXhmm38y47qI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188467269890-0gb9cdb37nt3pgj9hcr7ren2o75ho4c6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "188467269890-76v08k4j359t9fra9p4il7jo3hqrc6qm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.MonkeeAlert.Dogterest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
