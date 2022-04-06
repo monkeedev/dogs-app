@@ -126,7 +126,7 @@ const GalleryModal = () => {
   useEffect(() => {
     setSize({width: params.size.w, height: params.size.h});
 
-    if (params.search) {
+    if (params.isConnected && params.search) {
       fetchDogs.current(params.search);
     }
 
@@ -144,47 +144,54 @@ const GalleryModal = () => {
         barStyle={'light-content'}
       />
 
-      {size.height === 0 ? (
-        <Loading size={'large'} style={styles[LOADING_STYLE]} />
-      ) : (
-        <>
-          <View style={styles.header}>
-            <View style={isAndroid() ? styles.headerButtons : null}>
-              <GoBack />
+      <View style={styles.header}>
+        <View style={isAndroid() ? styles.headerButtons : null}>
+          <GoBack />
 
-              <View style={styles.goBackContainer}>
-                <Animated.Text style={[styles.goBackText, goBackTransform]}>
-                  Go back
-                </Animated.Text>
+          <View style={styles.goBackContainer}>
+            <Animated.Text style={[styles.goBackText, goBackTransform]}>
+              Go back
+            </Animated.Text>
+          </View>
+        </View>
+
+        <Animated.View
+          style={[backgroundColor, styles.background]}
+          pointerEvents={'none'}>
+          <ImageBackground source={{uri: params.img}} style={{...size}} />
+        </Animated.View>
+      </View>
+
+      <PanGestureHandler
+        testID={'GalleryModal_GestureHandler'}
+        onGestureEvent={gestureHandler}>
+        <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
+          {!params.isConnected ? (
+            <View
+              style={{
+                borderRadius: 14,
+                overflow: 'hidden',
+              }}>
+              <ListHeader uri={params.uri} />
+              <View style={styles.loadingList}>
+                <Loading size={'large'} />
               </View>
             </View>
-
-            <Animated.View
-              style={[backgroundColor, styles.background]}
-              pointerEvents={'none'}>
-              <ImageBackground source={{uri: params.img}} style={{...size}} />
-            </Animated.View>
-          </View>
-
-          <PanGestureHandler
-            testID={'GalleryModal_GestureHandler'}
-            onGestureEvent={gestureHandler}>
-            <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
-              <GalleryList
-                images={data}
-                HeaderComponent={<ListHeader uri={params.uri} />}
-                FooterComponent={
-                  data.length >= 4 ? (
-                    <SeeMore search={params.search ?? ''} />
-                  ) : (
-                    <View />
-                  )
-                }
-              />
-            </Animated.View>
-          </PanGestureHandler>
-        </>
-      )}
+          ) : (
+            <GalleryList
+              images={data}
+              HeaderComponent={<ListHeader uri={params.uri} />}
+              FooterComponent={
+                data.length >= 4 ? (
+                  <SeeMore search={params.search ?? ''} />
+                ) : (
+                  <View />
+                )
+              }
+            />
+          )}
+        </Animated.View>
+      </PanGestureHandler>
     </View>
   );
 };
@@ -218,13 +225,14 @@ const styles = StyleSheet.create({
     color: colors.darkGray,
   },
   panGestureStyle: {
+    flex: 1,
+    // borderRadiusTopLeft: 14,
+    // borderRadiusTopRight: 14,
     overflow: 'hidden',
   },
-  loadingIOS: {
-    maxHeight: Dimensions.get('screen').height - 56 * 2,
-  },
-  loadingAndroid: {
-    maxHeight: Dimensions.get('screen').height,
+  loadingList: {
+    height: Dimensions.get('screen').height / 2,
+    backgroundColor: colors.white,
   },
 });
 

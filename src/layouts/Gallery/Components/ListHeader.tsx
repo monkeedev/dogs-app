@@ -47,7 +47,8 @@ export const ListHeader = ({uri}: Props) => {
 const styles = StyleSheet.create({
   container: {
     ...MainStyles.rowFull,
-    borderRadius: 14,
+    borderRadiusTopLeft: 14,
+    borderRadiusTopRight: 14,
     backgroundColor: colors.white,
     paddingLeft: 14,
     paddingRight: 11.5,

@@ -19,7 +19,8 @@ import {
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {saveToBookmarks} from '../../redux/actions/listActions';
 import {useNavigation} from '@react-navigation/native';
-import {checkImageCache} from '../../utils/functions';
+import {checkImageCache, isAndroid} from '../../utils/functions';
+import {checkConnection} from '../../../native-modules/InternetConnectionModuleAndroid';
 
 interface Props {
   uri: string;
@@ -60,14 +61,21 @@ const DogImageListItem = ({uri, idx}: Props) => {
 
   const handleSave = () => dispatch(saveToBookmarks(uri));
 
-  const openGallery = () => {
+  const openGallery = async () => {
+    const isConnected = await checkConnection();
     const search = uri.slice(
       uri.indexOf('breeds') + 'breeds/'.length,
       uri.lastIndexOf('/'),
     );
 
+    let path = uri;
+
+    if (!isConnected) {
+      path = await checkImageCache(uri);
+    }
+
     Image.getSize(
-      uri,
+      path,
       (width, height) => {
         let w = SCREEN_WIDTH;
         let h = SCREEN_HEIGHT / 1.5;
@@ -79,7 +87,7 @@ const DogImageListItem = ({uri, idx}: Props) => {
           h = SCREEN_WIDTH / imageRatio + HEADER_HEIGHT;
         }
 
-        navigate('Gallery', {uri, search, img, size: {w, h}});
+        navigate('Gallery', {uri, search, img, isConnected, size: {w, h}});
       },
       () => {
         notificationRef.current?.show(ErrorMessages.Default, 'error');

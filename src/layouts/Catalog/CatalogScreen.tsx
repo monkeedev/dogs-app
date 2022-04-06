@@ -1,5 +1,5 @@
-import {View, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, Text} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {colors, text} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import {useDispatch, useSelector} from 'react-redux';
@@ -25,6 +25,7 @@ const CatalogScreen = () => {
     useNavigation<NavigationProp<RootStackParamList, 'Search'>>();
   const route = useRoute<RouteProp<RootStackParamList, 'CatalogTabs'>>();
   const {list} = useSelector(getDogsCatalog);
+
   const [search, setSearch] = useState('');
 
   useEffect(() => {

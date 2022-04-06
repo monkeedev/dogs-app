@@ -12,6 +12,7 @@ export type RootStackParamList = {
       w: number;
       h: number;
     };
+    isConnected?: string;
     search?: string;
   };
 };

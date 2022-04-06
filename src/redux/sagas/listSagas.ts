@@ -4,7 +4,6 @@ import Api from '../../api/requests';
 import {DogApiResponse} from '../../api/interfaces';
 import {ListActions} from '../types/listTypes';
 import {clearDogsList} from '../actions/listActions';
-import {checkImageCache} from '../../utils/functions';
 
 export function* workFetchList({payload}: any) {
   try {

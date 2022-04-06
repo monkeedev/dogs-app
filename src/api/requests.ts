@@ -1,4 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
+import {checkConnection} from '../../native-modules/InternetConnectionModuleAndroid';
 import {ErrorMessages, notificationRef} from '../utils/constants';
 import {findBreedInList, flatTree} from '../utils/functions';
 import {DogApiResponse} from './interfaces';
@@ -30,7 +31,7 @@ class DogsApi {
         .get(`${this.uri}/breeds/list/all`)
         .catch(returnNetworkError);
 
-      this.list = flatTree(req.data.message);
+      this.list = flatTree(req?.data.message);
 
       return this.list;
     } catch (error) {

@@ -290,7 +290,7 @@ export const parseDog = (str: string) => {
  * @param uri file destination
  * @returns filepath
  */
-export const checkImageCache = async (uri: string = '') => {
+export const checkImageCache = async (uri: string = ''): Promise<string> => {
   const hash = sh2(uri);
 
   const path = RNFS.CachesDirectoryPath;
