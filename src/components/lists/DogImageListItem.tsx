@@ -10,11 +10,17 @@ import React, {useEffect, useState} from 'react';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import {animationConfig, colors} from '../../utils/constants';
+import {
+  animationConfig,
+  colors,
+  ErrorMessages,
+  notificationRef,
+} from '../../utils/constants';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {saveToBookmarks} from '../../redux/actions/listActions';
 import {useNavigation} from '@react-navigation/native';
-import {checkImageCache} from '../../utils/functions';
+import {checkImageCache, isAndroid} from '../../utils/functions';
+import {checkConnection} from '../../../native-modules/InternetConnectionModuleAndroid';
 
 interface Props {
   uri: string;
@@ -22,6 +28,9 @@ interface Props {
 }
 
 const ICON_SIZE = 35;
+const SCREEN_WIDTH = Dimensions.get('screen').width;
+const SCREEN_HEIGHT = Dimensions.get('screen').height;
+const HEADER_HEIGHT = 67.33333587646484;
 
 const areEqual = (prev: Readonly<Props>, next: Readonly<Props>) => {
   return prev.uri === next.uri && prev.idx === next.idx;
@@ -52,13 +61,38 @@ const DogImageListItem = ({uri, idx}: Props) => {
 
   const handleSave = () => dispatch(saveToBookmarks(uri));
 
-  const openGallery = () => {
+  const openGallery = async () => {
+    const isConnected = await checkConnection();
     const search = uri.slice(
       uri.indexOf('breeds') + 'breeds/'.length,
       uri.lastIndexOf('/'),
     );
 
-    navigate('Gallery', {uri, search, img});
+    let path = uri;
+
+    if (!isConnected) {
+      path = await checkImageCache(uri);
+    }
+
+    Image.getSize(
+      path,
+      (width, height) => {
+        let w = SCREEN_WIDTH;
+        let h = SCREEN_HEIGHT / 1.5;
+
+        const ratio = w / h;
+        const imageRatio = width / height;
+
+        if (imageRatio > ratio) {
+          h = SCREEN_WIDTH / imageRatio + HEADER_HEIGHT;
+        }
+
+        navigate('Gallery', {uri, search, img, isConnected, size: {w, h}});
+      },
+      () => {
+        notificationRef.current?.show(ErrorMessages.Default, 'error');
+      },
+    );
   };
 
   useEffect(() => {

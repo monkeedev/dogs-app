@@ -1,4 +1,4 @@
-import {act, render} from '@testing-library/react-native';
+import {act, fireEvent, render} from '@testing-library/react-native';
 import {shallow} from 'enzyme';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -41,20 +41,5 @@ describe('BookmarksScreen', () => {
     const items = getAllByTestId('DogImageListItem_View');
 
     expect(items.length).toBe(5);
-  });
-
-  it('handles onScroll', () => {
-    useSelector.mockReturnValue({
-      bookmarks: [
-        ...LIST,
-        'https://images.dog.ceo/breeds/labrador/n02090712_5648.jpg',
-        'https://images.dog.ceo/breeds/labrador/n82099712_5648.jpg',
-      ],
-    });
-
-    const wrapper = shallow(<BookmarksScreen />);
-    const list = wrapper.find({testID: 'BookmarksScreen_List'});
-
-    list.simulate('scroll', {nativeEvent: {contentOffset: {y: 1}}});
   });
 });

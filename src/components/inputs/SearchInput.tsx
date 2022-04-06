@@ -5,7 +5,7 @@ import {colors} from '../../utils/constants';
 
 interface Props {
   value: string;
-  action?: (str: string) => void;
+  onChangeText?: (str: string) => void;
   placeholder?: string;
   isDisabled?: boolean;
   isAutofocused?: boolean;
@@ -15,7 +15,7 @@ const ICON_SIZE = 36;
 
 const SearchInput = ({
   value = '',
-  action,
+  onChangeText,
   placeholder,
   isDisabled,
   isAutofocused,
@@ -49,7 +49,7 @@ const SearchInput = ({
           placeholder={placeholder}
           placeholderTextColor={colors.gray}
           testID={'SearchInput_Input'}
-          onChangeText={action}
+          onChangeText={onChangeText}
           autoFocus={isAutofocused}
         />
       )}

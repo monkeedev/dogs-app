@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>188467269890-76v08k4j359t9fra9p4il7jo3hqrc6qm.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.188467269890-76v08k4j359t9fra9p4il7jo3hqrc6qm</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDRwKq1BLJnciiQqLl4zqWEekO1rWo7gfc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>188467269890</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.MonkeeAlert.Dogterest</string>
+	<key>PROJECT_ID</key>
+	<string>dogterest-433a7</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dogterest-433a7.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:188467269890:ios:5b6d3bcfff24f268de321b</string>
+</dict>
+</plist>

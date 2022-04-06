@@ -43,14 +43,15 @@ const SearchScreen = () => {
   }, [search, history]);
 
   const handleSearch = (str: string) => {
-    setSearch(str);
+    const _str = str.replace(/[^a-zA-Z ]/g, '');
+    setSearch(_str);
 
     clearTimeout(idleTimerRef.current);
     if (str === '') {
       setEmptyListVisible(false);
       setSuggestions([]);
     } else {
-      let stringInRequest = str.toLowerCase().trim().split(' ');
+      let stringInRequest = _str.toLowerCase().trim().split(' ');
 
       idleTimerRef.current = setTimeout(async () => {
         try {
@@ -81,7 +82,7 @@ const SearchScreen = () => {
         barStyle={'dark-content'}
       />
 
-      <SearchBar value={search} action={handleSearch} />
+      <SearchBar value={search} onChangeText={handleSearch} />
       <SearchContext.Provider value={search}>
         {search === '' || filteredHistory.length > 0 ? (
           <HistoryList data={filteredHistory} />

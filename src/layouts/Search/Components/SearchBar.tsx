@@ -13,13 +13,13 @@ import {MainStyles} from '../../../assets/styles/MainStyles';
 
 interface Props {
   value: string;
-  action: (str: string) => void;
+  onChangeText: (str: string) => void;
 }
 
 const MAX_INPUT_WIDTH = Dimensions.get('screen').width - 14;
 const CLEAR_BUTTON_WIDTH = 56;
 
-export const SearchBar = ({value, action}: Props) => {
+export const SearchBar = ({value, onChangeText}: Props) => {
   const {goBack} = useNavigation();
   const [isMounted, setMounted] = useState(false);
 
@@ -45,7 +45,11 @@ export const SearchBar = ({value, action}: Props) => {
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.input, inputStyles]}>
-        <SearchInput value={value} action={action} isAutofocused={true} />
+        <SearchInput
+          value={value}
+          onChangeText={onChangeText}
+          isAutofocused={true}
+        />
       </Animated.View>
       <Pressable onPress={goBack}>
         <View style={styles.clearButton}>

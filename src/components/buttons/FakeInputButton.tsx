@@ -3,15 +3,13 @@ import React, {ReactElement} from 'react';
 
 interface Props {
   children: ReactElement;
-  action: () => void;
+  onPress: () => void;
 }
 
-const FakeInputButton = ({children, action}: Props) => {
+const FakeInputButton = ({children, onPress}: Props) => {
   const handleRedirect = () => {
-    if (!action || typeof action !== 'function') {
-      return 'No action provided';
-    } else {
-      return action();
+    if (onPress || typeof onPress === 'function') {
+      return onPress();
     }
   };
 

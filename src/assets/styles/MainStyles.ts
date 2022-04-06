@@ -6,4 +6,7 @@ export const MainStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  pr: {
+    position: 'relative',
+  },
 });

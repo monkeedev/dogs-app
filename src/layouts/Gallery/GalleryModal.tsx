@@ -1,19 +1,11 @@
-import {
-  View,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Platform,
-  FlatList,
-} from 'react-native';
+import {View, ImageBackground, StyleSheet} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {Dimensions} from 'react-native';
 import GoBack from '../../components/GoBack';
 import {RootStackParamList} from '../Navigator/routes';
 import {ListHeader} from './Components/ListHeader';
-import {parseImage} from '../../utils/functions';
-import DogImageListItem from '../../components/lists/DogImageListItem';
+import {isAndroid} from '../../utils/functions';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -24,31 +16,24 @@ import Animated, {
 } from 'react-native-reanimated';
 import {colors, springConfig, text} from '../../utils/constants';
 import Api from '../../api/requests';
-import {PanGestureHandler, ScrollView} from 'react-native-gesture-handler';
+import {PanGestureHandler} from 'react-native-gesture-handler';
 import SeeMore from './Components/SeeMore';
 import CustomStatusBar from '../../components/CustomStatusBar';
+import GalleryList from '../../components/lists/GalleryList';
+import Loading from '../../components/Loading';
 
 const FETCH_QUANTITY = 4;
-const SCREEN_WIDTH = Dimensions.get('screen').width;
-const SCREEN_HEIGHT = Dimensions.get('screen').height;
 const HEADER_HEIGHT = 67.33333587646484;
-const PLATFORM_BORDER = Platform.select({
-  ios: 14,
-  android: 28,
-  default: 14,
-});
-
-const renderItem = (uri: string, idx: number) => {
-  return <DogImageListItem uri={uri} idx={idx} />;
-};
+const LOADING_STYLE = isAndroid() ? 'loadingAndroid' : 'loadingIOS';
+const PLATFORM_BORDER = isAndroid() ? 28 : 14;
 
 const GalleryModal = () => {
   const {params} = useRoute<RouteProp<RootStackParamList, 'Gallery'>>();
 
   const [data, setData] = useState<string[]>([]);
   const [size, setSize] = useState<{width: number; height: number}>({
-    width: 0,
-    height: 0,
+    width: params.size.w,
+    height: params.size.h,
   });
 
   const fetchDogs = useRef(async (s: string) => {
@@ -70,8 +55,8 @@ const GalleryModal = () => {
       onStart: (_, ctx: any) => {
         ctx.startY = panScrollY.value;
       },
-      onActive: (event, ctx) => {
-        panScrollY.value = ctx.startY - event.translationY;
+      onActive: (evt, ctx) => {
+        panScrollY.value = ctx.startY - evt.translationY;
 
         if (panScrollY.value <= 0) {
           panScrollY.value = 0;
@@ -81,6 +66,13 @@ const GalleryModal = () => {
           } else {
             scrollY.value = 0;
           }
+        }
+      },
+      onEnd: evt => {
+        if (evt.translationY < 0) {
+          panScrollY.value = withSpring(size.height, springConfig);
+        } else {
+          panScrollY.value = withSpring(0, springConfig);
         }
       },
     },
@@ -115,8 +107,8 @@ const GalleryModal = () => {
     [size.height],
   );
 
-  const panTransformStyle = useAnimatedStyle(
-    () => ({
+  const panTransformStyle = useAnimatedStyle(() => {
+    return {
       transform: [
         {
           translateY: interpolate(
@@ -127,36 +119,18 @@ const GalleryModal = () => {
           ),
         },
       ],
-    }),
-    [size.height],
-  );
+    };
+  }, [size.height]);
 
   // set image size
   useEffect(() => {
-    let isMounted = false;
+    setSize({width: params.size.w, height: params.size.h});
 
-    Image.getSize(params.uri, (width, height) => {
-      if (!isMounted) {
-        let w = SCREEN_WIDTH;
-        let h = SCREEN_HEIGHT / 1.5;
-
-        const ratio = w / h;
-        const imageRatio = width / height;
-
-        if (imageRatio > ratio) {
-          h = SCREEN_WIDTH / imageRatio + HEADER_HEIGHT;
-        }
-
-        setSize({width: w, height: Math.min(SCREEN_HEIGHT, h)});
-      }
-    });
-
-    if (params.search) {
+    if (params.isConnected && params.search) {
       fetchDogs.current(params.search);
     }
 
     return () => {
-      isMounted = true;
       panScrollY.value = withSpring(0, springConfig);
       scrollY.value = withSpring(0, springConfig);
       setData([]);
@@ -171,7 +145,7 @@ const GalleryModal = () => {
       />
 
       <View style={styles.header}>
-        <View style={Platform.OS === 'android' ? styles.headerButtons : null}>
+        <View style={isAndroid() ? styles.headerButtons : null}>
           <GoBack />
 
           <View style={styles.goBackContainer}>
@@ -188,29 +162,36 @@ const GalleryModal = () => {
         </Animated.View>
       </View>
 
-      {size.height !== 0 && (
-        <PanGestureHandler
-          testID={'GalleryModal_GestureHandler'}
-          onGestureEvent={gestureHandler}>
-          <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
-            <FlatList
-              testID={'GalleryModal_List'}
-              data={data}
-              numColumns={2}
-              showsVerticalScrollIndicator={false}
-              scrollEnabled={false}
-              keyExtractor={parseImage}
-              contentContainerStyle={styles.list}
-              renderItem={({item, index}) => renderItem(item, index)}
-              bounces={false}
-              ListHeaderComponent={() => <ListHeader uri={params.uri} />}
-              ListFooterComponent={() => (
-                <SeeMore search={params.search ?? ''} />
-              )}
+      <PanGestureHandler
+        testID={'GalleryModal_GestureHandler'}
+        onGestureEvent={gestureHandler}>
+        <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
+          {!params.isConnected ? (
+            <View
+              style={{
+                borderRadius: 14,
+                overflow: 'hidden',
+              }}>
+              <ListHeader uri={params.uri} />
+              <View style={styles.loadingList}>
+                <Loading size={'large'} />
+              </View>
+            </View>
+          ) : (
+            <GalleryList
+              images={data}
+              HeaderComponent={<ListHeader uri={params.uri} />}
+              FooterComponent={
+                data.length >= 4 ? (
+                  <SeeMore search={params.search ?? ''} />
+                ) : (
+                  <View />
+                )
+              }
             />
-          </Animated.View>
-        </PanGestureHandler>
-      )}
+          )}
+        </Animated.View>
+      </PanGestureHandler>
     </View>
   );
 };
@@ -230,14 +211,6 @@ const styles = StyleSheet.create({
   background: {
     zIndex: -1,
   },
-  list: {
-    backgroundColor: colors.white,
-    borderTopLeftRadius: 21,
-    borderTopRightRadius: 21,
-    paddingBottom: 7 * 18,
-    paddingHorizontal: 7,
-    height: '100%',
-  },
   goBackContainer: {
     backgroundColor: 'transparent',
     position: 'absolute',
@@ -252,7 +225,14 @@ const styles = StyleSheet.create({
     color: colors.darkGray,
   },
   panGestureStyle: {
+    flex: 1,
+    // borderRadiusTopLeft: 14,
+    // borderRadiusTopRight: 14,
     overflow: 'hidden',
+  },
+  loadingList: {
+    height: Dimensions.get('screen').height / 2,
+    backgroundColor: colors.white,
   },
 });
 

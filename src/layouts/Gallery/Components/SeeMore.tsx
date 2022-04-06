@@ -1,9 +1,10 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import DefaultButton from '../../../components/buttons/DefaultButton';
-import {colors, ExtendedNavigationProp, text} from '../../../utils/constants';
+import {colors, text} from '../../../utils/constants';
 import {useNavigation} from '@react-navigation/native';
 import {parseDog} from '../../../utils/functions';
+import {ExtendedNavigationProp} from '../../../utils/types';
 
 interface Props {
   search: string;

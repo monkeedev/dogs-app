@@ -1,7 +1,7 @@
 import {View, StyleSheet} from 'react-native';
 import React from 'react';
 import {MainStyles} from '../../../assets/styles/MainStyles';
-import {colors, ExtendedNavigationProp, text} from '../../../utils/constants';
+import {colors} from '../../../utils/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import * as DogsJSON from '../../../utils/dogs.json';
 import {DogItem} from '../../../redux/types/listTypes';

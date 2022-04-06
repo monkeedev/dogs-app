@@ -6,13 +6,11 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useSelector} from 'react-redux';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, text} from '../../utils/constants';
 import CustomStatusBar from '../../components/CustomStatusBar';
-import {parseImage} from '../../utils/functions';
-import DogImageListItem from '../../components/lists/DogImageListItem';
 import EmptyList from '../../components/lists/EmptyList';
 import Animated, {
   Extrapolate,
@@ -22,15 +20,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {MainStyles} from '../../assets/styles/MainStyles';
-
-const renderItem = (uri: string, idx: number) => {
-  return <DogImageListItem uri={uri} idx={idx} />;
-};
+import GalleryList from '../../components/lists/GalleryList';
 
 const BookmarksScreen = () => {
   const {bookmarks} = useSelector(getDogsCatalog);
-  const [data, setData] = useState<string[]>([]);
-
   const scrollY = useSharedValue(0);
 
   const counterStyle = useAnimatedStyle(() => ({
@@ -51,19 +44,10 @@ const BookmarksScreen = () => {
     scrollY.value = e.nativeEvent.contentOffset.y;
   };
 
-  // scroll handler for FlatList
-  useEffect(() => {
-    if (bookmarks.length > 4 && bookmarks.length < 7) {
-      setData([...bookmarks, '', '']);
-    } else {
-      setData(bookmarks);
-    }
-  }, [bookmarks]);
-
   return (
     <View style={styles.container}>
       <CustomStatusBar
-        backgroundColor={colors.turquoise}
+        backgroundColor={'transparent'}
         barStyle={'dark-content'}
       />
       <View style={styles.header}>
@@ -84,26 +68,14 @@ const BookmarksScreen = () => {
         </View>
       </View>
 
-      <Animated.FlatList
-        testID={'BookmarksScreen_List'}
-        data={data}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={parseImage}
-        contentContainerStyle={[
-          styles.list,
-          data.length === 0
-            ? styles.emptyList
-            : data.length <= 6
-            ? {height: '100%'}
-            : {},
-        ]}
-        bounces={false}
-        renderItem={({item, index}) => renderItem(item, index)}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-        ListEmptyComponent={EmptyList}
-      />
+      <View style={styles.galleryContainer}>
+        <GalleryList
+          images={bookmarks}
+          isAnimated={true}
+          onScroll={handleScroll}
+          EmptyComponent={<EmptyList />}
+        />
+      </View>
     </View>
   );
 };
@@ -113,6 +85,10 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: colors.turquoise,
     position: 'relative',
+  },
+  galleryContainer: {
+    flex: 1,
+    backgroundColor: colors.white,
   },
   counterContainer: {
     width: 49,

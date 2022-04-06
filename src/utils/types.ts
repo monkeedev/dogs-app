@@ -36,3 +36,9 @@ export enum NotificationIcon {
   warning = 'warning-outline',
   error = 'sad-outline',
 }
+
+export interface ExtendedNavigationProp<T, P> {
+  navigate: (T: string, P: any) => void;
+  screen: T;
+  params: P;
+}
