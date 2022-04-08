@@ -1,5 +1,4 @@
 import axios, {AxiosResponse} from 'axios';
-import {checkConnection} from '../../native-modules/InternetConnectionModuleAndroid';
 import {ErrorMessages, notificationRef} from '../utils/constants';
 import {findBreedInList, flatTree} from '../utils/functions';
 import {DogApiResponse} from './interfaces';

@@ -1,3 +1,478 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GalleryModal matches snapshot 1`] = `null`;
+exports[`GalleryModal matches snapshot 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fffafb",
+      "height": 1334,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "transparent",
+        "height": 44,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "position": "absolute",
+      }
+    }
+  >
+    <View
+      style={null}
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#fffafb",
+            "borderRadius": 35,
+            "elevation": 1,
+            "height": 35,
+            "justifyContent": "center",
+            "left": 14,
+            "position": "absolute",
+            "top": 14,
+            "width": 35,
+            "zIndex": 1,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="GoBack_Button"
+        >
+          <View
+            style={
+              Object {
+                "overflow": "hidden",
+              }
+            }
+          >
+            <View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "transparent",
+                    "justifyContent": "center",
+                  }
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  selectable={false}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#2b2c2c",
+                        "fontSize": 18,
+                      },
+                      Object {
+                        "backgroundColor": "transparent",
+                      },
+                      Object {
+                        "fontFamily": "Ionicons",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                      Object {},
+                    ]
+                  }
+                  testID="iconIcon"
+                >
+                  
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "left": 56,
+            "overflow": "hidden",
+            "position": "absolute",
+            "top": 18,
+            "zIndex": 1,
+          }
+        }
+      >
+        <Text
+          animatedStyle={
+            Object {
+              "value": Object {
+                "transform": Array [
+                  Object {
+                    "translateX": -100,
+                  },
+                ],
+              },
+            }
+          }
+          collapsable={false}
+          style={
+            Object {
+              "color": "#2b2c2c",
+              "fontSize": 21,
+              "fontWeight": "900",
+              "transform": Array [
+                Object {
+                  "translateX": -100,
+                },
+              ],
+            }
+          }
+        >
+          Go back
+        </Text>
+      </View>
+    </View>
+    <View
+      animatedStyle={
+        Object {
+          "value": Object {
+            "opacity": 1,
+          },
+        }
+      }
+      collapsable={false}
+      pointerEvents="none"
+      style={
+        Object {
+          "opacity": 1,
+          "zIndex": -1,
+        }
+      }
+    >
+      <View
+        accessibilityIgnoresInvertColors={true}
+        style={
+          Object {
+            "height": 100,
+            "width": 100,
+          }
+        }
+      >
+        <Image
+          source={
+            Object {
+              "uri": "foo.jpg",
+            }
+          }
+          style={
+            Array [
+              Object {
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              },
+              Object {
+                "height": 100,
+                "width": 100,
+              },
+              undefined,
+            ]
+          }
+        />
+      </View>
+    </View>
+  </View>
+  <View
+    animatedStyle={
+      Object {
+        "value": Object {
+          "transform": Array [
+            Object {
+              "translateY": 32.666664123535156,
+            },
+          ],
+        },
+      }
+    }
+    collapsable={false}
+    forwardedRef={[Function]}
+    handlerTag={1}
+    handlerType="PanGestureHandler"
+    onGestureHandlerEvent={[Function]}
+    style={
+      Object {
+        "flex": 1,
+        "overflow": "hidden",
+        "transform": Array [
+          Object {
+            "translateY": 32.666664123535156,
+          },
+        ],
+      }
+    }
+    testID="GalleryModal_GestureHandler"
+  >
+    <RCTScrollView
+      ListFooterComponent={[Function]}
+      ListHeaderComponent={
+        <ListHeader
+          uri="https://images.dog.ceo/breeds/labrador/n02099712_5648.jpg"
+        />
+      }
+      bounces={false}
+      contentContainerStyle={
+        Array [
+          Object {
+            "backgroundColor": "#fffafb",
+            "borderTopLeftRadius": 21,
+            "borderTopRightRadius": 21,
+            "paddingBottom": 28,
+            "paddingHorizontal": 7,
+            "paddingTop": 7,
+          },
+          Object {
+            "flex": 1,
+            "justifyContent": "center",
+          },
+        ]
+      }
+      data={Array []}
+      getItem={[Function]}
+      getItemCount={[Function]}
+      keyExtractor={[Function]}
+      onContentSizeChange={[Function]}
+      onLayout={[Function]}
+      onMomentumScrollBegin={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onScroll={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={16}
+      showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={Array []}
+      testID="GalleryList"
+      viewabilityConfigCallbackPairs={Array []}
+    >
+      <View>
+        <View
+          onLayout={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#fffafb",
+                "borderRadiusTopLeft": 14,
+                "borderRadiusTopRight": 14,
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "paddingLeft": 14,
+                "paddingRight": 11.5,
+                "paddingVertical": 7,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#2b2c2c",
+                  "fontSize": 21,
+                  "fontWeight": "900",
+                  "paddingVertical": 14,
+                }
+              }
+            >
+              More 
+              labradors
+            </Text>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <View
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
+                testID="DefaultButton_TouchableOpacity"
+              >
+                <View
+                  style={
+                    Object {
+                      "backgroundColor": "#2BD9A5",
+                      "borderRadius": 7,
+                      "margin": 3.5,
+                      "padding": 10,
+                    }
+                  }
+                  testID="DefaultButton_View"
+                >
+                  <View
+                    style={
+                      Object {
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <View
+                      testID="ListHeader_Icon"
+                    >
+                      <View
+                        style={
+                          Object {
+                            "alignItems": "center",
+                            "backgroundColor": "transparent",
+                            "justifyContent": "center",
+                          }
+                        }
+                      >
+                        <Text
+                          allowFontScaling={false}
+                          selectable={false}
+                          style={
+                            Array [
+                              Object {
+                                "color": "#fffafb",
+                                "fontSize": 18,
+                              },
+                              Object {
+                                "backgroundColor": "transparent",
+                              },
+                              Object {
+                                "fontFamily": "Ionicons",
+                                "fontStyle": "normal",
+                                "fontWeight": "normal",
+                              },
+                              Object {},
+                            ]
+                          }
+                          testID="iconIcon"
+                        >
+                          
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <View
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "opacity": 1,
+                  }
+                }
+                testID="DefaultButton_TouchableOpacity"
+              >
+                <View
+                  style={
+                    Object {
+                      "backgroundColor": "#2BD9A5",
+                      "borderRadius": 7,
+                      "margin": 3.5,
+                      "padding": 10,
+                    }
+                  }
+                  testID="DefaultButton_View"
+                >
+                  <View
+                    style={
+                      Object {
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <View>
+                      <View
+                        style={
+                          Object {
+                            "alignItems": "center",
+                            "backgroundColor": "transparent",
+                            "justifyContent": "center",
+                          }
+                        }
+                      >
+                        <Text
+                          allowFontScaling={false}
+                          selectable={false}
+                          style={
+                            Array [
+                              Object {
+                                "color": "#fffafb",
+                                "fontSize": 18,
+                              },
+                              Object {
+                                "backgroundColor": "transparent",
+                              },
+                              Object {
+                                "fontFamily": "Ionicons",
+                                "fontStyle": "normal",
+                                "fontWeight": "normal",
+                              },
+                              Object {},
+                            ]
+                          }
+                          testID="iconIcon"
+                        >
+                          
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          onLayout={[Function]}
+        >
+          <View />
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;

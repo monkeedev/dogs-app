@@ -1,26 +1,22 @@
 import {View, StyleSheet} from 'react-native';
 import React from 'react';
 import {MainStyles} from '../../../assets/styles/MainStyles';
-import {colors} from '../../../utils/constants';
+import {colors, dogs} from '../../../utils/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
-import * as DogsJSON from '../../../utils/dogs.json';
-import {DogItem} from '../../../redux/types/listTypes';
 import {DogInfo} from './DogInfo';
 
 interface Props {
   value: string;
 }
 
-interface DogsJSONItems {
-  [key: string]: DogItem;
-}
-
-const data: DogsJSONItems = DogsJSON;
+// const data: DogsJSONItems = DogsJSON;
 
 export const SuggestionsItem = ({value}: Props) => {
-  return data[value] ? (
+  const {name, img} = dogs[value];
+
+  return dogs[value] ? (
     <View style={styles.container}>
-      <DogInfo name={data[value].name} uri={data[value].img} />
+      <DogInfo name={name} uri={img} />
       <View style={styles.icon} pointerEvents={'none'}>
         <Icon name={'chevron-right'} type={'feather'} color={colors.darkGray} />
       </View>

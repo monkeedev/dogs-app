@@ -1,5 +1,7 @@
 import React from 'react';
-import {NotificationRef} from './types';
+import {DogsJSONItems, NotificationRef} from './types';
+import * as DogsJSON from './dogs.json';
+import {DogItem} from '../redux/types/listTypes';
 
 export const colors = {
   white: '#fffafb',
@@ -51,3 +53,5 @@ export enum ErrorMessages {
   Network = 'Network error',
   SocialIsMissing = 'Needed app is not installed',
 }
+
+export const dogs: DogsJSONItems = DogsJSON;

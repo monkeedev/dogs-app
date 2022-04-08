@@ -126,7 +126,7 @@ const shareSingle = async (social: Social, url: string) => {
   try {
     let _url = url;
 
-    if (social === Social.Instagram) {
+    if (social === 'instagram') {
       const res = await RNFetchBlob.config({
         fileCache: true,
       }).fetch('GET', _url);
@@ -136,20 +136,6 @@ const shareSingle = async (social: Social, url: string) => {
       _url = `data:image/png;base64,${b64}`;
     }
 
-    // if (social === Social.Email) {
-    //   const mailOptions: any = {
-    //     url: _url,
-    //     message: 'Look at this cute doggo!',
-    //     social,
-    //     subject: 'Cute dogo',
-    //   };
-
-    //   await Share.shareSingle(mailOptions).catch(err => {
-    //     console.log('@err', err);
-    //     notificationRef.current?.show(ErrorMessages.SocialIsMissing, 'warning');
-    //   });
-    // }
-
     const options: any = {
       message: 'Look at this cute doggo!',
       url: _url,
@@ -157,13 +143,9 @@ const shareSingle = async (social: Social, url: string) => {
       type: 'image/*',
     };
 
-    const isSupported = await Linking.canOpenURL(`${social}://`);
-
-    if (isSupported) {
-      await Share.shareSingle(options).catch(err => console.log('@err', err));
-    } else {
+    await Share.shareSingle(options).catch(err => {
       notificationRef.current?.show(ErrorMessages.SocialIsMissing, 'warning');
-    }
+    });
   } catch (error) {
     notificationRef.current?.show(ErrorMessages.Default, 'warning');
     throw new Error('' + error);
@@ -201,41 +183,37 @@ export const shareImage = async (uri: string, type: string) => {
             Clipboard.setString(`${msg}`);
             await Linking.openURL(link);
           } else {
-            notificationRef.current?.show(
-              ErrorMessages.NotSupported,
-              'warning',
-            );
+            // await shareSingle(Social.Messenger, url);
+            await shareSingle('messenger', url);
           }
           break;
 
         case 'TelegramApp':
-          // link = `https://t.me/share/url?url=${encodeURI(url)}&text=${encodeURI(
-          //   'Look at this cute doggo!',
-          // )}`;
-          // console.log('@', link);
-          // isSupported = await Linking.canOpenURL(link);
+          link = `https://t.me/share/url?url=${encodeURI(url)}&text=${encodeURI(
+            'Look at this cute doggo!',
+          )}`;
 
-          // if (isSupported) {
-          //   await Linking.openURL(link);
-          // } else {
-          //   notificationRef.current?.show(
-          //     ErrorMessages.NotSupported,
-          //     'warning',
-          //   );
-          // }
-          await shareSingle(Social.Telegram, url);
+          await Linking.openURL(link).catch(err => {
+            notificationRef.current?.show(
+              ErrorMessages.NotSupported,
+              'warning',
+            );
+          });
           break;
 
         case 'MailApp':
-          await shareSingle(Social.Email, url);
+          // await shareSingle(Social.Email, url);
+          await shareSingle('email', url);
           break;
 
         case 'FacebookApp':
-          await shareSingle(Social.Facebook, url);
+          // await shareSingle(Social.Facebook, url);
+          await shareSingle('facebook', url);
           break;
 
         case 'InstagramApp':
-          await shareSingle(Social.Instagram, url);
+          // await shareSingle(Social.Instagram, url);
+          await shareSingle('instagram', url);
           break;
 
         default:
@@ -258,6 +236,8 @@ export const shareImage = async (uri: string, type: string) => {
 const transformToCamelCase = (word: string) => {
   if (word && typeof word === 'string' && word !== '') {
     return `${word[0].toUpperCase()}${word.slice(1)}`;
+  } else {
+    return '';
   }
 };
 
@@ -267,7 +247,7 @@ const transformToCamelCase = (word: string) => {
  * @param str
  * @returns string transformed to camel case
  */
-export const parseDog = (str: string) => {
+export const parseDog = (str: string): string => {
   if (!str || str === '' || typeof str !== 'string') {
     return '';
   } else {

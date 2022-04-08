@@ -24,7 +24,7 @@ import Loading from '../../components/Loading';
 
 const FETCH_QUANTITY = 4;
 const HEADER_HEIGHT = 67.33333587646484;
-const LOADING_STYLE = isAndroid() ? 'loadingAndroid' : 'loadingIOS';
+// const LOADING_STYLE = isAndroid() ? 'loadingAndroid' : 'loadingIOS';
 const PLATFORM_BORDER = isAndroid() ? 28 : 14;
 
 const GalleryModal = () => {

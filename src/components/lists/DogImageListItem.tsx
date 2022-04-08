@@ -68,14 +68,8 @@ const DogImageListItem = ({uri, idx}: Props) => {
       uri.lastIndexOf('/'),
     );
 
-    let path = uri;
-
-    if (!isConnected) {
-      path = await checkImageCache(uri);
-    }
-
     Image.getSize(
-      path,
+      img,
       (width, height) => {
         let w = SCREEN_WIDTH;
         let h = SCREEN_HEIGHT / 1.5;
@@ -89,7 +83,7 @@ const DogImageListItem = ({uri, idx}: Props) => {
 
         navigate('Gallery', {uri, search, img, isConnected, size: {w, h}});
       },
-      () => {
+      err => {
         notificationRef.current?.show(ErrorMessages.Default, 'error');
       },
     );

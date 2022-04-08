@@ -13,14 +13,6 @@ const LIST = [
   'https://images.dog.ceo/breeds/pyrenees/n02111500_7483.jpg',
 ];
 
-// Dimensions
-// const mockDimensions = ({width, height}) => {
-//   jest.resetModules();
-//   jest.doMock('react-native/Libraries/Utilities/Dimensions', () => ({
-//     get: jest.fn().mockReturnValue({width, height}),
-//   }));
-// };
-
 describe('CatalogScreen', () => {
   beforeEach(() => {
     useDispatch.mockReturnValue(mockedDispatch);

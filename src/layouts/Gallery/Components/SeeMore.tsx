@@ -1,28 +1,33 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import DefaultButton from '../../../components/buttons/DefaultButton';
-import {colors, text} from '../../../utils/constants';
+import {colors, dogs, text} from '../../../utils/constants';
 import {useNavigation} from '@react-navigation/native';
 import {parseDog} from '../../../utils/functions';
 import {ExtendedNavigationProp} from '../../../utils/types';
+import {useDispatch} from 'react-redux';
+import {toggleInHistory} from '../../../redux/actions/listActions';
 
 interface Props {
   search: string;
 }
 
 const SeeMore = ({search}: Props) => {
+  const dispatch = useDispatch();
   const {navigate} =
     useNavigation<
       ExtendedNavigationProp<'CatalogTabs', {params: {search: string}}>
     >();
 
   const handlePress = () => {
+    const name = parseDog(search);
     navigate('CatalogTabs', {
       screen: 'Catalog',
       params: {
-        search: parseDog(search),
+        search: name,
       },
     });
+    dispatch(toggleInHistory({name, img: dogs[search].img as string}));
   };
 
   return (

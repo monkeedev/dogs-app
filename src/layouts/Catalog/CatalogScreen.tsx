@@ -39,13 +39,13 @@ const CatalogScreen = () => {
     }
   }, [route]);
 
-  const handleEndReached = () => {
+  const handleEndReached = useCallback(() => {
     if (search) {
       dispatch(fetchDogsList(search, true));
     } else {
       dispatch(fetchDogsList());
     }
-  };
+  }, [dispatch, search]);
 
   const redirectToSearch = () => {
     navigate('Search', {search});

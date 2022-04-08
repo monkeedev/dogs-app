@@ -15,7 +15,11 @@ const initialState: ListState = {
   history: [],
 };
 
-const toggleItemInStorage = (item: string | DogItem, storage: any) => {
+const toggleItemInStorage = (
+  item: string | DogItem,
+  storage: any,
+  preventSplicing = false,
+) => {
   let _storage: string[] = Object.assign([], storage);
 
   if (!storage) {
@@ -32,7 +36,9 @@ const toggleItemInStorage = (item: string | DogItem, storage: any) => {
     if (idx === -1) {
       _storage = [item as any, ..._storage];
     } else {
-      _storage.splice(idx, 1);
+      if (!preventSplicing) {
+        _storage.splice(idx, 1);
+      }
     }
   }
 
@@ -92,7 +98,7 @@ export const listReducer = (state = initialState, action: ListActionsTypes) => {
     case ListActions.TOGGLE_IN_HISTORY:
       return {
         ...state,
-        history: toggleItemInStorage(action.payload.item, state.history),
+        history: toggleItemInStorage(action.payload.item, state.history, true),
       };
 
     default:

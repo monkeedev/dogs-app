@@ -1,3 +1,5 @@
+import {DogItem} from '../redux/types/listTypes';
+
 export interface ActionType<T, P> {
   type: T;
   payload: P;
@@ -37,6 +39,9 @@ export enum NotificationIcon {
   error = 'sad-outline',
 }
 
+export interface DogsJSONItems {
+  [key: string]: DogItem;
+}
 export interface ExtendedNavigationProp<T, P> {
   navigate: (T: string, P: any) => void;
   screen: T;

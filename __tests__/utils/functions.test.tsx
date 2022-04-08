@@ -5,6 +5,8 @@ import * as Functions from '../../src/utils/functions';
 import Notifications from '../../src/components/Notifications';
 import {Linking} from 'react-native';
 import {downloadFile, exists} from 'react-native-fs';
+import Share, {Social} from 'react-native-share';
+import {mockedPromise} from '../../jest.setup';
 
 const URI_LABRADOR =
   'https://images.dog.ceo/breeds/labrador/n02099712_5648.jpg';
@@ -173,9 +175,25 @@ describe('shareImage', () => {
     expect(data).toBe(true);
   });
 
-  it('works with TelegramApp', async () => {
-    const data = await Functions.shareImage('foo', 'TelegramApp');
+  it('works with MsgApp (if uses rn-share)', async () => {
+    Linking.canOpenURL.mockImplementationOnce(() => Promise.resolve(false));
 
+    const data = await Functions.shareImage('foo', 'MsgApp');
+
+    expect(data).toBe(true);
+  });
+
+  it('works with TelegramApp', async () => {
+    Linking.openURL.mockImplementationOnce(() => Promise.resolve(true));
+
+    const data = await Functions.shareImage('foo', 'TelegramApp');
+    expect(data).toBe(true);
+  });
+
+  it('works with TelegramApp (failure case)', async () => {
+    Linking.openURL.mockImplementationOnce(() => Promise.reject('error'));
+
+    const data = await Functions.shareImage('foo', 'TelegramApp');
     expect(data).toBe(true);
   });
 
@@ -194,13 +212,6 @@ describe('shareImage', () => {
   it('works with Instagram', async () => {
     const data = await Functions.shareImage('foo', 'InstagramApp');
 
-    expect(data).toBe(true);
-  });
-
-  it('throws an error if app is not supported/installed', async () => {
-    Linking.canOpenURL.mockImplementationOnce(() => Promise.resolve(false));
-
-    const data = await Functions.shareImage('foo', 'InstagramApp');
     expect(data).toBe(true);
   });
 
