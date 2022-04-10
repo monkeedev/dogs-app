@@ -102,6 +102,8 @@ const styles = StyleSheet.create({
   galleryContainer: {
     flex: 1,
     backgroundColor: colors.white,
+    borderTopLeftRadius: 14,
+    borderTopRightRadius: 14,
   },
   text: {
     fontSize: text.l,

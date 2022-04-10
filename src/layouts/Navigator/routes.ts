@@ -5,6 +5,7 @@ export type RootStackParamList = {
   Search: {
     search?: string;
   };
+  User: {};
   Gallery: {
     uri: string;
     img: string;

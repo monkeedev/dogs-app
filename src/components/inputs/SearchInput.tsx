@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: 999,
+    borderRadius: 10,
     overflow: 'hidden',
     backgroundColor: colors.white,
     marginVertical: 7,

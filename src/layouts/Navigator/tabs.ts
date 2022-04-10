@@ -1,5 +1,6 @@
 import BookmarksScreen from '../Catalog/BookmarksScreen';
 import CatalogScreen from '../Catalog/CatalogScreen';
+import UserScreen from '../User/Screen';
 
 export const tabs = [
   {
@@ -19,6 +20,16 @@ export const tabs = [
       activeName: 'bookmarks',
       defaultName: 'bookmarks-outline',
       type: 'ionicon',
+      size: 21,
+    },
+  },
+  {
+    name: 'User',
+    component: UserScreen,
+    icon: {
+      activeName: 'user',
+      defaultName: 'user',
+      type: 'feather',
       size: 21,
     },
   },

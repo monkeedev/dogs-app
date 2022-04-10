@@ -21,6 +21,7 @@ import Animated, {
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {MainStyles} from '../../assets/styles/MainStyles';
 import GalleryList from '../../components/lists/GalleryList';
+import Title from '../../components/texts/Title';
 
 const BookmarksScreen = () => {
   const {bookmarks} = useSelector(getDogsCatalog);
@@ -51,7 +52,7 @@ const BookmarksScreen = () => {
         barStyle={'dark-content'}
       />
       <View style={styles.header}>
-        <Text style={styles.headerText}>Favourites:</Text>
+        <Title text={'Favourites:'} color={colors.white} />
 
         <View style={styles.counterContainer}>
           <Animated.View style={[styles.counter, counterStyle]}>
@@ -89,6 +90,8 @@ const styles = StyleSheet.create({
   galleryContainer: {
     flex: 1,
     backgroundColor: colors.white,
+    borderTopLeftRadius: 14,
+    borderTopRightRadius: 14,
   },
   counterContainer: {
     width: 49,
@@ -100,7 +103,8 @@ const styles = StyleSheet.create({
   header: {
     ...MainStyles.rowFull,
     alignItems: 'flex-end',
-    marginVertical: 7,
+    marginTop: 9,
+    marginBottom: 7,
     marginHorizontal: 14,
   },
   headerText: {

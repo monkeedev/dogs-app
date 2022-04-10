@@ -47,3 +47,9 @@ export interface ExtendedNavigationProp<T, P> {
   screen: T;
   params: P;
 }
+
+export type IconProps = {
+  name: string;
+  type: string;
+  size?: number;
+};

@@ -169,8 +169,8 @@ const styles = StyleSheet.create({
     elevation: 1,
     width: ICON_SIZE,
     height: ICON_SIZE,
+    borderRadius: ICON_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 999,
   },
 });
