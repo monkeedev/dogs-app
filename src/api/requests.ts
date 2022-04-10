@@ -1,11 +1,11 @@
-import axios, {AxiosResponse} from 'axios';
+import axios from 'axios';
 import {ErrorMessages, notificationRef} from '../utils/constants';
 import {findBreedInList, flatTree} from '../utils/functions';
 import {DogApiResponse} from './interfaces';
-import {options} from './options';
 
 const returnNetworkError = () => {
   notificationRef.current?.show(ErrorMessages.Network, 'error');
+  return false;
 };
 
 /**
@@ -18,17 +18,17 @@ class DogsApi {
   list: string[];
 
   constructor() {
-    this.uri = options.uri;
+    this.uri = 'https://dog.ceo/api';
     this.list = [];
 
     this.getListOfDogBreeds();
   }
 
-  getListOfDogBreeds = async (): Promise<DogApiResponse> => {
+  getListOfDogBreeds = async (): Promise<string[] | Error> => {
     try {
-      const req = await axios
+      const req = (await axios
         .get(`${this.uri}/breeds/list/all`)
-        .catch(returnNetworkError);
+        .catch(returnNetworkError)) as any;
 
       this.list = flatTree(req?.data.message);
 
@@ -46,13 +46,16 @@ class DogsApi {
    *
    * @returns {Promise} list with dogs
    */
-  fetchDogs = async (b?: string | null, q = 10): Promise<DogApiResponse> => {
+  fetchDogs = async (
+    b?: string | null,
+    q = 10,
+  ): Promise<DogApiResponse | false | Error> => {
     try {
-      let req: AxiosResponse<DogApiResponse, any>;
+      let req: any;
 
       if (b && b !== '') {
         req = await axios
-          .get(
+          .get<DogApiResponse>(
             `${this.uri}/breed/${b.toLocaleLowerCase()}/images/random${
               q ? `/${q}` : ''
             }`,
@@ -83,7 +86,7 @@ class DogsApi {
     q?: number,
   ): Promise<DogApiResponse> => {
     try {
-      let req: AxiosResponse<DogApiResponse, any>;
+      let req: any;
       const _l = JSON.parse(JSON.stringify(this.list));
       const search = findBreedInList(_l, b.toLowerCase());
 

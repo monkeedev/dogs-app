@@ -8,7 +8,7 @@ instance.defaults.headers.post['Content-Type'] = 'application/json';
 
 export const createTinyUrl = async (url: string) => {
   const fcData = await firestore().collection('api_keys').doc('tiny_url').get();
-  const {key} = fcData.data();
+  const {key} = fcData.data() as any;
 
   if (!key && typeof key !== 'string') {
     throw new Error('key was received');

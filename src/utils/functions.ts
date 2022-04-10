@@ -5,7 +5,6 @@ import RNFetchBlob from 'rn-fetch-blob';
 import RNFS from 'react-native-fs';
 import {ErrorMessages, notificationRef} from './constants';
 import sh2 from 'shorthash2';
-import axios from 'axios';
 import {createTinyUrl} from './tinyUrlHelper';
 
 /**
@@ -122,7 +121,7 @@ export const getBreed = (uri: string) => {
  * @param social
  * @param url image address
  */
-const shareSingle = async (social: Social, url: string) => {
+const shareSingle = async (social: string, url: string) => {
   try {
     let _url = url;
 
@@ -270,7 +269,9 @@ export const parseDog = (str: string): string => {
  * @param uri file destination
  * @returns filepath
  */
-export const checkImageCache = async (uri: string = ''): Promise<string> => {
+export const checkImageCache = async (
+  uri: string = '',
+): Promise<string | false> => {
   const hash = sh2(uri);
 
   const path = RNFS.CachesDirectoryPath;
