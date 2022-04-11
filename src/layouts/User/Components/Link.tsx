@@ -23,7 +23,7 @@ const Link = ({text, redirectTo, iconConfig}: Props) => {
   };
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity activeOpacity={0.8}>
       <View style={styles.container}>
         <Info text={text} icon={iconConfig} />
         <Icon

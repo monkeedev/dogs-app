@@ -21,7 +21,7 @@ const Setting = ({text, action, iconConfig, component}: Props) => {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress}>
+    <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
       <View style={styles.container}>
         <Info text={text} icon={iconConfig} />
         {component}
