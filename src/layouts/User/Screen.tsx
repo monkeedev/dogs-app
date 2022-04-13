@@ -1,18 +1,29 @@
-import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {colors} from '../../utils/constants';
-import {MainStyles} from '../../assets/styles/MainStyles';
-import Title from '../../components/texts/Title';
-import Link from './Components/Link';
-import Preheader from '../../components/texts/Preheader';
-import Setting from './Components/Setting';
-import {useSelector} from 'react-redux';
-import {getDogsCatalog} from '../../redux/rootSelector';
-import RNFS from 'react-native-fs';
-import Checkbox from '../../components/buttons/Checkbox';
 import {useNavigationState} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import RNFS from 'react-native-fs';
+import {useSelector} from 'react-redux';
+import {MainStyles} from '../../assets/styles/MainStyles';
+import Checkbox from '../../components/buttons/Checkbox';
+import Preheader from '../../components/texts/Preheader';
+import Title from '../../components/texts/Title';
+import {getDogsCatalog} from '../../redux/rootSelector';
+import {colors} from '../../utils/constants';
+import {showAlert} from '../../utils/functions';
+import Link from './Components/Link';
+import Setting from './Components/Setting';
 
 const USER = 'User'; // test constant
+
+const BOOKMARKS_MODAL = {
+  title: 'Delete bookmarks?',
+  message: 'All bookmarked images will be deleted',
+};
+
+const CACHE_MODAL = {
+  title: 'Clear cache?',
+  message: 'Cache folder will be cleared',
+};
 
 const UserScreen = () => {
   const navState = useNavigationState(state => state);
@@ -77,7 +88,9 @@ const UserScreen = () => {
         <Preheader text={'content'} />
         <Setting
           text={'Bookmarks'}
-          action={() => console.log('@callModal(Bookmarks)')}
+          action={() =>
+            showAlert(BOOKMARKS_MODAL.title, BOOKMARKS_MODAL.message)
+          }
           iconConfig={{name: 'bookmark', type: 'feather'}}
           component={
             <Text style={styles.settingsText}>{bookmarks.length}</Text>
@@ -85,7 +98,7 @@ const UserScreen = () => {
         />
         <Setting
           text={'Cache'}
-          action={() => console.log('@callModal(Cache)')}
+          action={() => showAlert(CACHE_MODAL.title, CACHE_MODAL.message)}
           iconConfig={{name: 'folder', type: 'feather'}}
           component={
             <Text style={styles.settingsText}>{size.toFixed(2)} MB</Text>
