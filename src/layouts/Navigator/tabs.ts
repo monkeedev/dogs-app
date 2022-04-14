@@ -1,6 +1,6 @@
 import BookmarksScreen from '../Catalog/BookmarksScreen';
 import CatalogScreen from '../Catalog/CatalogScreen';
-import UserScreen from '../User/Screen';
+import UserScreen from '../User/UserScreen';
 
 export const tabs = [
   {

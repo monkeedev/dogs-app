@@ -2,14 +2,16 @@ import {useNavigationState} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import RNFS from 'react-native-fs';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
 import Checkbox from '../../components/buttons/Checkbox';
 import Preheader from '../../components/texts/Preheader';
 import Title from '../../components/texts/Title';
+import {clearBookmarks} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import {colors} from '../../utils/constants';
-import {showAlert} from '../../utils/functions';
+import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
+import {clearCache, isAndroid, showAlert} from '../../utils/functions';
+import {ShowAlertProps} from '../../utils/types';
 import Link from './Components/Link';
 import Setting from './Components/Setting';
 
@@ -20,14 +22,10 @@ const BOOKMARKS_MODAL = {
   message: 'All bookmarked images will be deleted',
 };
 
-const CACHE_MODAL = {
-  title: 'Clear cache?',
-  message: 'Cache folder will be cleared',
-};
-
 const UserScreen = () => {
   const navState = useNavigationState(state => state);
   const {bookmarks} = useSelector(getDogsCatalog);
+  const dispatch = useDispatch();
 
   const [size, setSize] = useState<number>(0);
   const [isDarkModeEnabled, setDarkMode] = useState<boolean>(false);
@@ -52,6 +50,50 @@ const UserScreen = () => {
   useEffect(() => {
     getSize();
   }, [getSize, navState]);
+
+  const bookmarksModal: ShowAlertProps = {
+    title: 'Delete bookmarks?',
+    message: 'All bookmarked images will be deleted',
+    buttons: [
+      {
+        text: 'OK',
+        onPress: () => {
+          dispatch(clearBookmarks());
+          notificationRef.current?.show('Done!', 'success');
+        },
+        style: 'default',
+      },
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+    ],
+  };
+
+  const cacheModal: ShowAlertProps = {
+    title: 'Clear cache?',
+    message: 'Cache folder will be cleared',
+    buttons: [
+      {
+        text: 'OK',
+        onPress: () => {
+          clearCache()
+            .then(getSize)
+            .then(() => {
+              notificationRef.current?.show('Done!', 'success');
+            })
+            .catch(() => {
+              notificationRef.current?.show(ErrorMessages.Default, 'error');
+            });
+        },
+        style: 'default',
+      },
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+    ],
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -88,9 +130,7 @@ const UserScreen = () => {
         <Preheader text={'content'} />
         <Setting
           text={'Bookmarks'}
-          action={() =>
-            showAlert(BOOKMARKS_MODAL.title, BOOKMARKS_MODAL.message)
-          }
+          action={() => showAlert(bookmarksModal)}
           iconConfig={{name: 'bookmark', type: 'feather'}}
           component={
             <Text style={styles.settingsText}>{bookmarks.length}</Text>
@@ -98,7 +138,7 @@ const UserScreen = () => {
         />
         <Setting
           text={'Cache'}
-          action={() => showAlert(CACHE_MODAL.title, CACHE_MODAL.message)}
+          action={() => showAlert(cacheModal)}
           iconConfig={{name: 'folder', type: 'feather'}}
           component={
             <Text style={styles.settingsText}>{size.toFixed(2)} MB</Text>
@@ -117,7 +157,7 @@ const styles = StyleSheet.create({
   header: {
     ...MainStyles.rowFull,
     alignItems: 'flex-end',
-    marginTop: 9,
+    marginTop: isAndroid() ? 35 : 9,
     marginHorizontal: 14,
     marginBottom: 7,
   },

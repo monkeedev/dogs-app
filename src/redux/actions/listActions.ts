@@ -20,6 +20,11 @@ export const saveToBookmarks = (img: string) => ({
   payload: {img},
 });
 
+export const clearBookmarks = () => ({
+  type: ListActions.CLEAR_BOOKMARKS,
+  payload: {},
+});
+
 export const toggleInHistory = (item: DogItem) => ({
   type: ListActions.TOGGLE_IN_HISTORY,
   payload: {item},

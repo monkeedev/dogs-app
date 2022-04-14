@@ -1,3 +1,4 @@
+import {AlertButton} from 'react-native';
 import {DogItem} from '../redux/types/listTypes';
 
 export interface ActionType<T, P> {
@@ -52,4 +53,10 @@ export type IconProps = {
   name: string;
   type: string;
   size?: number;
+};
+
+export type ShowAlertProps = {
+  title: string;
+  message?: string;
+  buttons?: AlertButton[];
 };

@@ -6,6 +6,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import sh2 from 'shorthash2';
 import {ErrorMessages, notificationRef} from './constants';
 import {createTinyUrl} from './tinyUrlHelper';
+import {ShowAlertProps} from './types';
 
 /**
  * Tree with dogs
@@ -308,15 +309,16 @@ export const checkImageCache = async (
 // needed for tests
 export const isAndroid = () => Platform.OS === 'android';
 
-type AlertButton = {
-  text: string;
-  onPress: () => void;
+export const showAlert = (o: ShowAlertProps) => {
+  Alert.alert(o.title, o.message ?? '', o.buttons ? [...o.buttons] : undefined);
 };
 
-export const showAlert = (
-  title: string,
-  msg?: string,
-  buttons?: AlertButton[],
-) => {
-  Alert.alert(title, msg, buttons ? [...buttons] : undefined);
+export const clearCache = async () => {
+  const path = RNFS.CachesDirectoryPath;
+  const files = await RNFS.readdir(path);
+  const filePath = `${isAndroid() ? 'file://' : ''}${path}`;
+
+  for (let key in files) {
+    await RNFS.unlink(`${filePath}/${files[key]}`);
+  }
 };
