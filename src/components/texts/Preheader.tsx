@@ -1,14 +1,14 @@
-import {ColorValue, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {colors, text} from '../../utils/constants';
+import {ColorValue, StyleSheet, Text, View} from 'react-native';
 import {MainStyles} from '../../assets/styles/MainStyles';
+import {colors, text} from '../../utils/constants';
 
 interface Props {
   text: string;
   color?: ColorValue;
 }
 
-const Preheader = ({text, color}: Props) => {
+export const Preheader = ({text, color}: Props) => {
   const c = color ?? colors.gray;
 
   return (
@@ -18,8 +18,6 @@ const Preheader = ({text, color}: Props) => {
     </View>
   );
 };
-
-export default Preheader;
 
 const styles = StyleSheet.create({
   container: {

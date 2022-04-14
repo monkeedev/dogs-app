@@ -1,5 +1,5 @@
-import {View, Text, TextStyle} from 'react-native';
 import React from 'react';
+import {Text, TextStyle, View} from 'react-native';
 
 interface Props {
   text: string;
@@ -8,7 +8,7 @@ interface Props {
   highlightStyle?: TextStyle | null;
 }
 
-const HighlightedWord = ({
+export const HighlightedWord = ({
   text,
   highlight,
   style = null,
@@ -37,5 +37,3 @@ const HighlightedWord = ({
     </View>
   );
 };
-
-export default HighlightedWord;

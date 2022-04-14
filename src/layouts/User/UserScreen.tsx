@@ -5,19 +5,17 @@ import RNFS from 'react-native-fs';
 import {useDispatch, useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
 import {Checkbox} from '../../components/buttons';
-import Preheader from '../../components/texts/Preheader';
-import Title from '../../components/texts/Title';
+import {Preheader, Title} from '../../components/texts';
 import {clearBookmarks} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
 import {clearCache, isAndroid, showAlert} from '../../utils/functions';
 import {ShowAlertProps} from '../../utils/types';
-import Link from './Components/Link';
-import Setting from './Components/Setting';
+import {Link, Setting} from './Components';
 
 const USER = 'User'; // test constant
 
-const UserScreen = () => {
+export const UserScreen = () => {
   const navState = useNavigationState(state => state);
   const {bookmarks} = useSelector(getDogsCatalog);
   const dispatch = useDispatch();
@@ -164,5 +162,3 @@ const styles = StyleSheet.create({
     marginRight: 7,
   },
 });
-
-export default UserScreen;

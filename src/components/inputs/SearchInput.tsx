@@ -1,5 +1,5 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {colors} from '../../utils/constants';
 
@@ -13,7 +13,7 @@ interface Props {
 
 const ICON_SIZE = 36;
 
-const SearchInput = ({
+export const SearchInput = ({
   value = '',
   onChangeText,
   placeholder,
@@ -56,8 +56,6 @@ const SearchInput = ({
     </View>
   );
 };
-
-export default SearchInput;
 
 const styles = StyleSheet.create({
   container: {

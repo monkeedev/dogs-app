@@ -1,11 +1,11 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {colors, text} from '../../../utils/constants';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {MainStyles} from '../../../assets/styles/MainStyles';
+import {colors} from '../../../utils/constants';
 import {IconProps} from '../../../utils/types';
-import Info from './Info';
-import {useNavigation} from '@react-navigation/native';
+import {Info} from './Info';
 
 interface Props {
   text: string;
@@ -13,7 +13,7 @@ interface Props {
   iconConfig?: IconProps;
 }
 
-const Link = ({text, redirectTo, iconConfig}: Props) => {
+export const Link = ({text, redirectTo, iconConfig}: Props) => {
   const {navigate} = useNavigation<any>();
 
   const handlePress = () => {
@@ -36,8 +36,6 @@ const Link = ({text, redirectTo, iconConfig}: Props) => {
     </TouchableOpacity>
   );
 };
-
-export default Link;
 
 const styles = StyleSheet.create({
   container: {

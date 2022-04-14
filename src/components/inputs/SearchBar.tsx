@@ -1,15 +1,15 @@
-import {View, Text, Pressable, Dimensions, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
+import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
   withSpring,
 } from 'react-native-reanimated';
-import SearchInput from '../../../components/inputs/SearchInput';
-import {colors, springConfig, text} from '../../../utils/constants';
-import {useNavigation} from '@react-navigation/native';
-import {MainStyles} from '../../../assets/styles/MainStyles';
+import {SearchInput} from '.';
+import {MainStyles} from '../../assets/styles/MainStyles';
+import {colors, springConfig, text} from '../../utils/constants';
 
 interface Props {
   value: string;

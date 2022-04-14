@@ -1,10 +1,8 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {ReactElement} from 'react';
-import {colors, text} from '../../../utils/constants';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {MainStyles} from '../../../assets/styles/MainStyles';
 import {IconProps} from '../../../utils/types';
-import Info from './Info';
+import {Info} from './Info';
 
 interface Props {
   text: string;
@@ -13,7 +11,7 @@ interface Props {
   iconConfig?: IconProps;
 }
 
-const Setting = ({text, action, iconConfig, component}: Props) => {
+export const Setting = ({text, action, iconConfig, component}: Props) => {
   const handlePress = () => {
     if (action && typeof action === 'function') {
       action();
@@ -29,8 +27,6 @@ const Setting = ({text, action, iconConfig, component}: Props) => {
     </TouchableOpacity>
   );
 };
-
-export default Setting;
 
 const styles = StyleSheet.create({
   container: {

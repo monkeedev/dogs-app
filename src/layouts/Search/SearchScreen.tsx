@@ -2,18 +2,18 @@ import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import Api from '../../api/requests';
-import CustomStatusBar from '../../components/CustomStatusBar';
+import {CustomStatusBar} from '../../components';
+import {SearchBar} from '../../components/inputs';
 import {HistoryList, SuggestionsList} from '../../components/lists';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {DogItem} from '../../redux/types/listTypes';
 import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
-import {SearchBar} from './Components/SearchBar';
 
 const TIMER_TIMEOUT = 1500;
 
 export const SearchContext = React.createContext('');
 
-const SearchScreen = () => {
+export const SearchScreen = () => {
   const {history} = useSelector(getDogsCatalog);
 
   const idleTimerRef = useRef<any>();
@@ -103,5 +103,3 @@ const styles = StyleSheet.create({
     backgroundColor: colors.turquoise,
   },
 });
-
-export default SearchScreen;

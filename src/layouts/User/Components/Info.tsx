@@ -1,8 +1,8 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {IconProps} from '../../../utils/types';
+import {StyleSheet, Text} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {colors} from '../../../utils/constants';
+import {IconProps} from '../../../utils/types';
 
 interface Props {
   text: string;
@@ -11,7 +11,7 @@ interface Props {
 
 const ICON_SIZE = 35;
 
-const Info = ({text, icon}: Props) => {
+export const Info = ({text, icon}: Props) => {
   return (
     <>
       {icon && Object.keys(icon).length > 0 && (
@@ -21,8 +21,6 @@ const Info = ({text, icon}: Props) => {
     </>
   );
 };
-
-export default Info;
 
 const styles = StyleSheet.create({
   text: {

@@ -11,22 +11,19 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import Api from '../../api/requests';
+import {CustomStatusBar, Loading} from '../../components';
 import {GoBack} from '../../components/buttons';
-import CustomStatusBar from '../../components/CustomStatusBar';
 import {GalleryList} from '../../components/lists';
-import Loading from '../../components/Loading';
 import {colors, springConfig, text} from '../../utils/constants';
 import {isAndroid} from '../../utils/functions';
 import {RootStackParamList} from '../Navigator/routes';
-import {ListHeader} from './Components/ListHeader';
-import SeeMore from './Components/SeeMore';
+import {ListHeader, SeeMore} from './Components';
 
 const FETCH_QUANTITY = 4;
 const HEADER_HEIGHT = 67.33333587646484;
-// const LOADING_STYLE = isAndroid() ? 'loadingAndroid' : 'loadingIOS';
 const PLATFORM_BORDER = isAndroid() ? 28 : 14;
 
-const GalleryModal = () => {
+export const GalleryModal = () => {
   const {params} = useRoute<RouteProp<RootStackParamList, 'Gallery'>>();
 
   const [data, setData] = useState<string[]>([]);
@@ -225,8 +222,6 @@ const styles = StyleSheet.create({
   },
   panGestureStyle: {
     flex: 1,
-    // borderRadiusTopLeft: 14,
-    // borderRadiusTopRight: 14,
     overflow: 'hidden',
   },
   loadingList: {
@@ -234,5 +229,3 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
 });
-
-export default GalleryModal;

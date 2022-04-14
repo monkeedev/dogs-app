@@ -1,8 +1,8 @@
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
-import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {tabs} from './tabs';
-import {animationConfig, colors} from '../../utils/constants';
+import {NavigationContainer, useRoute} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import React from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Animated, {
   useAnimatedReaction,
@@ -11,11 +11,10 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import GalleryModal from '../Gallery/GalleryModal';
-import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer, useRoute} from '@react-navigation/native';
+import {GalleryModal, SearchScreen} from '..';
+import {animationConfig, colors} from '../../utils/constants';
 import {RootStackParamList} from './routes';
-import SearchScreen from '../Search/SearchScreen';
+import {tabs} from './tabs';
 
 const RADIUS = 14;
 const TAB_BAR_HEIGHT = 56;

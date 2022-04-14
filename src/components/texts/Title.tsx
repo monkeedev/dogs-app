@@ -1,5 +1,5 @@
-import {View, Text, ColorValue, StyleSheet} from 'react-native';
 import React from 'react';
+import {ColorValue, StyleSheet, Text} from 'react-native';
 import {colors, text} from '../../utils/constants';
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   color?: ColorValue;
 }
 
-const Title = ({text, color}: Props) => {
+export const Title = ({text, color}: Props) => {
   return (
     <Text style={{...styles.text, color: color ?? colors.black}}>{text}</Text>
   );
@@ -19,5 +19,3 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
 });
-
-export default Title;

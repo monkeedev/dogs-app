@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {HighlightedWord} from '..';
 import {MainStyles} from '../../assets/styles/MainStyles';
 import {SearchContext} from '../../layouts/Search/SearchScreen';
 import {toggleInHistory} from '../../redux/actions/listActions';
@@ -16,7 +17,6 @@ import {DogItem} from '../../redux/types/listTypes';
 import {colors, text} from '../../utils/constants';
 import {checkImageCache, parseDog} from '../../utils/functions';
 import {ExtendedNavigationProp} from '../../utils/types';
-import HighlightedWord from '../HighlightedWord';
 
 interface Props {
   name: string;

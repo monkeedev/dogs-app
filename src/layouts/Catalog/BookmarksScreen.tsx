@@ -16,13 +16,13 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
-import CustomStatusBar from '../../components/CustomStatusBar';
+import {CustomStatusBar} from '../../components';
 import {EmptyList, GalleryList} from '../../components/lists';
-import Title from '../../components/texts/Title';
+import {Title} from '../../components/texts';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, text} from '../../utils/constants';
 
-const BookmarksScreen = () => {
+export const BookmarksScreen = () => {
   const {bookmarks} = useSelector(getDogsCatalog);
   const scrollY = useSharedValue(0);
 
@@ -129,5 +129,3 @@ const styles = StyleSheet.create({
     marginBottom: 7,
   },
 });
-
-export default BookmarksScreen;

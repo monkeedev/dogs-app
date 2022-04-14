@@ -8,17 +8,16 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
+import {CustomStatusBar, Loading} from '../../components';
 import {ClearTextButton, FakeInputButton} from '../../components/buttons';
-import CustomStatusBar from '../../components/CustomStatusBar';
-import SearchInput from '../../components/inputs/SearchInput';
+import {SearchInput} from '../../components/inputs';
 import {GalleryList} from '../../components/lists';
-import Loading from '../../components/Loading';
 import {fetchDogsList} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, text} from '../../utils/constants';
 import {RootStackParamList} from '../Navigator/routes';
 
-const CatalogScreen = () => {
+export const CatalogScreen = () => {
   const dispatch = useDispatch();
   const {navigate} =
     useNavigation<NavigationProp<RootStackParamList, 'Search'>>();
@@ -123,5 +122,3 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
 });
-
-export default CatalogScreen;

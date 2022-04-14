@@ -12,7 +12,7 @@ interface Props {
   search: string;
 }
 
-const SeeMore = ({search}: Props) => {
+export const SeeMore = ({search}: Props) => {
   const dispatch = useDispatch();
   const {navigate} =
     useNavigation<
@@ -51,5 +51,3 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
 });
-
-export default SeeMore;
