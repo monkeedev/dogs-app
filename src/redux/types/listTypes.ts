@@ -19,6 +19,7 @@ export enum ListActions {
   CLEAR_BOOKMARKS = 'CLEAR_BOOKMARKS',
   SAVE_TO_BOOKMARKS = 'SAVE_TO_BOOKMARKS',
   TOGGLE_IN_HISTORY = 'SAVE_TO_HISTORY',
+  RESTORE_CACHES_FROM_LISTS = 'RESTORE_CACHES_FROM_LISTS',
 }
 
 export type ListActionsTypes =
@@ -28,4 +29,5 @@ export type ListActionsTypes =
   | ActionType<ListActions.CLEAR_LIST, {}>
   | ActionType<ListActions.SAVE_TO_BOOKMARKS, {img: string}>
   | ActionType<ListActions.CLEAR_BOOKMARKS, {}>
-  | ActionType<ListActions.TOGGLE_IN_HISTORY, {item: DogItem}>;
+  | ActionType<ListActions.TOGGLE_IN_HISTORY, {item: DogItem}>
+  | ActionType<ListActions.RESTORE_CACHES_FROM_LISTS, {}>;

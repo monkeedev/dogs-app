@@ -39,7 +39,7 @@ export const GalleryModal = () => {
 
       setData(d);
     } catch (err) {
-      throw new Error(err as string);
+      throw new Error('' + err);
     }
   });
 

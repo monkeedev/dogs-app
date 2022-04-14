@@ -15,7 +15,8 @@ import {toggleInHistory} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {DogItem} from '../../redux/types/listTypes';
 import {colors, text} from '../../utils/constants';
-import {checkImageCache, parseDog} from '../../utils/functions';
+import {parseDog} from '../../utils/functions';
+import {checkImageCache} from '../../utils/helpers/cache';
 import {ExtendedNavigationProp} from '../../utils/types';
 
 interface Props {

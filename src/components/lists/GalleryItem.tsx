@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -12,7 +12,10 @@ import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {useDispatch, useSelector} from 'react-redux';
 import {checkConnection} from '../../../native-modules/InternetConnectionModuleAndroid';
-import {saveToBookmarks} from '../../redux/actions/listActions';
+import {
+  restoreCacheFromLists,
+  saveToBookmarks,
+} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {
   animationConfig,
@@ -20,7 +23,7 @@ import {
   ErrorMessages,
   notificationRef,
 } from '../../utils/constants';
-import {checkImageCache} from '../../utils/functions';
+import {checkImageCache, checkImagePath} from '../../utils/helpers/cache';
 
 interface Props {
   uri: string;
@@ -55,17 +58,14 @@ export const GalleryItem = ({uri, idx}: Props) => {
     return isBookmarked ? _active : _default;
   }, [isBookmarked]);
 
-  const handleSave = () => dispatch(saveToBookmarks(uri));
-
-  const openGallery = async () => {
-    const isConnected = await checkConnection();
+  const setImageSizes = useCallback((path: string, isConnected: boolean) => {
     const search = uri.slice(
       uri.indexOf('breeds') + 'breeds/'.length,
       uri.lastIndexOf('/'),
     );
 
     Image.getSize(
-      img,
+      path,
       (width, height) => {
         let w = SCREEN_WIDTH;
         let h = SCREEN_HEIGHT / 1.5;
@@ -77,12 +77,34 @@ export const GalleryItem = ({uri, idx}: Props) => {
           h = SCREEN_WIDTH / imageRatio + HEADER_HEIGHT;
         }
 
-        navigate('Gallery', {uri, search, img, isConnected, size: {w, h}});
+        navigate('Gallery', {
+          uri,
+          search,
+          img: path,
+          isConnected,
+          size: {w, h},
+        });
       },
       err => {
         notificationRef.current?.show(ErrorMessages.Default, 'error');
       },
     );
+  }, []);
+
+  const handleSave = () => dispatch(saveToBookmarks(uri));
+
+  const openGallery = async () => {
+    const isConnected = await checkConnection();
+    const doesImageExist = await checkImagePath(uri);
+    let path = img;
+
+    // restores cache for all files
+    if (!doesImageExist) {
+      dispatch(restoreCacheFromLists());
+      path = await checkImageCache(uri);
+    }
+
+    setImageSizes(path, isConnected);
   };
 
   useEffect(() => {

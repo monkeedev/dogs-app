@@ -107,6 +107,7 @@ export const listReducer = (state = initialState, action: ListActionsTypes) => {
         history: toggleItemInStorage(action.payload.item, state.history, true),
       };
 
+    case ListActions.RESTORE_CACHES_FROM_LISTS:
     default:
       return state;
   }

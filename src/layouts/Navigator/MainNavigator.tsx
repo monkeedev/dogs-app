@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer, useRoute} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -9,10 +9,9 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  withTiming,
 } from 'react-native-reanimated';
 import {GalleryModal, SearchScreen} from '..';
-import {animationConfig, colors} from '../../utils/constants';
+import {colors, springConfig} from '../../utils/constants';
 import {RootStackParamList} from './routes';
 import {tabs} from './tabs';
 
@@ -29,22 +28,21 @@ interface TabProps {
 }
 
 const TabBar = ({state, descriptors, navigation}: TabProps) => {
-  const route = useRoute();
   const width = useSharedValue(0);
   const activeIdx = useSharedValue(0);
 
   const rStyle = useAnimatedStyle(() => ({
     width: width.value - 7 * 2,
-    opacity: withSpring(+(width.value !== 0)),
+    opacity: withSpring(+(width.value !== 0), springConfig),
     transform: [
       {
-        translateX: withTiming(width.value * activeIdx.value, animationConfig),
+        translateX: withSpring(width.value * activeIdx.value, springConfig),
       },
     ],
   }));
 
   const oStyles = useAnimatedStyle(() => ({
-    opacity: withSpring(+(width.value !== 0)),
+    opacity: withSpring(+(width.value !== 0), springConfig),
   }));
 
   useAnimatedReaction(

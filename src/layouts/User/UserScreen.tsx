@@ -9,7 +9,8 @@ import {Preheader, Title} from '../../components/texts';
 import {clearBookmarks} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
-import {clearCache, isAndroid, showAlert} from '../../utils/functions';
+import {isAndroid, showAlert} from '../../utils/functions';
+import {clearCache} from '../../utils/helpers/cache';
 import {ShowAlertProps} from '../../utils/types';
 import {Link, Setting} from './Components';
 
@@ -24,7 +25,7 @@ export const UserScreen = () => {
   const [isDarkModeEnabled, setDarkMode] = useState<boolean>(false);
 
   // check cache size
-  const getSize = useCallback(async () => {
+  const getCacheSize = useCallback(async () => {
     const s = await RNFS.readDir(RNFS.CachesDirectoryPath);
     if (s.length > 0) {
       const bytes = s.reduce((a, c) => {
@@ -41,8 +42,8 @@ export const UserScreen = () => {
   const toggleDarkMode = () => setDarkMode(prev => !prev);
 
   useEffect(() => {
-    getSize();
-  }, [getSize, navState]);
+    getCacheSize();
+  }, [getCacheSize, navState]);
 
   const bookmarksModal: ShowAlertProps = {
     title: 'Delete bookmarks?',
@@ -71,7 +72,7 @@ export const UserScreen = () => {
         text: 'OK',
         onPress: () => {
           clearCache()
-            .then(getSize)
+            .then(getCacheSize)
             .then(() => {
               notificationRef.current?.show('Done!', 'success');
             })

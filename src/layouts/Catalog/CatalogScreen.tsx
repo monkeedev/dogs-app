@@ -18,10 +18,11 @@ import {colors, text} from '../../utils/constants';
 import {RootStackParamList} from '../Navigator/routes';
 
 export const CatalogScreen = () => {
-  const dispatch = useDispatch();
   const {navigate} =
     useNavigation<NavigationProp<RootStackParamList, 'Search'>>();
   const route = useRoute<RouteProp<RootStackParamList, 'CatalogTabs'>>();
+
+  const dispatch = useDispatch();
   const {list} = useSelector(getDogsCatalog);
 
   const [search, setSearch] = useState('');
@@ -35,7 +36,7 @@ export const CatalogScreen = () => {
       setSearch(route.params?.search);
       dispatch(fetchDogsList(route.params?.search, true, true));
     }
-  }, [route]);
+  }, [route.params?.search]);
 
   const handleEndReached = useCallback(() => {
     if (search) {

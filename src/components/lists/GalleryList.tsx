@@ -54,6 +54,8 @@ const renderFooterComponent = (
   }
 };
 
+export const GalleryContext = React.createContext(false);
+
 export const GalleryList = ({
   images,
   isLoading,
