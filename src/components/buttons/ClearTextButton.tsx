@@ -1,5 +1,5 @@
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {} from 'react-native-gesture-handler';
 import {colors} from '../../utils/constants';
@@ -10,7 +10,7 @@ interface Props {
   onPress: () => void;
 }
 
-const ClearTextButton = ({onPress}: Props) => {
+export const ClearTextButton = ({onPress}: Props) => {
   const handleOnPress = () => {
     if (onPress && typeof onPress === 'function') {
       onPress();
@@ -30,8 +30,6 @@ const ClearTextButton = ({onPress}: Props) => {
     </TouchableOpacity>
   );
 };
-
-export default ClearTextButton;
 
 const styles = StyleSheet.create({
   container: {

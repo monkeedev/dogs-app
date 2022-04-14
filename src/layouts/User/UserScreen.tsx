@@ -4,7 +4,7 @@ import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import RNFS from 'react-native-fs';
 import {useDispatch, useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
-import Checkbox from '../../components/buttons/Checkbox';
+import {Checkbox} from '../../components/buttons';
 import Preheader from '../../components/texts/Preheader';
 import Title from '../../components/texts/Title';
 import {clearBookmarks} from '../../redux/actions/listActions';
@@ -16,11 +16,6 @@ import Link from './Components/Link';
 import Setting from './Components/Setting';
 
 const USER = 'User'; // test constant
-
-const BOOKMARKS_MODAL = {
-  title: 'Delete bookmarks?',
-  message: 'All bookmarked images will be deleted',
-};
 
 const UserScreen = () => {
   const navState = useNavigationState(state => state);

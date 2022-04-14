@@ -1,13 +1,13 @@
 import React from 'react';
-import DefaultButton from './DefaultButton';
-import {colors, shareBottomSheetRef} from '../../utils/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import {DefaultButton} from '.';
+import {colors, shareBottomSheetRef} from '../../utils/constants';
 
 interface Props {
   uri: string;
 }
 
-const ShareButton = ({uri}: Props) => {
+export const ShareButton = ({uri}: Props) => {
   const openBottomSheetNavigator = () => {
     if (uri && uri !== '') {
       return shareBottomSheetRef.current.toggle(uri);
@@ -25,5 +25,3 @@ const ShareButton = ({uri}: Props) => {
     </DefaultButton>
   );
 };
-
-export default ShareButton;

@@ -1,12 +1,12 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
-import DefaultButton from '../../../components/buttons/DefaultButton';
-import {colors, dogs, text} from '../../../utils/constants';
 import {useNavigation} from '@react-navigation/native';
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {DefaultButton} from '../../../components/buttons';
+import {toggleInHistory} from '../../../redux/actions/listActions';
+import {colors, dogs, text} from '../../../utils/constants';
 import {parseDog} from '../../../utils/functions';
 import {ExtendedNavigationProp} from '../../../utils/types';
-import {useDispatch} from 'react-redux';
-import {toggleInHistory} from '../../../redux/actions/listActions';
 
 interface Props {
   search: string;

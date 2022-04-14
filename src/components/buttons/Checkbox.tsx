@@ -1,6 +1,5 @@
-import {StyleSheet} from 'react-native';
 import React from 'react';
-import {colors, springConfig} from '../../utils/constants';
+import {StyleSheet} from 'react-native';
 import Animated, {
   interpolate,
   interpolateColor,
@@ -9,7 +8,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {colors, springConfig} from '../../utils/constants';
 
 interface Props {
   state: boolean;
@@ -19,7 +18,7 @@ interface Props {
 const CHECKBOX_HEIGHT = 28;
 const CHECKBOX_WIDTH = 56;
 
-const Checkbox = ({state, isControlled}: Props) => {
+export const Checkbox = ({state, isControlled}: Props) => {
   const isToggled = useSharedValue(+state);
 
   const containerStyle = useAnimatedStyle(() => ({
@@ -61,8 +60,6 @@ const Checkbox = ({state, isControlled}: Props) => {
   );
 };
 
-export default Checkbox;
-
 const styles = StyleSheet.create({
   container: {
     width: CHECKBOX_WIDTH,
@@ -70,7 +67,6 @@ const styles = StyleSheet.create({
     borderRadius: CHECKBOX_HEIGHT,
     borderWidth: 1,
     borderColor: colors.gray,
-    // backgroundColor: colors.gray,
     padding: 1,
   },
   circle: {

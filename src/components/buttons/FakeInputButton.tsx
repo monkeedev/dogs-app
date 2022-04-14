@@ -1,12 +1,12 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {ReactElement} from 'react';
+import {Pressable, View} from 'react-native';
 
 interface Props {
   children: ReactElement;
   onPress: () => void;
 }
 
-const FakeInputButton = ({children, onPress}: Props) => {
+export const FakeInputButton = ({children, onPress}: Props) => {
   const handleRedirect = () => {
     if (onPress || typeof onPress === 'function') {
       return onPress();
@@ -19,7 +19,3 @@ const FakeInputButton = ({children, onPress}: Props) => {
     </Pressable>
   );
 };
-
-export default FakeInputButton;
-
-const styles = StyleSheet.create({});

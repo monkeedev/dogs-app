@@ -11,8 +11,8 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import Api from '../../api/requests';
+import {GoBack} from '../../components/buttons';
 import CustomStatusBar from '../../components/CustomStatusBar';
-import GoBack from '../../components/GoBack';
 import {GalleryList} from '../../components/lists';
 import Loading from '../../components/Loading';
 import {colors, springConfig, text} from '../../utils/constants';

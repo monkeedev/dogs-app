@@ -1,11 +1,5 @@
-import {
-  View,
-  TouchableOpacity,
-  GestureResponderEvent,
-  StyleSheet,
-  ColorValue,
-} from 'react-native';
 import React, {ReactElement} from 'react';
+import {ColorValue, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {colors} from '../../utils/constants';
 
 interface Props {
@@ -15,7 +9,7 @@ interface Props {
   isCircle?: boolean;
 }
 
-const DefaultButton = ({children, onPress, isCircle, color}: Props) => {
+export const DefaultButton = ({children, onPress, isCircle, color}: Props) => {
   return (
     <TouchableOpacity
       testID={'DefaultButton_TouchableOpacity'}
@@ -46,5 +40,3 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
 });
-
-export default DefaultButton;
