@@ -1,11 +1,7 @@
-import {View, ImageBackground, StyleSheet} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {Dimensions} from 'react-native';
-import GoBack from '../../components/GoBack';
-import {RootStackParamList} from '../Navigator/routes';
-import {ListHeader} from './Components/ListHeader';
-import {isAndroid} from '../../utils/functions';
+import React, {useEffect, useRef, useState} from 'react';
+import {Dimensions, ImageBackground, StyleSheet, View} from 'react-native';
+import {PanGestureHandler} from 'react-native-gesture-handler';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -14,13 +10,16 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {colors, springConfig, text} from '../../utils/constants';
 import Api from '../../api/requests';
-import {PanGestureHandler} from 'react-native-gesture-handler';
-import SeeMore from './Components/SeeMore';
 import CustomStatusBar from '../../components/CustomStatusBar';
-import GalleryList from '../../components/lists/GalleryList';
+import GoBack from '../../components/GoBack';
+import {GalleryList} from '../../components/lists';
 import Loading from '../../components/Loading';
+import {colors, springConfig, text} from '../../utils/constants';
+import {isAndroid} from '../../utils/functions';
+import {RootStackParamList} from '../Navigator/routes';
+import {ListHeader} from './Components/ListHeader';
+import SeeMore from './Components/SeeMore';
 
 const FETCH_QUANTITY = 4;
 const HEADER_HEIGHT = 67.33333587646484;

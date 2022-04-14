@@ -1,5 +1,5 @@
-import {ColorValue, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {ColorValue, StyleSheet, Text, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {colors} from '../../utils/constants';
 
@@ -8,7 +8,7 @@ interface Props {
   color?: ColorValue;
 }
 
-const EmptyList = ({title, color}: Props) => {
+export const EmptyList = ({title, color}: Props) => {
   return (
     <View>
       <Text style={[styles.text, {color: color ?? colors.turquoise}]}>
@@ -23,8 +23,6 @@ const EmptyList = ({title, color}: Props) => {
     </View>
   );
 };
-
-export default EmptyList;
 
 const styles = StyleSheet.create({
   text: {

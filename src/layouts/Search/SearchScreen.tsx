@@ -1,14 +1,13 @@
-import {View, StyleSheet, Text} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import CustomStatusBar from '../../components/CustomStatusBar';
-import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
-import Api from '../../api/requests';
-import {SuggestionsList} from './Components/SuggestionsList';
-import {SearchBar} from './Components/SearchBar';
+import {StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
+import Api from '../../api/requests';
+import CustomStatusBar from '../../components/CustomStatusBar';
+import {HistoryList, SuggestionsList} from '../../components/lists';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import {HistoryList} from './Components/HistoryList';
 import {DogItem} from '../../redux/types/listTypes';
+import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
+import {SearchBar} from './Components/SearchBar';
 
 const TIMER_TIMEOUT = 1500;
 

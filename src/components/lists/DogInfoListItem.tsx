@@ -1,23 +1,22 @@
+import {useNavigation} from '@react-navigation/native';
+import React, {useContext, useEffect, useState} from 'react';
 import {
-  View,
-  TouchableOpacity,
+  Dimensions,
   ImageBackground,
   StyleSheet,
-  Dimensions,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {MainStyles} from '../../../assets/styles/MainStyles';
 import {useDispatch, useSelector} from 'react-redux';
-import {getDogsCatalog} from '../../../redux/rootSelector';
-import {useNavigation} from '@react-navigation/native';
-import {colors, text} from '../../../utils/constants';
-import {checkImageCache, parseDog} from '../../../utils/functions';
-import {DogItem} from '../../../redux/types/listTypes';
-import {toggleInHistory} from '../../../redux/actions/listActions';
-import HighlightedWord from '../../../components/HighlightedWord';
-import {useContext} from 'react';
-import {SearchContext} from '../SearchScreen';
-import {ExtendedNavigationProp} from '../../../utils/types';
+import {MainStyles} from '../../assets/styles/MainStyles';
+import {SearchContext} from '../../layouts/Search/SearchScreen';
+import {toggleInHistory} from '../../redux/actions/listActions';
+import {getDogsCatalog} from '../../redux/rootSelector';
+import {DogItem} from '../../redux/types/listTypes';
+import {colors, text} from '../../utils/constants';
+import {checkImageCache, parseDog} from '../../utils/functions';
+import {ExtendedNavigationProp} from '../../utils/types';
+import HighlightedWord from '../HighlightedWord';
 
 interface Props {
   name: string;
@@ -26,7 +25,7 @@ interface Props {
 
 const ICON_SIZE = 40;
 
-export const DogInfo = ({name, uri}: Props) => {
+export const DogInfoListItem = ({name, uri}: Props) => {
   const search = useContext(SearchContext);
 
   const dispatch = useDispatch();

@@ -1,22 +1,21 @@
-import {View, StyleSheet} from 'react-native';
 import React from 'react';
-import {MainStyles} from '../../../assets/styles/MainStyles';
-import {colors, dogs} from '../../../utils/constants';
+import {StyleSheet, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
-import {DogInfo} from './DogInfo';
+import {DogInfoListItem} from '.';
+import {MainStyles} from '../../assets/styles/MainStyles';
+import {colors, dogs} from '../../utils/constants';
 
 interface Props {
   value: string;
 }
-
-// const data: DogsJSONItems = DogsJSON;
 
 export const SuggestionsItem = ({value}: Props) => {
   const {name, img} = dogs[value];
 
   return dogs[value] ? (
     <View style={styles.container}>
-      <DogInfo name={name} uri={img} />
+      <DogInfoListItem name={name} uri={img} />
+
       <View style={styles.icon} pointerEvents={'none'}>
         <Icon name={'chevron-right'} type={'feather'} color={colors.darkGray} />
       </View>

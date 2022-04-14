@@ -1,16 +1,16 @@
 import React, {ReactElement, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
   View,
-  FlatList,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
+import {GalleryItem} from '.';
 import {colors} from '../../utils/constants';
 import {parseImage} from '../../utils/functions';
-import {renderItem} from './helpers';
 
 interface Props {
   images: string[];
@@ -22,6 +22,10 @@ interface Props {
   onEndReached?: () => void;
   onScroll?: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
 }
+
+const renderItem = (uri: string, idx: number) => {
+  return <GalleryItem uri={uri} idx={idx} />;
+};
 
 const renderFooterComponent = (
   isLoading?: boolean,
@@ -50,7 +54,7 @@ const renderFooterComponent = (
   }
 };
 
-const GalleryList = ({
+export const GalleryList = ({
   images,
   isLoading,
   isAnimated,
@@ -126,8 +130,6 @@ const GalleryList = ({
     <FlatList {...config} />
   );
 };
-
-export default GalleryList;
 
 const styles = StyleSheet.create({
   list: {

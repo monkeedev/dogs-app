@@ -1,27 +1,26 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-} from 'react-native';
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {getDogsCatalog} from '../../redux/rootSelector';
-import {colors, text} from '../../utils/constants';
-import CustomStatusBar from '../../components/CustomStatusBar';
-import EmptyList from '../../components/lists/EmptyList';
+import {
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
+import {useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
-import GalleryList from '../../components/lists/GalleryList';
+import CustomStatusBar from '../../components/CustomStatusBar';
+import {EmptyList, GalleryList} from '../../components/lists';
 import Title from '../../components/texts/Title';
+import {getDogsCatalog} from '../../redux/rootSelector';
+import {colors, text} from '../../utils/constants';
 
 const BookmarksScreen = () => {
   const {bookmarks} = useSelector(getDogsCatalog);

@@ -1,13 +1,13 @@
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {MainStyles} from '../../../assets/styles/MainStyles';
-import {colors} from '../../../utils/constants';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
-import {parseDog} from '../../../utils/functions';
 import {useDispatch} from 'react-redux';
-import {toggleInHistory} from '../../../redux/actions/listActions';
-import {DogItem} from '../../../redux/types/listTypes';
-import {DogInfo} from './DogInfo';
+import {DogInfoListItem} from '.';
+import {MainStyles} from '../../assets/styles/MainStyles';
+import {toggleInHistory} from '../../redux/actions/listActions';
+import {DogItem} from '../../redux/types/listTypes';
+import {colors} from '../../utils/constants';
+import {parseDog} from '../../utils/functions';
 
 interface Props {
   value: DogItem;
@@ -25,7 +25,7 @@ export const HistoryItem = ({value}: Props) => {
 
   return value.name ? (
     <View style={styles.container}>
-      <DogInfo name={value.name} uri={value.img} />
+      <DogInfoListItem name={value.name} uri={value.img} />
 
       <View style={styles.icon}>
         <TouchableOpacity onPress={deleteFromHistory}>

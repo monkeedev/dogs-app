@@ -1,7 +1,7 @@
-import {FlatList} from 'react-native';
 import React from 'react';
-import {DogItem} from '../../../redux/types/listTypes';
-import {HistoryItem} from './HistoryItem';
+import {FlatList} from 'react-native';
+import {HistoryItem} from '.';
+import {DogItem} from '../../redux/types/listTypes';
 
 interface Props {
   data: DogItem[];

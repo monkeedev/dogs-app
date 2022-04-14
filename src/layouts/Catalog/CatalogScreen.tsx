@@ -1,23 +1,23 @@
-import {View, StyleSheet, Text} from 'react-native';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {colors, text} from '../../utils/constants';
-import CustomStatusBar from '../../components/CustomStatusBar';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchDogsList} from '../../redux/actions/listActions';
-import {getDogsCatalog} from '../../redux/rootSelector';
 import {
   NavigationProp,
   RouteProp,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import {RootStackParamList} from '../Navigator/routes';
-import FakeInputButton from '../../components/buttons/FakeInputButton';
-import SearchInput from '../../components/inputs/SearchInput';
-import GalleryList from '../../components/lists/GalleryList';
-import ClearTextButton from '../../components/buttons/ClearTextButton';
+import React, {useCallback, useEffect, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
+import ClearTextButton from '../../components/buttons/ClearTextButton';
+import FakeInputButton from '../../components/buttons/FakeInputButton';
+import CustomStatusBar from '../../components/CustomStatusBar';
+import SearchInput from '../../components/inputs/SearchInput';
+import {GalleryList} from '../../components/lists';
 import Loading from '../../components/Loading';
+import {fetchDogsList} from '../../redux/actions/listActions';
+import {getDogsCatalog} from '../../redux/rootSelector';
+import {colors, text} from '../../utils/constants';
+import {RootStackParamList} from '../Navigator/routes';
 
 const CatalogScreen = () => {
   const dispatch = useDispatch();
