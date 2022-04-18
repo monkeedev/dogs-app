@@ -78,3 +78,48 @@ export const checkImagePath = async (p: string): Promise<boolean> => {
     throw new Error();
   }
 };
+
+/**
+ * Restore images list from cache
+ *
+ * @var {string[]} list - list to restore
+ */
+export const restoreCacheFromLists = async (
+  list: string[],
+): Promise<boolean> => {
+  try {
+    for (const key in list) {
+      await checkImageCache(list[key]).catch(_ => {
+        throw new Error(ErrorMessages.Default);
+      });
+    }
+
+    return true;
+  } catch (error) {
+    notificationRef.current?.show(ErrorMessages.Default, 'error');
+
+    return false;
+  }
+};
+
+/**
+ * Get size of cache folder
+ *
+ * @var     {string[]} list - list to restore
+ * @returns {number} size in MB
+ */
+export const getCacheSize = async (): Promise<number> => {
+  const s = await RNFS.readDir(RNFS.CachesDirectoryPath);
+  let size = 0;
+
+  if (s.length > 0) {
+    const bytes = s.reduce((a, c) => {
+      a += c.size;
+      return a;
+    }, 0);
+
+    size = bytes / 1000000;
+  }
+
+  return size;
+};

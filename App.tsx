@@ -10,7 +10,10 @@ import Navigator from './src/layouts/Navigator/Navigator';
 import {persistor, store} from './src/redux/configureStore';
 import {notificationRef, shareBottomSheetRef} from './src/utils/constants';
 
-LogBox.ignoreLogs(['[react-native-gesture-handler]']);
+LogBox.ignoreLogs([
+  '[react-native-gesture-handler]',
+  'EventEmitter.removeListener',
+]);
 
 const App = () => {
   useEffect(() => {

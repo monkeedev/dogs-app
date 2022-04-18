@@ -1,4 +1,5 @@
-import React from 'react';
+import {useIsFocused} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Dimensions,
   NativeScrollEvent,
@@ -16,13 +17,18 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
-import {CustomStatusBar} from '../../components';
+import {Loading} from '../../components';
 import {EmptyList, GalleryList} from '../../components/lists';
 import {Title} from '../../components/texts';
+import {GalleryListWrapper, GalleryWrapper} from '../../components/wrappers';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {colors, text} from '../../utils/constants';
+import {restoreCacheFromLists} from '../../utils/helpers/cache';
 
 export const BookmarksScreen = () => {
+  const isFocused = useIsFocused();
+  const [isLoading, setLoading] = useState(false);
+
   const {bookmarks} = useSelector(getDogsCatalog);
   const scrollY = useSharedValue(0);
 
@@ -44,12 +50,26 @@ export const BookmarksScreen = () => {
     scrollY.value = e.nativeEvent.contentOffset.y;
   };
 
+  const restoreImages = useCallback(async () => {
+    const wasRestored = await restoreCacheFromLists(bookmarks);
+
+    if (wasRestored) {
+      setLoading(false);
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (isFocused) {
+      restoreImages();
+    }
+
+    return () => {
+      setLoading(true);
+    };
+  }, [isFocused]);
+
   return (
-    <View style={styles.container}>
-      <CustomStatusBar
-        backgroundColor={'transparent'}
-        barStyle={'dark-content'}
-      />
+    <GalleryWrapper>
       <View style={styles.header}>
         <Title text={'Favourites:'} color={colors.white} />
 
@@ -68,24 +88,28 @@ export const BookmarksScreen = () => {
         </View>
       </View>
 
-      <View style={styles.galleryContainer}>
-        <GalleryList
-          images={bookmarks}
-          isAnimated={true}
-          onScroll={handleScroll}
-          EmptyComponent={<EmptyList />}
-        />
-      </View>
-    </View>
+      <GalleryListWrapper>
+        {isLoading ? (
+          <Loading size={'large'} />
+        ) : (
+          <GalleryList
+            images={bookmarks}
+            isAnimated={true}
+            onScroll={handleScroll}
+            EmptyComponent={<EmptyList />}
+          />
+        )}
+      </GalleryListWrapper>
+    </GalleryWrapper>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    backgroundColor: colors.turquoise,
-    position: 'relative',
-  },
+  // container: {
+  //   height: '100%',
+  //   backgroundColor: colors.turquoise,
+  //   position: 'relative',
+  // },
   galleryContainer: {
     flex: 1,
     backgroundColor: colors.white,

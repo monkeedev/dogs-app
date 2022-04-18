@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import {useTheme} from '../../../assets/theme';
 import {colors} from '../../../utils/constants';
 import {IconProps} from '../../../utils/types';
 
@@ -12,12 +13,14 @@ interface Props {
 const ICON_SIZE = 35;
 
 export const Info = ({text, icon}: Props) => {
+  const {mode} = useTheme();
+
   return (
     <>
       {icon && Object.keys(icon).length > 0 && (
-        <Icon style={styles.icon} color={colors.white} size={21} {...icon} />
+        <Icon style={styles.icon} color={mode.card} size={21} {...icon} />
       )}
-      <Text style={styles.text}>{text}</Text>
+      <Text style={{...styles.text, color: mode.text}}>{text}</Text>
     </>
   );
 };

@@ -11,12 +11,14 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import Api from '../../api/requests';
+import {useTheme} from '../../assets/theme';
 import {CustomStatusBar, Loading} from '../../components';
 import {GoBack} from '../../components/buttons';
 import {GalleryList} from '../../components/lists';
-import {colors, springConfig, text} from '../../utils/constants';
+import {GalleryListWrapper} from '../../components/wrappers';
+import {springConfig, text} from '../../utils/constants';
 import {isAndroid} from '../../utils/functions';
-import {RootStackParamList} from '../Navigator/routes';
+import {RootStackParamList} from '../Navigator/utils/routes';
 import {ListHeader, SeeMore} from './Components';
 
 const FETCH_QUANTITY = 4;
@@ -24,6 +26,7 @@ const HEADER_HEIGHT = 67.33333587646484;
 const PLATFORM_BORDER = isAndroid() ? 28 : 14;
 
 export const GalleryModal = () => {
+  const {mode} = useTheme();
   const {params} = useRoute<RouteProp<RootStackParamList, 'Gallery'>>();
 
   const [data, setData] = useState<string[]>([]);
@@ -134,7 +137,7 @@ export const GalleryModal = () => {
   }, [params.uri]);
 
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, backgroundColor: mode.card}}>
       <CustomStatusBar
         backgroundColor={'transparent'}
         barStyle={'light-content'}
@@ -145,7 +148,11 @@ export const GalleryModal = () => {
           <GoBack />
 
           <View style={styles.goBackContainer}>
-            <Animated.Text style={[styles.goBackText, goBackTransform]}>
+            <Animated.Text
+              style={[
+                {...styles.goBackText, color: mode.text},
+                goBackTransform,
+              ]}>
               Go back
             </Animated.Text>
           </View>
@@ -162,30 +169,33 @@ export const GalleryModal = () => {
         testID={'GalleryModal_GestureHandler'}
         onGestureEvent={gestureHandler}>
         <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
-          {!params.isConnected ? (
-            <View
-              style={{
-                borderRadius: 14,
-                overflow: 'hidden',
-              }}>
-              <ListHeader uri={params.uri} />
-              <View style={styles.loadingList}>
-                <Loading size={'large'} />
+          <GalleryListWrapper>
+            {!params.isConnected ? (
+              <View
+                style={{
+                  borderRadius: 14,
+                  overflow: 'hidden',
+                }}>
+                <ListHeader uri={params.uri} />
+                <View
+                  style={{...styles.loadingList, backgroundColor: mode.card}}>
+                  <Loading size={'large'} />
+                </View>
               </View>
-            </View>
-          ) : (
-            <GalleryList
-              images={data}
-              HeaderComponent={<ListHeader uri={params.uri} />}
-              FooterComponent={
-                data.length >= 4 ? (
-                  <SeeMore search={params.search ?? ''} />
-                ) : (
-                  <View />
-                )
-              }
-            />
-          )}
+            ) : (
+              <GalleryList
+                images={data}
+                HeaderComponent={<ListHeader uri={params.uri} />}
+                FooterComponent={
+                  data.length >= 4 ? (
+                    <SeeMore search={params.search ?? ''} />
+                  ) : (
+                    <View />
+                  )
+                }
+              />
+            )}
+          </GalleryListWrapper>
         </Animated.View>
       </PanGestureHandler>
     </View>
@@ -194,7 +204,6 @@ export const GalleryModal = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
     height: Dimensions.get('screen').height,
   },
   header: {
@@ -218,7 +227,6 @@ const styles = StyleSheet.create({
   goBackText: {
     fontSize: text.m,
     fontWeight: '900',
-    color: colors.darkGray,
   },
   panGestureStyle: {
     flex: 1,
@@ -226,6 +234,5 @@ const styles = StyleSheet.create({
   },
   loadingList: {
     height: Dimensions.get('screen').height / 2,
-    backgroundColor: colors.white,
   },
 });

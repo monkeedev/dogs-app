@@ -9,13 +9,13 @@ import {
 } from 'react-native';
 import Animated from 'react-native-reanimated';
 import {GalleryItem} from '.';
-import {colors} from '../../utils/constants';
 import {parseImage} from '../../utils/functions';
 
 interface Props {
   images: string[];
   isLoading?: boolean;
   isAnimated?: boolean;
+  blurImages?: boolean;
   HeaderComponent?: ReactElement;
   FooterComponent?: ReactElement;
   EmptyComponent?: ReactElement;
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     paddingBottom: 28,
     borderTopLeftRadius: 21,
     borderTopRightRadius: 21,
-    backgroundColor: colors.white,
   },
   emptyList: {
     flex: 1,

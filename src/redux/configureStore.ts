@@ -1,9 +1,9 @@
-import {createStore, applyMiddleware, combineReducers, compose} from 'redux';
-import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
+import {persistReducer, persistStore} from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
-
 import {listReducer} from './reducers/listReducers';
+import {userReducer} from './reducers/userReducers';
 import rootSaga from './rootSaga';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -24,8 +24,14 @@ const listConfig = {
   blacklist: ['list'],
 };
 
+const userConfig = {
+  key: 'user',
+  storage: AsyncStorage,
+};
+
 const appReducer = combineReducers({
   list: persistReducer(listConfig, listReducer),
+  user: persistReducer(userConfig, userReducer),
 });
 
 const rootReducer = (state: any, action: any) => {

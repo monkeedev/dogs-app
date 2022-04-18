@@ -1,49 +1,38 @@
-import {useNavigationState} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import RNFS from 'react-native-fs';
+import {useIsFocused} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
 import {Checkbox} from '../../components/buttons';
-import {Preheader, Title} from '../../components/texts';
+import {Title} from '../../components/texts';
+import {DefaultWrapper} from '../../components/wrappers/DefaultWrapper';
 import {clearBookmarks} from '../../redux/actions/listActions';
-import {getDogsCatalog} from '../../redux/rootSelector';
+import {changeTheme} from '../../redux/actions/userActions';
+import {getDogsCatalog, getUserStorage} from '../../redux/rootSelector';
 import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
 import {isAndroid, showAlert} from '../../utils/functions';
-import {clearCache} from '../../utils/helpers/cache';
+import {clearCache, getCacheSize} from '../../utils/helpers/cache';
 import {ShowAlertProps} from '../../utils/types';
-import {Link, Setting} from './Components';
-
-const USER = 'User'; // test constant
+import {List, Setting} from './Components';
 
 export const UserScreen = () => {
-  const navState = useNavigationState(state => state);
+  const isFocused = useIsFocused();
+
   const {bookmarks} = useSelector(getDogsCatalog);
+  const {theme} = useSelector(getUserStorage);
   const dispatch = useDispatch();
 
   const [size, setSize] = useState<number>(0);
-  const [isDarkModeEnabled, setDarkMode] = useState<boolean>(false);
 
-  // check cache size
-  const getCacheSize = useCallback(async () => {
-    const s = await RNFS.readDir(RNFS.CachesDirectoryPath);
-    if (s.length > 0) {
-      const bytes = s.reduce((a, c) => {
-        a += c.size;
-        return a;
-      }, 0);
-
-      setSize(bytes / 1000000);
-    } else {
-      setSize(0);
-    }
-  }, []);
-
-  const toggleDarkMode = () => setDarkMode(prev => !prev);
+  const toggleDarkMode = () => {
+    dispatch(changeTheme());
+  };
 
   useEffect(() => {
-    getCacheSize();
-  }, [getCacheSize, navState]);
+    if (isFocused) {
+      getCacheSize().then(res => setSize(res));
+    }
+  }, [isFocused]);
 
   const bookmarksModal: ShowAlertProps = {
     title: 'Delete bookmarks?',
@@ -72,8 +61,8 @@ export const UserScreen = () => {
         text: 'OK',
         onPress: () => {
           clearCache()
-            .then(getCacheSize)
             .then(() => {
+              setSize(0);
               notificationRef.current?.show('Done!', 'success');
             })
             .catch(() => {
@@ -90,38 +79,21 @@ export const UserScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <DefaultWrapper>
       <View style={styles.header}>
-        <Title text={`Hello, ${USER}!`} />
+        <Title text={`Hello, ${theme}!`} />
       </View>
 
-      <View style={styles.links}>
-        <Preheader text={'preferences'} />
-        <Link
-          text={'Account'}
-          redirectTo={'Account'}
-          iconConfig={{name: 'user', type: 'feather'}}
-        />
-        <Link
-          text={'Notifications'}
-          redirectTo={'Notifications'}
-          iconConfig={{name: 'bell', type: 'feather'}}
-        />
-        <Link
-          text={'Help'}
-          redirectTo={'Help'}
-          iconConfig={{name: 'help-circle', type: 'feather'}}
-        />
+      <List title={'preferences'}>
         <Setting
           text={'Dark mode'}
           action={toggleDarkMode}
           iconConfig={{name: 'moon', type: 'feather'}}
-          component={<Checkbox state={isDarkModeEnabled} />}
+          component={<Checkbox state={theme === 'dark'} />}
         />
-      </View>
+      </List>
 
-      <View style={styles.links}>
-        <Preheader text={'content'} />
+      <List title={'content'}>
         <Setting
           text={'Bookmarks'}
           action={() => showAlert(bookmarksModal)}
@@ -138,8 +110,8 @@ export const UserScreen = () => {
             <Text style={styles.settingsText}>{size.toFixed(2)} MB</Text>
           }
         />
-      </View>
-    </SafeAreaView>
+      </List>
+    </DefaultWrapper>
   );
 };
 
@@ -154,9 +126,6 @@ const styles = StyleSheet.create({
     marginTop: isAndroid() ? 35 : 9,
     marginHorizontal: 14,
     marginBottom: 7,
-  },
-  links: {
-    marginHorizontal: 14,
   },
   settingsText: {
     color: colors.gray,

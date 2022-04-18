@@ -1,6 +1,7 @@
 import React from 'react';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {DefaultButton} from '.';
+import {useTheme} from '../../assets/theme';
 import {colors, shareBottomSheetRef} from '../../utils/constants';
 
 interface Props {
@@ -8,6 +9,8 @@ interface Props {
 }
 
 export const ShareButton = ({uri}: Props) => {
+  const {mode} = useTheme();
+
   const openBottomSheetNavigator = () => {
     if (uri && uri !== '') {
       return shareBottomSheetRef.current.toggle(uri);
@@ -19,7 +22,7 @@ export const ShareButton = ({uri}: Props) => {
       <Icon
         type={'ionicon'}
         name={`share-social-sharp`}
-        color={colors.white}
+        color={mode.card}
         size={18}
       />
     </DefaultButton>

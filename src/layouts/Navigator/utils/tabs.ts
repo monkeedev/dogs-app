@@ -1,4 +1,4 @@
-import {BookmarksScreen, CatalogScreen, UserScreen} from '..';
+import {BookmarksScreen, CatalogScreen, UserScreen} from '../..';
 
 export const tabs = [
   {

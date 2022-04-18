@@ -1,4 +1,4 @@
-import {AlertButton} from 'react-native';
+import {AlertButton, ColorValue} from 'react-native';
 import {DogItem} from '../redux/types/listTypes';
 
 export interface ActionType<T, P> {
@@ -60,3 +60,19 @@ export type ShowAlertProps = {
   message?: string;
   buttons?: AlertButton[];
 };
+
+type ColorSchemeKeys =
+  | 'primary'
+  | 'secondary'
+  | 'background'
+  | 'surface'
+  | 'error'
+  | 'text'
+  | 'border'
+  | 'inputPlaceholder'
+  | 'inputText'
+  | 'icons'
+  | 'card'
+  | 'notification';
+
+export type ColorSchemeColors = Record<ColorSchemeKeys, ColorValue>;

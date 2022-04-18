@@ -25,11 +25,6 @@ export const clearBookmarks = () => ({
   payload: {},
 });
 
-export const restoreCacheFromLists = () => ({
-  type: ListActions.RESTORE_CACHES_FROM_LISTS,
-  payload: {},
-});
-
 export const toggleInHistory = (item: DogItem) => ({
   type: ListActions.TOGGLE_IN_HISTORY,
   payload: {item},

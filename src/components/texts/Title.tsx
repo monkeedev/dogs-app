@@ -1,6 +1,7 @@
 import React from 'react';
 import {ColorValue, StyleSheet, Text} from 'react-native';
-import {colors, text} from '../../utils/constants';
+import {useTheme} from '../../assets/theme';
+import {text} from '../../utils/constants';
 
 interface Props {
   text: string;
@@ -8,9 +9,9 @@ interface Props {
 }
 
 export const Title = ({text, color}: Props) => {
-  return (
-    <Text style={{...styles.text, color: color ?? colors.black}}>{text}</Text>
-  );
+  const {mode} = useTheme();
+
+  return <Text style={{...styles.text, color: mode.text}}>{text}</Text>;
 };
 
 const styles = StyleSheet.create({

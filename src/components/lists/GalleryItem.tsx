@@ -12,10 +12,7 @@ import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {useDispatch, useSelector} from 'react-redux';
 import {checkConnection} from '../../../native-modules/InternetConnectionModuleAndroid';
-import {
-  restoreCacheFromLists,
-  saveToBookmarks,
-} from '../../redux/actions/listActions';
+import {saveToBookmarks} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {
   animationConfig,
@@ -23,7 +20,7 @@ import {
   ErrorMessages,
   notificationRef,
 } from '../../utils/constants';
-import {checkImageCache, checkImagePath} from '../../utils/helpers/cache';
+import {checkImageCache} from '../../utils/helpers/cache';
 
 interface Props {
   uri: string;
@@ -95,14 +92,14 @@ export const GalleryItem = ({uri, idx}: Props) => {
 
   const openGallery = async () => {
     const isConnected = await checkConnection();
-    const doesImageExist = await checkImagePath(uri);
+    // const doesImageExist = await checkImagePath(uri);
     let path = img;
 
     // restores cache for all files
-    if (!doesImageExist) {
-      dispatch(restoreCacheFromLists());
-      path = await checkImageCache(uri);
-    }
+    // if (!doesImageExist) {
+    //   // dispatch(restoreCacheFromLists());
+    //   path = await checkImageCache(uri);
+    // }
 
     setImageSizes(path, isConnected);
   };
