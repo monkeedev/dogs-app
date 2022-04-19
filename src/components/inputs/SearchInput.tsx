@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import {useTheme} from '../../assets/theme';
 import {colors} from '../../utils/constants';
 
 interface Props {
@@ -20,6 +21,7 @@ export const SearchInput = ({
   isDisabled,
   isAutofocused,
 }: Props) => {
+  const {mode} = useTheme();
   const isPlaceholderForDisabledInputPresent = value === '' && placeholder;
 
   return (
@@ -29,22 +31,21 @@ export const SearchInput = ({
         name={'search'}
         type={'ionicon'}
         style={styles.icon}
-        color={colors.gray}
+        color={mode.icons}
       />
       {isDisabled ? (
-        <View testID={'SearchInput_Disabled'} style={styles.input}>
-          <Text
-            style={
-              isPlaceholderForDisabledInputPresent
-                ? styles.placeholderText
-                : {color: colors.black}
-            }>
+        <View
+          testID={'SearchInput_Disabled'}
+          style={{
+            ...styles.input,
+          }}>
+          <Text style={{...styles.text, color: mode.inputPlaceholder}}>
             {isPlaceholderForDisabledInputPresent ? placeholder : value}
           </Text>
         </View>
       ) : (
         <TextInput
-          style={styles.input}
+          style={{...styles.input, ...styles.text, color: mode.inputText}}
           value={value}
           placeholder={placeholder}
           placeholderTextColor={colors.gray}
@@ -63,9 +64,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: 10,
     overflow: 'hidden',
-    backgroundColor: colors.white,
     marginVertical: 7,
   },
   icon: {
@@ -77,15 +76,14 @@ const styles = StyleSheet.create({
     position: 'relative',
     left: 7,
   },
+  text: {
+    fontWeight: '700',
+  },
   input: {
     flex: 1,
     padding: 7,
     marginRight: 14,
-    color: colors.black,
     height: 36,
     justifyContent: 'center',
-  },
-  placeholderText: {
-    color: colors.gray,
   },
 });

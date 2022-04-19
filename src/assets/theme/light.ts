@@ -7,9 +7,10 @@ export const lightTheme: ColorSchemeColors = {
   surface: '#ededed',
   error: '#d9534f',
   text: '#131515',
-  icons: '#bbbbbb',
+  icons: '#ededed',
   border: '#fffafb',
-  inputPlaceholder: '#bbbbbb',
-  inputText: '#bbbbbb',
+  inputPlaceholder: '#ededed',
+  inputText: '#ededed',
   card: '#fffafb',
+  notification: '#fffafb',
 };

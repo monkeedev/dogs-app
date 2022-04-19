@@ -7,7 +7,7 @@ export const darkTheme: ColorSchemeColors = {
   surface: '#ededed',
   error: '#d9534f',
   text: '#fffafb',
-  icons: '#bbbbbb',
+  icons: '#ededed',
   border: '#131515',
   inputPlaceholder: '#bbbbbb',
   inputText: '#fffafb',

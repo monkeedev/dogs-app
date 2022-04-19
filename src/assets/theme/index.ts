@@ -41,7 +41,7 @@ export const useTheme = () => {
     Appearance.addChangeListener(schemeListener);
 
     return () => Appearance.removeChangeListener(schemeListener);
-  }, [scheme]);
+  }, []);
 
   useEffect(() => {
     if (userTheme !== '') {

@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {} from 'react-native-gesture-handler';
-import {colors} from '../../utils/constants';
+import {useTheme} from '../../assets/theme';
 
 const ICON_SIZE = 36;
 
@@ -11,6 +11,8 @@ interface Props {
 }
 
 export const ClearTextButton = ({onPress}: Props) => {
+  const {mode} = useTheme();
+
   const handleOnPress = () => {
     if (onPress && typeof onPress === 'function') {
       onPress();
@@ -24,7 +26,7 @@ export const ClearTextButton = ({onPress}: Props) => {
           name={'close-circle-outline'}
           type={'ionicon'}
           size={24}
-          color={colors.darkGray}
+          color={mode.icons}
         />
       </View>
     </TouchableOpacity>

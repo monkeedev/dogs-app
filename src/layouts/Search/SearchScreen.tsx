@@ -1,13 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import Api from '../../api/requests';
-import {CustomStatusBar} from '../../components';
 import {SearchBar} from '../../components/inputs';
 import {HistoryList, SuggestionsList} from '../../components/lists';
+import {GalleryWrapper} from '../../components/wrappers';
 import {getDogsCatalog} from '../../redux/rootSelector';
 import {DogItem} from '../../redux/types/listTypes';
-import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
+import {ErrorMessages, notificationRef} from '../../utils/constants';
 
 const TIMER_TIMEOUT = 1500;
 
@@ -75,12 +74,7 @@ export const SearchScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <CustomStatusBar
-        backgroundColor={colors.turquoise}
-        barStyle={'dark-content'}
-      />
-
+    <GalleryWrapper>
       <SearchBar value={search} onChangeText={handleSearch} />
       <SearchContext.Provider value={search}>
         {search === '' || filteredHistory.length > 0 ? (
@@ -93,13 +87,6 @@ export const SearchScreen = () => {
           />
         )}
       </SearchContext.Provider>
-    </View>
+    </GalleryWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    backgroundColor: colors.turquoise,
-  },
-});

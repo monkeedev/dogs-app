@@ -4,9 +4,9 @@ import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {useDispatch} from 'react-redux';
 import {DogInfoListItem} from '.';
 import {MainStyles} from '../../assets/styles/MainStyles';
+import {useTheme} from '../../assets/theme';
 import {toggleInHistory} from '../../redux/actions/listActions';
 import {DogItem} from '../../redux/types/listTypes';
-import {colors} from '../../utils/constants';
 import {parseDog} from '../../utils/functions';
 
 interface Props {
@@ -14,6 +14,7 @@ interface Props {
 }
 
 export const HistoryItem = ({value}: Props) => {
+  const {mode} = useTheme();
   const dispatch = useDispatch();
 
   const parsedDog = parseDog(value.name);
@@ -29,7 +30,7 @@ export const HistoryItem = ({value}: Props) => {
 
       <View style={styles.icon}>
         <TouchableOpacity onPress={deleteFromHistory}>
-          <Icon name={'x'} type={'feather'} color={colors.darkGray} />
+          <Icon name={'x'} type={'feather'} color={mode.text} />
         </TouchableOpacity>
       </View>
     </View>

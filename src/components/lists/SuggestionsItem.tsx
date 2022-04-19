@@ -3,13 +3,16 @@ import {StyleSheet, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {DogInfoListItem} from '.';
 import {MainStyles} from '../../assets/styles/MainStyles';
-import {colors, dogs} from '../../utils/constants';
+import {useTheme} from '../../assets/theme';
+import {dogs} from '../../utils/constants';
 
 interface Props {
   value: string;
 }
 
 export const SuggestionsItem = ({value}: Props) => {
+  const {mode} = useTheme();
+
   const {name, img} = dogs[value];
 
   return dogs[value] ? (
@@ -17,7 +20,7 @@ export const SuggestionsItem = ({value}: Props) => {
       <DogInfoListItem name={name} uri={img} />
 
       <View style={styles.icon} pointerEvents={'none'}>
-        <Icon name={'chevron-right'} type={'feather'} color={colors.darkGray} />
+        <Icon name={'chevron-right'} type={'feather'} color={mode.text} />
       </View>
     </View>
   ) : null;
