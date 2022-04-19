@@ -12,4 +12,5 @@ export const darkTheme: ColorSchemeColors = {
   inputPlaceholder: '#bbbbbb',
   inputText: '#fffafb',
   card: '#131515',
+  notification: '#131515',
 };

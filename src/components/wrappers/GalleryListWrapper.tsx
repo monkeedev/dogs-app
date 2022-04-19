@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {useTheme} from '../../assets/theme';
 
 interface Props {
-  children: ReactElement | ReactElement[];
+  children: ReactElement | ReactElement[] | nulls;
 }
 
 export const GalleryListWrapper = ({children}: Props) => {

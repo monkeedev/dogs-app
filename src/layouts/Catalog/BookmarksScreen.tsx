@@ -89,33 +89,20 @@ export const BookmarksScreen = () => {
       </View>
 
       <GalleryListWrapper>
-        {isLoading ? (
-          <Loading size={'large'} />
-        ) : (
-          <GalleryList
-            images={bookmarks}
-            isAnimated={true}
-            onScroll={handleScroll}
-            EmptyComponent={<EmptyList />}
-          />
-        )}
+        <GalleryList
+          images={bookmarks}
+          isAnimated={true}
+          onScroll={handleScroll}
+          EmptyComponent={<EmptyList />}
+        />
+
+        {isLoading ? <Loading size={'large'} isFullScreen={true} /> : null}
       </GalleryListWrapper>
     </GalleryWrapper>
   );
 };
 
 const styles = StyleSheet.create({
-  // container: {
-  //   height: '100%',
-  //   backgroundColor: colors.turquoise,
-  //   position: 'relative',
-  // },
-  galleryContainer: {
-    flex: 1,
-    backgroundColor: colors.white,
-    borderTopLeftRadius: 14,
-    borderTopRightRadius: 14,
-  },
   counterContainer: {
     width: 49,
     overflow: 'hidden',
@@ -147,9 +134,5 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: 0,
     paddingTop: Dimensions.get('screen').height / 4,
-  },
-  indicator: {
-    paddingTop: 49,
-    marginBottom: 7,
   },
 });

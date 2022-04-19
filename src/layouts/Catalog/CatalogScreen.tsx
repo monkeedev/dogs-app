@@ -3,7 +3,6 @@ import {
   RouteProp,
   useIsFocused,
   useNavigation,
-  useNavigationState,
   useRoute,
 } from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -17,7 +16,6 @@ import {GalleryList} from '../../components/lists';
 import {GalleryListWrapper, GalleryWrapper} from '../../components/wrappers';
 import {fetchDogsList} from '../../redux/actions/listActions';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import {colors, text} from '../../utils/constants';
 import {restoreCacheFromLists} from '../../utils/helpers/cache';
 import {RootStackParamList} from '../Navigator/utils/routes';
 
@@ -25,7 +23,6 @@ export const CatalogScreen = () => {
   const isFocused = useIsFocused();
   const {navigate} =
     useNavigation<NavigationProp<RootStackParamList, 'Search'>>();
-  const navState = useNavigationState(state => state);
   const route = useRoute<RouteProp<RootStackParamList, 'CatalogTabs'>>();
 
   const dispatch = useDispatch();
@@ -40,7 +37,7 @@ export const CatalogScreen = () => {
     if (wasRestored) {
       setLoading(false);
     }
-  }, [useIsFocused]);
+  }, [isFocused]);
 
   useEffect(() => {
     dispatch(fetchDogsList('', false, true));
@@ -100,29 +97,21 @@ export const CatalogScreen = () => {
       </View>
 
       <GalleryListWrapper>
-        {list.data.length === 0 || isLoading ? (
-          <Loading size={'large'} />
-        ) : (
-          <GalleryList
-            images={list.data}
-            isLoading={list.loading}
-            onEndReached={handleEndReached}
-          />
-        )}
+        <GalleryList
+          images={list.data}
+          isLoading={list.loading}
+          onEndReached={handleEndReached}
+        />
+
+        {isLoading || list.data.length === 0 ? (
+          <Loading size={'large'} isFullScreen={true} />
+        ) : null}
       </GalleryListWrapper>
     </GalleryWrapper>
   );
 };
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: text.l,
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-    textAlign: 'center',
-    marginBottom: 7,
-    color: colors.white,
-  },
   searchBar: {
     marginHorizontal: 7,
   },
