@@ -76,3 +76,9 @@ type ColorSchemeKeys =
   | 'notification';
 
 export type ColorSchemeColors = Record<ColorSchemeKeys, ColorValue>;
+
+export type User = {
+  login: string;
+  mail: string;
+  phone: string;
+};

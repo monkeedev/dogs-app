@@ -1,5 +1,5 @@
-import {useCallback, useEffect, useState} from 'react';
-import {Appearance, useColorScheme} from 'react-native';
+import {useEffect, useState} from 'react';
+import {useColorScheme} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {changeTheme} from '../../redux/actions/userActions';
 import {getUserStorage} from '../../redux/rootSelector';
@@ -25,23 +25,25 @@ export const useTheme = () => {
 
   const [userTheme, setUserTheme] = useState('');
 
-  const schemeListener = useCallback(
-    (scheme: Appearance.AppearancePreferences) => {
-      if (!scheme.colorScheme || scheme.colorScheme === null) {
-        setUserTheme(ColorScheme.LIGHT);
-      } else {
-        setUserTheme(scheme.colorScheme);
-      }
-    },
-    [],
-  );
+  // FIXME: triggers twice
+  // const schemeListener = useCallback(
+  //   (scheme: Appearance.AppearancePreferences) => {
+  //     console.log(theme, scheme.colorScheme);
+  //     if (!scheme.colorScheme || scheme.colorScheme === null) {
+  //       setUserTheme(ColorScheme.LIGHT);
+  //     } else {
+  //       setUserTheme(scheme.colorScheme);
+  //     }
+  //   },
+  //   [],
+  // );
 
   // triggers when user change system mode
-  useEffect(() => {
-    Appearance.addChangeListener(schemeListener);
+  // useEffect(() => {
+  //   Appearance.addChangeListener(schemeListener);
 
-    return () => Appearance.removeChangeListener(schemeListener);
-  }, []);
+  //   return () => Appearance.removeChangeListener(schemeListener);
+  // }, []);
 
   useEffect(() => {
     if (userTheme !== '') {

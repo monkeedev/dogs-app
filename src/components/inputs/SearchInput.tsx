@@ -31,7 +31,7 @@ export const SearchInput = ({
         name={'search'}
         type={'ionicon'}
         style={styles.icon}
-        color={mode.icons}
+        color={mode.text}
       />
       {isDisabled ? (
         <View
@@ -39,13 +39,13 @@ export const SearchInput = ({
           style={{
             ...styles.input,
           }}>
-          <Text style={{...styles.text, color: mode.inputPlaceholder}}>
+          <Text style={{...styles.text, color: mode.text}}>
             {isPlaceholderForDisabledInputPresent ? placeholder : value}
           </Text>
         </View>
       ) : (
         <TextInput
-          style={{...styles.input, ...styles.text, color: mode.inputText}}
+          style={{...styles.input, ...styles.text, color: mode.text}}
           value={value}
           placeholder={placeholder}
           placeholderTextColor={colors.gray}

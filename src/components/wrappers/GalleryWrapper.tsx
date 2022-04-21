@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {CustomStatusBar} from '..';
@@ -6,7 +6,7 @@ import {useTheme} from '../../assets/theme';
 import {getUserStorage} from '../../redux/rootSelector';
 
 interface Props {
-  children: ReactElement | ReactElement[];
+  children: JSX.Element | JSX.Element[];
 }
 
 export const GalleryWrapper = ({children}: Props) => {

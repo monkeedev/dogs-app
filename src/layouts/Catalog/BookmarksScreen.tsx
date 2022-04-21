@@ -96,7 +96,7 @@ export const BookmarksScreen = () => {
           EmptyComponent={<EmptyList />}
         />
 
-        {isLoading ? <Loading size={'large'} isFullScreen={true} /> : null}
+        {isLoading ? <Loading size={'large'} isFullScreen={true} /> : <></>}
       </GalleryListWrapper>
     </GalleryWrapper>
   );

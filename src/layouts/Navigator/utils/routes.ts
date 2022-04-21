@@ -17,4 +17,5 @@ export type RootStackParamList = {
     isConnected?: string;
     search?: string;
   };
+  Login: {};
 };

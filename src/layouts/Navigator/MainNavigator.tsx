@@ -1,23 +1,15 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {useSelector} from 'react-redux';
 import {GalleryModal, SearchScreen} from '..';
-import {useTheme} from '../../assets/theme';
-import {getUserStorage} from '../../redux/rootSelector';
 import {CatalogTabs} from './Components';
 import {RootStackParamList} from './utils/routes';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-const MainNavigator = () => {
-  const {theme} = useSelector(getUserStorage);
-  const {mode} = useTheme();
-
+export default function MainNavigator() {
   return (
-    <NavigationContainer
-    // theme={{dark: theme === 'dark', colors: mode}}
-    >
+    <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Group>
           <Stack.Screen name={'CatalogTabs'} component={CatalogTabs} />
@@ -33,6 +25,4 @@ const MainNavigator = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
-
-export default MainNavigator;
+}

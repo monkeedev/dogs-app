@@ -9,8 +9,8 @@ export const lightTheme: ColorSchemeColors = {
   text: '#131515',
   icons: '#ededed',
   border: '#fffafb',
-  inputPlaceholder: '#ededed',
-  inputText: '#ededed',
+  inputPlaceholder: '#131515',
+  inputText: '#131515',
   card: '#fffafb',
   notification: '#fffafb',
 };

@@ -14,7 +14,7 @@ export const DefaultButton = ({children, onPress, isCircle, color}: Props) => {
     <TouchableOpacity
       testID={'DefaultButton_TouchableOpacity'}
       onPress={onPress}
-      activeOpacity={0.9}>
+      activeOpacity={0.8}>
       <View
         testID={'DefaultButton_View'}
         style={{
@@ -31,7 +31,7 @@ export const DefaultButton = ({children, onPress, isCircle, color}: Props) => {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    margin: 3.5,
+    alignItems: 'center',
   },
   circle: {
     borderRadius: 99,

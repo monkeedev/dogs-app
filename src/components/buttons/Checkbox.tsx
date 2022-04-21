@@ -8,6 +8,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import {useTheme} from '../../assets/theme';
 import {colors, springConfig} from '../../utils/constants';
 
 interface Props {
@@ -20,6 +21,7 @@ const CHECKBOX_WIDTH = 56;
 
 export const Checkbox = ({state, isControlled}: Props) => {
   const isToggled = useSharedValue(+state);
+  const {mode} = useTheme();
 
   const containerStyle = useAnimatedStyle(() => ({
     backgroundColor: withSpring(
@@ -55,7 +57,9 @@ export const Checkbox = ({state, isControlled}: Props) => {
 
   return (
     <Animated.View style={[styles.container, containerStyle]}>
-      <Animated.View style={[styles.circle, circleStyle]} />
+      <Animated.View
+        style={[{...styles.circle, backgroundColor: mode.card}, circleStyle]}
+      />
     </Animated.View>
   );
 };
@@ -73,6 +77,5 @@ const styles = StyleSheet.create({
     width: CHECKBOX_HEIGHT - 4,
     height: CHECKBOX_HEIGHT - 4,
     borderRadius: CHECKBOX_HEIGHT,
-    backgroundColor: colors.white,
   },
 });

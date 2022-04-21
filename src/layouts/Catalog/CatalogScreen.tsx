@@ -105,7 +105,9 @@ export const CatalogScreen = () => {
 
         {isLoading || list.data.length === 0 ? (
           <Loading size={'large'} isFullScreen={true} />
-        ) : null}
+        ) : (
+          <></>
+        )}
       </GalleryListWrapper>
     </GalleryWrapper>
   );

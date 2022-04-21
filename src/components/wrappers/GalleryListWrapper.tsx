@@ -1,9 +1,9 @@
-import React, {ReactElement} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useTheme} from '../../assets/theme';
 
 interface Props {
-  children: ReactElement | ReactElement[] | nulls;
+  children: JSX.Element | JSX.Element[];
 }
 
 export const GalleryListWrapper = ({children}: Props) => {
@@ -21,5 +21,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderTopLeftRadius: 14,
     borderTopRightRadius: 14,
+    overflow: 'hidden',
   },
 });

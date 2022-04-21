@@ -1,3 +1,3 @@
-export * from './Link';
+export * from './BookmarksLink';
+export * from './CacheLink';
 export * from './List';
-export * from './Setting';
