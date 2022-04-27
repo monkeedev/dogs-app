@@ -18,4 +18,5 @@ export type RootStackParamList = {
     search?: string;
   };
   Login: {};
+  SignUp: {};
 };

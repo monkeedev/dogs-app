@@ -1,6 +1,5 @@
 import React, {useRef} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {useDispatch} from 'react-redux';
 import {APP_ICON} from '../../assets/images/icons';
 import {useTheme} from '../../assets/theme';
 import {DefaultButton} from '../../components/buttons';
@@ -8,33 +7,37 @@ import {DefaultInput, PasswordInput} from '../../components/inputs';
 import {Link, Title} from '../../components/texts';
 import {TextWrapper} from '../../components/wrappers';
 import {DefaultWrapper} from '../../components/wrappers/DefaultWrapper';
-import {logIn} from '../../redux/actions/userActions';
 import {colors, text} from '../../utils/constants';
 
 const ICON_SIZE = 100;
 
-export const LoginScreen = () => {
+export const SignUpScreen = () => {
   const {mode} = useTheme();
-  const dispatch = useDispatch();
 
   const emailRef = useRef('');
+  const usernameRef = useRef('');
   const passwordRef = useRef('');
 
   const handlePassword = (s: string) => (passwordRef.current = s);
   const handleEmail = (s: string) => (emailRef.current = s);
-  const handleLogin = () => {
-    if (emailRef.current === '' || passwordRef.current === '') return;
+  const handleUsername = (s: string) => (usernameRef.current = s);
 
-    dispatch(logIn(emailRef.current, passwordRef.current));
+  const handleSignUp = () => {
+    console.log('@signup');
   };
 
   return (
     <DefaultWrapper>
       <View style={styles.container}>
         <Image source={APP_ICON} style={styles.icon} />
-        <Title text={'Welcome to Dogterest'} />
+        <Title text={'Sign Up'} />
 
         <View style={styles.form}>
+          <DefaultInput
+            onChangeText={handleUsername}
+            iconConfig={{name: 'user', type: 'feather'}}
+            placeholder={'Name'}
+          />
           <DefaultInput
             onChangeText={handleEmail}
             iconConfig={{name: 'mail', type: 'feather'}}
@@ -44,12 +47,29 @@ export const LoginScreen = () => {
           <PasswordInput onChangeText={handlePassword} />
 
           <View style={styles.button}>
-            <DefaultButton onPress={handleLogin} color={colors.turquoise}>
-              <Text style={{...styles.text, color: mode.card}}>Login</Text>
+            <DefaultButton onPress={handleSignUp} color={colors.turquoise}>
+              <Text style={{...styles.text, color: mode.card}}>Sign Up</Text>
             </DefaultButton>
 
             <TextWrapper shouldCenterize={true}>
-              <Link navigateConfig={{key: 'SignUp'}} text={'Sign in'} />
+              <Text>or you can sign with</Text>
+            </TextWrapper>
+
+            <View style={{marginBottom: 14}}>
+              <DefaultButton onPress={handleSignUp} color={'#DB4437'}>
+                <Text style={{...styles.text, color: mode.card}}>
+                  Sign up with Google
+                </Text>
+              </DefaultButton>
+            </View>
+            <DefaultButton onPress={handleSignUp} color={'#4267B2'}>
+              <Text style={{...styles.text, color: mode.card}}>
+                Sign up with Facebook
+              </Text>
+            </DefaultButton>
+
+            <TextWrapper shouldCenterize={true}>
+              <Link navigateConfig={{key: 'Login'}} text={'Back to login'} />
             </TextWrapper>
           </View>
         </View>
