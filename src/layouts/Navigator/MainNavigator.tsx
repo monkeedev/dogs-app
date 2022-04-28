@@ -7,7 +7,7 @@ import {RootStackParamList} from './utils/routes';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-export default function MainNavigator() {
+export const MainNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -25,4 +25,4 @@ export default function MainNavigator() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};

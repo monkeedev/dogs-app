@@ -21,7 +21,8 @@ class DogsApi {
     this.uri = 'https://dog.ceo/api';
     this.list = [];
 
-    this.getListOfDogBreeds();
+    // TODO: move to <MainNavigator />
+    // this.getListOfDogBreeds();
   }
 
   getListOfDogBreeds = async (): Promise<string[] | Error> => {

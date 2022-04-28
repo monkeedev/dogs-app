@@ -1,9 +1,14 @@
 import sh2 from 'shorthash2';
+import {StatedObject} from '../../utils/types';
 import {UserActions, UserActionTypes, UserState} from '../types/userTypes';
 
 const initialState: UserState = {
   theme: 'light',
-  user: {},
+  user: {
+    data: {},
+    loading: false,
+    error: '',
+  } as StatedObject<{}>,
 };
 
 export const userReducer = (state = initialState, action: UserActionTypes) => {
@@ -21,7 +26,11 @@ export const userReducer = (state = initialState, action: UserActionTypes) => {
     case UserActions.LOG_OUT:
       return {
         ...state,
-        user: {},
+        user: {
+          data: {},
+          loading: false,
+          error: '',
+        } as StatedObject<{}>,
       };
 
     case UserActions.CHANGE_THEME:

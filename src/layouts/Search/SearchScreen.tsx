@@ -53,19 +53,26 @@ export const SearchScreen = () => {
 
       idleTimerRef.current = setTimeout(async () => {
         try {
-          const list: string[] = await fetchDogsListRef.current();
-          let stringInRequestFormatted = stringInRequest.join('-');
+          const list = await fetchDogsListRef
+            .current()
+            .catch(_ =>
+              notificationRef.current?.show(ErrorMessages.Default, 'error'),
+            );
 
-          let filtered = list.filter(i => i.includes(stringInRequestFormatted));
+          if (Array.isArray(list)) {
+            let stringInRequestFormatted = stringInRequest.join('-');
+            let filtered = list.filter(i =>
+              i.includes(stringInRequestFormatted),
+            );
 
-          if (filtered.length === 0) {
-            stringInRequestFormatted = stringInRequest[0];
+            if (filtered.length === 0) {
+              stringInRequestFormatted = stringInRequest[0];
+              filtered = list.filter(i => i.includes(stringInRequestFormatted));
+            }
 
-            filtered = list.filter(i => i.includes(stringInRequestFormatted));
+            setEmptyListVisible(filtered.length === 0);
+            setSuggestions(filtered);
           }
-
-          setEmptyListVisible(filtered.length === 0);
-          setSuggestions(filtered);
         } catch (error) {
           notificationRef.current?.show(ErrorMessages.Default, 'error');
         }
