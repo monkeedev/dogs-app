@@ -14,11 +14,12 @@ import {LogOutLink} from './Components/LogOutLink';
 
 export const UserScreen = () => {
   const {user} = useSelector(getUserStorage);
+  const {login} = user.data as User;
 
   return (
     <DefaultWrapper>
       <View style={styles.header}>
-        <Title text={`Hello, ${(user as User).login}!`} />
+        <Title text={`Hello, ${login}!`} />
       </View>
 
       <List title={'preferences'}>

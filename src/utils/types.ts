@@ -7,7 +7,7 @@ export interface ActionType<T, P> {
 }
 
 export interface StatedObject<T> {
-  data: T[];
+  data: T[] | T;
   error: string;
   loading: boolean;
 }

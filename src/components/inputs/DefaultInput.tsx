@@ -54,6 +54,7 @@ export const DefaultInput = ({
         testID={'SearchInput_Input'}
         secureTextEntry={isPassword}
         onChangeText={onChangeText}
+        autoCapitalize={'none'}
       />
     </View>
   );

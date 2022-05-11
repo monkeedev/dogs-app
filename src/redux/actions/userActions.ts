@@ -6,7 +6,7 @@ export const changeTheme = (theme?: string) => ({
 });
 
 export const logIn = (email: string, password: string) => ({
-  type: UserActions.LOG_IN,
+  type: UserActions.LOG_IN_LOADING,
   payload: {email, password},
 });
 

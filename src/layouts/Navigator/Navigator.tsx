@@ -5,10 +5,10 @@ import {getUserStorage} from '../../redux/rootSelector';
 
 const Navigator = () => {
   const {user} = useSelector(getUserStorage);
-  // const isUserAuthorized = !user.data || Object.keys(user)?.length === 0;
-  const isUserAuthorized = !user.loading && user.error === '' && user.data;
+  const isUserAuthorized =
+    !user.loading && user.error === '' && Object.keys(user.data).length > 0;
 
-  return isUserAuthorized ? <AuthNavigator /> : <MainNavigator />;
+  return isUserAuthorized ? <MainNavigator /> : <AuthNavigator />;
 };
 
 export default Navigator;

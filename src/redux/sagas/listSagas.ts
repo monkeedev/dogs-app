@@ -4,7 +4,7 @@ import Api from '../../api/requests';
 import {clearDogsList} from '../actions/listActions';
 import {ListActions} from '../types/listTypes';
 
-export function* watchAllSagas() {
+export function* watchAllListSagas() {
   yield takeLatest(ListActions.FETCH_LIST_LOADING, fetchDogList);
 }
 
