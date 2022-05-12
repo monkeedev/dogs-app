@@ -15,9 +15,7 @@ export const LogOutLink = () => {
     buttons: [
       {
         text: 'OK',
-        onPress: () => {
-          dispatch(logOut());
-        },
+        onPress: () => dispatch(logOut()),
         style: 'default',
       },
       {

@@ -11,6 +11,11 @@ export const logIn = (email: string, password: string) => ({
 });
 
 export const logOut = () => ({
-  type: UserActions.LOG_OUT,
+  type: UserActions.LOG_OUT_LOADING,
   payload: {},
+});
+
+export const signUp = (email: string, password: string) => ({
+  type: UserActions.SIGN_IN_LOADING,
+  payload: {email, password},
 });

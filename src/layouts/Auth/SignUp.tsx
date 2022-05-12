@@ -1,5 +1,6 @@
 import React, {useRef} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {APP_ICON} from '../../assets/images/icons';
 import {useTheme} from '../../assets/theme';
 import {DefaultButton} from '../../components/buttons';
@@ -7,23 +8,27 @@ import {DefaultInput, PasswordInput} from '../../components/inputs';
 import {Link, Title} from '../../components/texts';
 import {TextWrapper} from '../../components/wrappers';
 import {DefaultWrapper} from '../../components/wrappers/DefaultWrapper';
+import {signUp} from '../../redux/actions/userActions';
 import {colors, text} from '../../utils/constants';
+import {LoadingWrapper} from './Components';
 
 const ICON_SIZE = 100;
 
 export const SignUpScreen = () => {
   const {mode} = useTheme();
 
+  const dispatch = useDispatch();
+
   const emailRef = useRef('');
-  const usernameRef = useRef('');
   const passwordRef = useRef('');
 
   const handlePassword = (s: string) => (passwordRef.current = s);
   const handleEmail = (s: string) => (emailRef.current = s);
-  const handleUsername = (s: string) => (usernameRef.current = s);
 
   const handleSignUp = () => {
-    console.log('@signup');
+    if (emailRef.current !== '' && passwordRef.current !== '') {
+      dispatch(signUp(emailRef.current, passwordRef.current));
+    }
   };
 
   return (
@@ -34,11 +39,6 @@ export const SignUpScreen = () => {
 
         <View style={styles.form}>
           <DefaultInput
-            onChangeText={handleUsername}
-            iconConfig={{name: 'user', type: 'feather'}}
-            placeholder={'Name'}
-          />
-          <DefaultInput
             onChangeText={handleEmail}
             iconConfig={{name: 'mail', type: 'feather'}}
             placeholder={'Email'}
@@ -46,32 +46,15 @@ export const SignUpScreen = () => {
           />
           <PasswordInput onChangeText={handlePassword} />
 
-          <View style={styles.button}>
+          <LoadingWrapper>
             <DefaultButton onPress={handleSignUp} color={colors.turquoise}>
               <Text style={{...styles.text, color: mode.card}}>Sign Up</Text>
             </DefaultButton>
 
             <TextWrapper shouldCenterize={true}>
-              <Text>or you can sign with</Text>
-            </TextWrapper>
-
-            <View style={{marginBottom: 14}}>
-              <DefaultButton onPress={handleSignUp} color={'#DB4437'}>
-                <Text style={{...styles.text, color: mode.card}}>
-                  Sign up with Google
-                </Text>
-              </DefaultButton>
-            </View>
-            <DefaultButton onPress={handleSignUp} color={'#4267B2'}>
-              <Text style={{...styles.text, color: mode.card}}>
-                Sign up with Facebook
-              </Text>
-            </DefaultButton>
-
-            <TextWrapper shouldCenterize={true}>
               <Link navigateConfig={{key: 'Login'}} text={'Back to login'} />
             </TextWrapper>
-          </View>
+          </LoadingWrapper>
         </View>
       </View>
     </DefaultWrapper>
@@ -99,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: text.s,
     fontWeight: '500',
   },
-  button: {
+  buttonWrapper: {
     marginTop: 21,
     marginHorizontal: 21,
   },

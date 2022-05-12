@@ -22,7 +22,34 @@ export const userReducer = (state = initialState, action: UserActionTypes) => {
         },
       };
 
+    case UserActions.SIGN_IN_LOADING:
+      return {
+        ...state,
+        user: {
+          data: {},
+          loading: true,
+          error: '',
+        },
+      };
+
     case UserActions.LOG_IN_SUCCESS:
+      return {
+        ...state,
+        user: {
+          data: {
+            login: action.payload.email.slice(
+              0,
+              action.payload.email.indexOf('@'),
+            ),
+            mail: action.payload.email,
+            phone: '',
+          },
+          loading: false,
+          error: '',
+        },
+      };
+
+    case UserActions.SIGN_IN_SUCCESS:
       return {
         ...state,
         user: {
@@ -49,14 +76,43 @@ export const userReducer = (state = initialState, action: UserActionTypes) => {
         },
       };
 
-    case UserActions.LOG_OUT:
+    case UserActions.SIGN_IN_FAILURE:
+      return {
+        ...state,
+        user: {
+          data: {},
+          loading: false,
+          error: action.payload,
+        },
+      };
+
+    case UserActions.LOG_OUT_LOADING:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          loading: true,
+        } as StatedObject<null>,
+      };
+
+    case UserActions.LOG_OUT_SUCCESS:
       return {
         ...state,
         user: {
           data: {},
           loading: false,
           error: '',
-        } as StatedObject<{}>,
+        } as StatedObject<null>,
+      };
+
+    case UserActions.LOG_OUT_FAILURE:
+      return {
+        ...state,
+        user: {
+          data: state.user.data,
+          loading: false,
+          error: '',
+        } as StatedObject<User>,
       };
 
     case UserActions.CHANGE_THEME:

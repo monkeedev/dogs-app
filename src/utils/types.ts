@@ -3,7 +3,7 @@ import {DogItem} from '../redux/types/listTypes';
 
 export interface ActionType<T, P> {
   type: T;
-  payload: P;
+  payload: P | null;
 }
 
 export interface StatedObject<T> {
