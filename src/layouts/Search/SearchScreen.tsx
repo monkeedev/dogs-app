@@ -1,20 +1,18 @@
-import {View, StyleSheet, Text} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import CustomStatusBar from '../../components/CustomStatusBar';
-import {colors, ErrorMessages, notificationRef} from '../../utils/constants';
-import Api from '../../api/requests';
-import {SuggestionsList} from './Components/SuggestionsList';
-import {SearchBar} from './Components/SearchBar';
 import {useSelector} from 'react-redux';
+import Api from '../../api/requests';
+import {SearchBar} from '../../components/inputs';
+import {HistoryList, SuggestionsList} from '../../components/lists';
+import {GalleryWrapper} from '../../components/wrappers';
 import {getDogsCatalog} from '../../redux/rootSelector';
-import {HistoryList} from './Components/HistoryList';
 import {DogItem} from '../../redux/types/listTypes';
+import {ErrorMessages, notificationRef} from '../../utils/constants';
 
 const TIMER_TIMEOUT = 1500;
 
 export const SearchContext = React.createContext('');
 
-const SearchScreen = () => {
+export const SearchScreen = () => {
   const {history} = useSelector(getDogsCatalog);
 
   const idleTimerRef = useRef<any>();
@@ -55,19 +53,26 @@ const SearchScreen = () => {
 
       idleTimerRef.current = setTimeout(async () => {
         try {
-          const list: string[] = await fetchDogsListRef.current();
-          let stringInRequestFormatted = stringInRequest.join('-');
+          const list = await fetchDogsListRef
+            .current()
+            .catch(_ =>
+              notificationRef.current?.show(ErrorMessages.Default, 'error'),
+            );
 
-          let filtered = list.filter(i => i.includes(stringInRequestFormatted));
+          if (Array.isArray(list)) {
+            let stringInRequestFormatted = stringInRequest.join('-');
+            let filtered = list.filter(i =>
+              i.includes(stringInRequestFormatted),
+            );
 
-          if (filtered.length === 0) {
-            stringInRequestFormatted = stringInRequest[0];
+            if (filtered.length === 0) {
+              stringInRequestFormatted = stringInRequest[0];
+              filtered = list.filter(i => i.includes(stringInRequestFormatted));
+            }
 
-            filtered = list.filter(i => i.includes(stringInRequestFormatted));
+            setEmptyListVisible(filtered.length === 0);
+            setSuggestions(filtered);
           }
-
-          setEmptyListVisible(filtered.length === 0);
-          setSuggestions(filtered);
         } catch (error) {
           notificationRef.current?.show(ErrorMessages.Default, 'error');
         }
@@ -76,12 +81,7 @@ const SearchScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <CustomStatusBar
-        backgroundColor={colors.turquoise}
-        barStyle={'dark-content'}
-      />
-
+    <GalleryWrapper>
       <SearchBar value={search} onChangeText={handleSearch} />
       <SearchContext.Provider value={search}>
         {search === '' || filteredHistory.length > 0 ? (
@@ -94,15 +94,6 @@ const SearchScreen = () => {
           />
         )}
       </SearchContext.Provider>
-    </View>
+    </GalleryWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    backgroundColor: colors.turquoise,
-  },
-});
-
-export default SearchScreen;

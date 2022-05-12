@@ -1,11 +1,7 @@
-import {View, ImageBackground, StyleSheet} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {Dimensions} from 'react-native';
-import GoBack from '../../components/GoBack';
-import {RootStackParamList} from '../Navigator/routes';
-import {ListHeader} from './Components/ListHeader';
-import {isAndroid} from '../../utils/functions';
+import React, {useEffect, useRef, useState} from 'react';
+import {Dimensions, ImageBackground, StyleSheet, View} from 'react-native';
+import {PanGestureHandler} from 'react-native-gesture-handler';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -14,20 +10,23 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {colors, springConfig, text} from '../../utils/constants';
 import Api from '../../api/requests';
-import {PanGestureHandler} from 'react-native-gesture-handler';
-import SeeMore from './Components/SeeMore';
-import CustomStatusBar from '../../components/CustomStatusBar';
-import GalleryList from '../../components/lists/GalleryList';
-import Loading from '../../components/Loading';
+import {useTheme} from '../../assets/theme';
+import {CustomStatusBar, Loading} from '../../components';
+import {GoBack} from '../../components/buttons';
+import {GalleryList} from '../../components/lists';
+import {GalleryListWrapper} from '../../components/wrappers';
+import {springConfig, text} from '../../utils/constants';
+import {isAndroid} from '../../utils/functions';
+import {RootStackParamList} from '../Navigator/utils/routes';
+import {ListHeader, SeeMore} from './Components';
 
 const FETCH_QUANTITY = 4;
 const HEADER_HEIGHT = 67.33333587646484;
-// const LOADING_STYLE = isAndroid() ? 'loadingAndroid' : 'loadingIOS';
 const PLATFORM_BORDER = isAndroid() ? 28 : 14;
 
-const GalleryModal = () => {
+export const GalleryModal = () => {
+  const {mode} = useTheme();
   const {params} = useRoute<RouteProp<RootStackParamList, 'Gallery'>>();
 
   const [data, setData] = useState<string[]>([]);
@@ -43,7 +42,7 @@ const GalleryModal = () => {
 
       setData(d);
     } catch (err) {
-      throw new Error(err as string);
+      throw new Error('' + err);
     }
   });
 
@@ -138,7 +137,7 @@ const GalleryModal = () => {
   }, [params.uri]);
 
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, backgroundColor: mode.card}}>
       <CustomStatusBar
         backgroundColor={'transparent'}
         barStyle={'light-content'}
@@ -149,7 +148,11 @@ const GalleryModal = () => {
           <GoBack />
 
           <View style={styles.goBackContainer}>
-            <Animated.Text style={[styles.goBackText, goBackTransform]}>
+            <Animated.Text
+              style={[
+                {...styles.goBackText, color: mode.text},
+                goBackTransform,
+              ]}>
               Go back
             </Animated.Text>
           </View>
@@ -166,30 +169,33 @@ const GalleryModal = () => {
         testID={'GalleryModal_GestureHandler'}
         onGestureEvent={gestureHandler}>
         <Animated.View style={[panTransformStyle, styles.panGestureStyle]}>
-          {!params.isConnected ? (
-            <View
-              style={{
-                borderRadius: 14,
-                overflow: 'hidden',
-              }}>
-              <ListHeader uri={params.uri} />
-              <View style={styles.loadingList}>
-                <Loading size={'large'} />
+          <GalleryListWrapper>
+            {!params.isConnected ? (
+              <View
+                style={{
+                  borderRadius: 14,
+                  overflow: 'hidden',
+                }}>
+                <ListHeader uri={params.uri} />
+                <View
+                  style={{...styles.loadingList, backgroundColor: mode.card}}>
+                  <Loading size={'large'} />
+                </View>
               </View>
-            </View>
-          ) : (
-            <GalleryList
-              images={data}
-              HeaderComponent={<ListHeader uri={params.uri} />}
-              FooterComponent={
-                data.length >= 4 ? (
-                  <SeeMore search={params.search ?? ''} />
-                ) : (
-                  <View />
-                )
-              }
-            />
-          )}
+            ) : (
+              <GalleryList
+                images={data}
+                HeaderComponent={<ListHeader uri={params.uri} />}
+                FooterComponent={
+                  data.length >= 4 ? (
+                    <SeeMore search={params.search ?? ''} />
+                  ) : (
+                    <View />
+                  )
+                }
+              />
+            )}
+          </GalleryListWrapper>
         </Animated.View>
       </PanGestureHandler>
     </View>
@@ -198,7 +204,6 @@ const GalleryModal = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
     height: Dimensions.get('screen').height,
   },
   header: {
@@ -222,18 +227,12 @@ const styles = StyleSheet.create({
   goBackText: {
     fontSize: text.m,
     fontWeight: '900',
-    color: colors.darkGray,
   },
   panGestureStyle: {
     flex: 1,
-    // borderRadiusTopLeft: 14,
-    // borderRadiusTopRight: 14,
     overflow: 'hidden',
   },
   loadingList: {
     height: Dimensions.get('screen').height / 2,
-    backgroundColor: colors.white,
   },
 });
-
-export default GalleryModal;

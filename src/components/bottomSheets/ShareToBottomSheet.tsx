@@ -1,14 +1,13 @@
+import React, {useImperativeHandle, useRef, useState} from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
   Dimensions,
+  FlatList,
   Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import React, {ReactElement, useEffect, useRef, useState} from 'react';
-import {colors, springConfig, text} from '../../utils/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Animated, {
   Extrapolate,
@@ -17,7 +16,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {useImperativeHandle} from 'react';
+import {colors, springConfig, text} from '../../utils/constants';
 import {shareImage} from '../../utils/functions';
 
 const PANEL_HEIGHT = 177;
@@ -126,7 +125,7 @@ const BottomSheet = ({refLink, uri}) => {
   );
 };
 
-const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
+export const ShareToBottomSheet = React.forwardRef((_, ref: any) => {
   const [isOpened, setOpened] = useState(false);
   const [uri, setUri] = useState('');
 
@@ -245,5 +244,3 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 });
-
-export default ShareToBottomSheet;

@@ -1,12 +1,13 @@
+import {AlertButton, ColorValue} from 'react-native';
 import {DogItem} from '../redux/types/listTypes';
 
 export interface ActionType<T, P> {
   type: T;
-  payload: P;
+  payload: P | null;
 }
 
 export interface StatedObject<T> {
-  data: T[];
+  data: T[] | T;
   error: string;
   loading: boolean;
 }
@@ -47,3 +48,37 @@ export interface ExtendedNavigationProp<T, P> {
   screen: T;
   params: P;
 }
+
+export type IconProps = {
+  name: string;
+  type: string;
+  size?: number;
+};
+
+export type ShowAlertProps = {
+  title: string;
+  message?: string;
+  buttons?: AlertButton[];
+};
+
+type ColorSchemeKeys =
+  | 'primary'
+  | 'secondary'
+  | 'background'
+  | 'surface'
+  | 'error'
+  | 'text'
+  | 'border'
+  | 'inputPlaceholder'
+  | 'inputText'
+  | 'icons'
+  | 'card'
+  | 'notification';
+
+export type ColorSchemeColors = Record<ColorSchemeKeys, ColorValue>;
+
+export type User = {
+  login: string;
+  mail: string;
+  phone: string;
+};

@@ -1,8 +1,14 @@
 import React from 'react';
-import MainNavigator from './MainNavigator';
+import {useSelector} from 'react-redux';
+import {AuthNavigator, MainNavigator} from '.';
+import {getUserStorage} from '../../redux/rootSelector';
 
 const Navigator = () => {
-  return <MainNavigator />;
+  const {user} = useSelector(getUserStorage);
+  const isUserAuthorized =
+    !user.loading && user.error === '' && Object.keys(user.data).length > 0;
+
+  return isUserAuthorized ? <MainNavigator /> : <AuthNavigator />;
 };
 
 export default Navigator;

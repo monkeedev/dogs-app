@@ -1,11 +1,14 @@
-import {takeLatest, put} from 'redux-saga/effects';
-
-import Api from '../../api/requests';
+import {put, takeLatest} from 'redux-saga/effects';
 import {DogApiResponse} from '../../api/interfaces';
-import {ListActions} from '../types/listTypes';
+import Api from '../../api/requests';
 import {clearDogsList} from '../actions/listActions';
+import {ListActions} from '../types/listTypes';
 
-export function* workFetchList({payload}: any) {
+export function* watchAllListSagas() {
+  yield takeLatest(ListActions.FETCH_LIST_LOADING, fetchDogList);
+}
+
+export function* fetchDogList({payload}: any) {
   try {
     const {search, isSubbreed, isFresh, quantity} = payload;
 
@@ -29,8 +32,4 @@ export function* workFetchList({payload}: any) {
   } catch (error) {
     yield put({type: ListActions.FETCH_LIST_ERROR, payload: error});
   }
-}
-
-export function* watchFetchDogs() {
-  yield takeLatest(ListActions.FETCH_LIST_LOADING, workFetchList);
 }

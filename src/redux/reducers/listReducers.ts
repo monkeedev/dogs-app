@@ -95,6 +95,12 @@ export const listReducer = (state = initialState, action: ListActionsTypes) => {
         bookmarks: toggleItemInStorage(action.payload.img, state.bookmarks),
       };
 
+    case ListActions.CLEAR_BOOKMARKS:
+      return {
+        ...state,
+        bookmarks: [],
+      };
+
     case ListActions.TOGGLE_IN_HISTORY:
       return {
         ...state,

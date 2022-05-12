@@ -1,25 +1,27 @@
-import {View, Text, Pressable, Dimensions, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
+import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
   withSpring,
 } from 'react-native-reanimated';
-import SearchInput from '../../../components/inputs/SearchInput';
-import {colors, springConfig, text} from '../../../utils/constants';
-import {useNavigation} from '@react-navigation/native';
-import {MainStyles} from '../../../assets/styles/MainStyles';
+import {SearchInput} from '.';
+import {MainStyles} from '../../assets/styles/MainStyles';
+import {useTheme} from '../../assets/theme';
+import {springConfig, text} from '../../utils/constants';
 
 interface Props {
   value: string;
   onChangeText: (str: string) => void;
 }
 
-const MAX_INPUT_WIDTH = Dimensions.get('screen').width - 14;
+const MAX_INPUT_WIDTH = Dimensions.get('screen').width - 35;
 const CLEAR_BUTTON_WIDTH = 56;
 
 export const SearchBar = ({value, onChangeText}: Props) => {
+  const {mode} = useTheme();
   const {goBack} = useNavigation();
   const [isMounted, setMounted] = useState(false);
 
@@ -53,7 +55,9 @@ export const SearchBar = ({value, onChangeText}: Props) => {
       </Animated.View>
       <Pressable onPress={goBack}>
         <View style={styles.clearButton}>
-          <Text style={styles.clearButtonText}>Cancel</Text>
+          <Text style={{...styles.clearButtonText, color: mode.text}}>
+            Cancel
+          </Text>
         </View>
       </Pressable>
     </View>
@@ -78,6 +82,5 @@ const styles = StyleSheet.create({
   clearButtonText: {
     fontSize: text.s,
     fontWeight: '700',
-    color: colors.darkGray,
   },
 });

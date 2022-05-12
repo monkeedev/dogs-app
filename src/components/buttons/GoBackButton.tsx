@@ -1,10 +1,10 @@
-import {View, Text, Pressable, StyleSheet} from 'react-native';
-import React from 'react';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import {colors} from '../utils/constants';
 import {useNavigation} from '@react-navigation/native';
+import React from 'react';
+import {Pressable, StyleSheet, View} from 'react-native';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
+import {colors} from '../../utils/constants';
 
-const GoBack = () => {
+export const GoBack = () => {
   const {goBack} = useNavigation();
 
   return (
@@ -36,5 +36,3 @@ const styles = StyleSheet.create({
     borderRadius: 35,
   },
 });
-
-export default GoBack;

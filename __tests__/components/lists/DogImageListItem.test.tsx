@@ -1,12 +1,11 @@
 import {act, fireEvent, render} from '@testing-library/react-native';
+import {shallow} from 'enzyme';
 import React from 'react';
+import {Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import {create} from 'react-test-renderer';
-import DogImageListItem from '../../../src/components/lists/DogImageListItem';
-import {mockedNavigate} from '../../../jest.setup';
-import {shallow} from 'enzyme';
+import GalleryItem from '../../../src/components/lists/GalleryItem';
 import * as Functions from '../../../src/utils/functions';
-import {Image} from 'react-native';
 
 const resolved = 'file://test_cache/some_img.jpg';
 const LIST = [
@@ -28,7 +27,7 @@ describe('DogImageListItem', () => {
         Promise.resolve(resolved),
       );
 
-      const tree = create(<DogImageListItem uri={'foo'} idx={1} />).toJSON();
+      const tree = create(<GalleryItem uri={'foo'} idx={1} />).toJSON();
       expect(tree).toMatchSnapshot();
     });
   });
@@ -39,7 +38,7 @@ describe('DogImageListItem', () => {
         Promise.resolve(resolved),
       );
 
-      const {toJSON} = render(<DogImageListItem />);
+      const {toJSON} = render(<GalleryItem />);
       expect(toJSON()).toBe(null);
     });
   });
@@ -58,7 +57,7 @@ describe('DogImageListItem', () => {
         success(100, 100);
       });
 
-      const {getByTestId} = render(<DogImageListItem uri={LIST[0]} idx={1} />);
+      const {getByTestId} = render(<GalleryItem uri={LIST[0]} idx={1} />);
       const btn = getByTestId('DogImageListItem_GalleryBtn');
 
       fireEvent(btn, 'onPress');
@@ -75,8 +74,8 @@ describe('DogImageListItem', () => {
 
       const {toJSON} = render(
         <>
-          <DogImageListItem uri={'foo'} idx={1} />
-          <DogImageListItem uri={'bar'} idx={2} />
+          <GalleryItem uri={'foo'} idx={1} />
+          <GalleryItem uri={'bar'} idx={2} />
         </>,
       );
 
@@ -91,7 +90,7 @@ describe('DogImageListItem', () => {
         Promise.resolve(resolved),
       );
 
-      const wrapper = shallow(<DogImageListItem uri={'foo'} idx={1} />);
+      const wrapper = shallow(<GalleryItem uri={'foo'} idx={1} />);
       const view = wrapper.find({testID: 'DogImageListItem_EmptyView'});
 
       expect(view.exists()).toBe(true);

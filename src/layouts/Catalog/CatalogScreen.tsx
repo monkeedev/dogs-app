@@ -1,32 +1,43 @@
-import {View, StyleSheet, Text} from 'react-native';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {colors, text} from '../../utils/constants';
-import CustomStatusBar from '../../components/CustomStatusBar';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchDogsList} from '../../redux/actions/listActions';
-import {getDogsCatalog} from '../../redux/rootSelector';
 import {
   NavigationProp,
   RouteProp,
+  useIsFocused,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import {RootStackParamList} from '../Navigator/routes';
-import FakeInputButton from '../../components/buttons/FakeInputButton';
-import SearchInput from '../../components/inputs/SearchInput';
-import GalleryList from '../../components/lists/GalleryList';
-import ClearTextButton from '../../components/buttons/ClearTextButton';
+import React, {useCallback, useEffect, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
-import Loading from '../../components/Loading';
+import {Loading} from '../../components';
+import {ClearTextButton, FakeInputButton} from '../../components/buttons';
+import {SearchInput} from '../../components/inputs';
+import {GalleryList} from '../../components/lists';
+import {GalleryListWrapper, GalleryWrapper} from '../../components/wrappers';
+import {fetchDogsList} from '../../redux/actions/listActions';
+import {getDogsCatalog} from '../../redux/rootSelector';
+import {restoreCacheFromLists} from '../../utils/helpers/cache';
+import {RootStackParamList} from '../Navigator/utils/routes';
 
-const CatalogScreen = () => {
-  const dispatch = useDispatch();
+export const CatalogScreen = () => {
+  const isFocused = useIsFocused();
   const {navigate} =
     useNavigation<NavigationProp<RootStackParamList, 'Search'>>();
   const route = useRoute<RouteProp<RootStackParamList, 'CatalogTabs'>>();
+
+  const dispatch = useDispatch();
   const {list} = useSelector(getDogsCatalog);
 
   const [search, setSearch] = useState('');
+  const [isLoading, setLoading] = useState(false);
+
+  const restoreImages = useCallback(async () => {
+    const wasRestored = await restoreCacheFromLists(list.data);
+
+    if (wasRestored) {
+      setLoading(false);
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     dispatch(fetchDogsList('', false, true));
@@ -37,7 +48,17 @@ const CatalogScreen = () => {
       setSearch(route.params?.search);
       dispatch(fetchDogsList(route.params?.search, true, true));
     }
-  }, [route]);
+  }, [route.params?.search]);
+
+  useEffect(() => {
+    if (isFocused) {
+      restoreImages();
+    }
+
+    return () => {
+      setLoading(true);
+    };
+  }, [isFocused]);
 
   const handleEndReached = useCallback(() => {
     if (search) {
@@ -57,11 +78,7 @@ const CatalogScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <CustomStatusBar
-        backgroundColor={'transparent'}
-        barStyle={'dark-content'}
-      />
+    <GalleryWrapper>
       <View style={MainStyles.pr}>
         <FakeInputButton onPress={redirectToSearch}>
           <View style={styles.searchBar}>
@@ -79,38 +96,24 @@ const CatalogScreen = () => {
         )}
       </View>
 
-      <View style={styles.galleryContainer}>
-        {list.data.length === 0 ? (
-          <Loading size={'large'} />
+      <GalleryListWrapper>
+        <GalleryList
+          images={list.data}
+          isLoading={list.loading}
+          onEndReached={handleEndReached}
+        />
+
+        {isLoading || list.data.length === 0 ? (
+          <Loading size={'large'} isFullScreen={true} />
         ) : (
-          <GalleryList
-            images={list.data}
-            isLoading={list.loading}
-            onEndReached={handleEndReached}
-          />
+          <></>
         )}
-      </View>
-    </View>
+      </GalleryListWrapper>
+    </GalleryWrapper>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    backgroundColor: colors.turquoise,
-  },
-  galleryContainer: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
-  text: {
-    fontSize: text.l,
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-    textAlign: 'center',
-    marginBottom: 7,
-    color: colors.white,
-  },
   searchBar: {
     marginHorizontal: 7,
   },
@@ -122,5 +125,3 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
 });
-
-export default CatalogScreen;

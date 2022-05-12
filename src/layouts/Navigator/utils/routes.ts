@@ -1,10 +1,12 @@
 export type RootStackParamList = {
   CatalogTabs: {
     search?: string;
+    refresh?: boolean;
   };
   Search: {
     search?: string;
   };
+  User: {};
   Gallery: {
     uri: string;
     img: string;
@@ -15,4 +17,6 @@ export type RootStackParamList = {
     isConnected?: string;
     search?: string;
   };
+  Login: {};
+  SignUp: {};
 };

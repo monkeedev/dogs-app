@@ -1,11 +1,10 @@
 import Clipboard from '@react-native-clipboard/clipboard';
-import {Linking, Platform} from 'react-native';
-import Share, {Social} from 'react-native-share';
+import {Alert, Linking, Platform} from 'react-native';
+import Share from 'react-native-share';
 import RNFetchBlob from 'rn-fetch-blob';
-import RNFS from 'react-native-fs';
 import {ErrorMessages, notificationRef} from './constants';
-import sh2 from 'shorthash2';
 import {createTinyUrl} from './tinyUrlHelper';
+import {ShowAlertProps} from './types';
 
 /**
  * Tree with dogs
@@ -263,47 +262,9 @@ export const parseDog = (str: string): string => {
   }
 };
 
-/**
- * Adds file to cache
- *
- * @param uri file destination
- * @returns filepath
- */
-export const checkImageCache = async (
-  uri: string = '',
-): Promise<string | false> => {
-  const hash = sh2(uri);
-
-  const path = RNFS.CachesDirectoryPath;
-  const filePath = `${isAndroid() ? 'file://' : ''}${path}/${hash}${uri.slice(
-    uri.lastIndexOf('.'),
-  )}`;
-
-  try {
-    const doesFileExist = await RNFS.exists(filePath);
-
-    // check file in filesystem
-    if (!doesFileExist) {
-      const res = await RNFS.downloadFile({
-        fromUrl: uri,
-        toFile: filePath,
-      }).promise;
-
-      if (res.statusCode === 200) {
-        return filePath;
-      } else {
-        // TODO: return error
-        notificationRef.current?.show(ErrorMessages.Default, 'warning');
-        return false;
-      }
-    } else {
-      return filePath;
-    }
-  } catch (error) {
-    notificationRef.current?.show(ErrorMessages.Default, 'warning');
-    throw new Error('' + error);
-  }
-};
-
 // needed for tests
 export const isAndroid = () => Platform.OS === 'android';
+
+export const showAlert = (o: ShowAlertProps) => {
+  Alert.alert(o.title, o.message ?? '', o.buttons ? [...o.buttons] : undefined);
+};

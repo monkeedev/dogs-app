@@ -1,27 +1,31 @@
 import React, {ReactElement, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
   View,
-  FlatList,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
-import {colors} from '../../utils/constants';
+import {GalleryItem} from '.';
 import {parseImage} from '../../utils/functions';
-import {renderItem} from './helpers';
 
 interface Props {
   images: string[];
   isLoading?: boolean;
   isAnimated?: boolean;
+  blurImages?: boolean;
   HeaderComponent?: ReactElement;
   FooterComponent?: ReactElement;
   EmptyComponent?: ReactElement;
   onEndReached?: () => void;
   onScroll?: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
 }
+
+const renderItem = (uri: string, idx: number) => {
+  return <GalleryItem uri={uri} idx={idx} />;
+};
 
 const renderFooterComponent = (
   isLoading?: boolean,
@@ -50,7 +54,9 @@ const renderFooterComponent = (
   }
 };
 
-const GalleryList = ({
+export const GalleryContext = React.createContext(false);
+
+export const GalleryList = ({
   images,
   isLoading,
   isAnimated,
@@ -127,8 +133,6 @@ const GalleryList = ({
   );
 };
 
-export default GalleryList;
-
 const styles = StyleSheet.create({
   list: {
     paddingHorizontal: 7,
@@ -136,7 +140,6 @@ const styles = StyleSheet.create({
     paddingBottom: 28,
     borderTopLeftRadius: 21,
     borderTopRightRadius: 21,
-    backgroundColor: colors.white,
   },
   emptyList: {
     flex: 1,

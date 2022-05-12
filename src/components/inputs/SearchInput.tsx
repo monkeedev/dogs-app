@@ -1,6 +1,7 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import {useTheme} from '../../assets/theme';
 import {colors} from '../../utils/constants';
 
 interface Props {
@@ -13,13 +14,14 @@ interface Props {
 
 const ICON_SIZE = 36;
 
-const SearchInput = ({
+export const SearchInput = ({
   value = '',
   onChangeText,
   placeholder,
   isDisabled,
   isAutofocused,
 }: Props) => {
+  const {mode} = useTheme();
   const isPlaceholderForDisabledInputPresent = value === '' && placeholder;
 
   return (
@@ -29,22 +31,21 @@ const SearchInput = ({
         name={'search'}
         type={'ionicon'}
         style={styles.icon}
-        color={colors.gray}
+        color={mode.text}
       />
       {isDisabled ? (
-        <View testID={'SearchInput_Disabled'} style={styles.input}>
-          <Text
-            style={
-              isPlaceholderForDisabledInputPresent
-                ? styles.placeholderText
-                : {color: colors.black}
-            }>
+        <View
+          testID={'SearchInput_Disabled'}
+          style={{
+            ...styles.input,
+          }}>
+          <Text style={{...styles.text, color: mode.text}}>
             {isPlaceholderForDisabledInputPresent ? placeholder : value}
           </Text>
         </View>
       ) : (
         <TextInput
-          style={styles.input}
+          style={{...styles.input, ...styles.text, color: mode.text}}
           value={value}
           placeholder={placeholder}
           placeholderTextColor={colors.gray}
@@ -57,17 +58,13 @@ const SearchInput = ({
   );
 };
 
-export default SearchInput;
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: 999,
     overflow: 'hidden',
-    backgroundColor: colors.white,
     marginVertical: 7,
   },
   icon: {
@@ -79,15 +76,14 @@ const styles = StyleSheet.create({
     position: 'relative',
     left: 7,
   },
+  text: {
+    fontWeight: '700',
+  },
   input: {
     flex: 1,
     padding: 7,
     marginRight: 14,
-    color: colors.black,
     height: 36,
     justifyContent: 'center',
-  },
-  placeholderText: {
-    color: colors.gray,
   },
 });

@@ -1,8 +1,7 @@
-import {View, Text, FlatList} from 'react-native';
 import React from 'react';
-import EmptyList from '../../../components/lists/EmptyList';
-import {colors} from '../../../utils/constants';
-import {SuggestionsItem} from './SuggestionsItem';
+import {FlatList} from 'react-native';
+import {EmptyList, SuggestionsItem} from '.';
+import {colors} from '../../utils/constants';
 
 interface Props {
   data: string[];
@@ -21,9 +20,7 @@ const renderEmptyComponent = (
 ) => {
   return value !== '' && dataLength === 0 && isEmpty ? (
     <EmptyList color={colors.white} />
-  ) : (
-    <View />
-  );
+  ) : null;
 };
 
 export const SuggestionsList = ({data, value, isEmpty}: Props) => {

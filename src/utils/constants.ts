@@ -1,7 +1,6 @@
 import React from 'react';
-import {DogsJSONItems, NotificationRef} from './types';
 import * as DogsJSON from './dogs.json';
-import {DogItem} from '../redux/types/listTypes';
+import {DogsJSONItems, NotificationRef} from './types';
 
 export const colors = {
   white: '#fffafb',

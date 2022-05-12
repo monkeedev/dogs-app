@@ -1,28 +1,34 @@
+import {useIsFocused} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
   Dimensions,
-  NativeSyntheticEvent,
   NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import React from 'react';
-import {useSelector} from 'react-redux';
-import {getDogsCatalog} from '../../redux/rootSelector';
-import {colors, text} from '../../utils/constants';
-import CustomStatusBar from '../../components/CustomStatusBar';
-import EmptyList from '../../components/lists/EmptyList';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
+import {useSelector} from 'react-redux';
 import {MainStyles} from '../../assets/styles/MainStyles';
-import GalleryList from '../../components/lists/GalleryList';
+import {Loading} from '../../components';
+import {EmptyList, GalleryList} from '../../components/lists';
+import {Title} from '../../components/texts';
+import {GalleryListWrapper, GalleryWrapper} from '../../components/wrappers';
+import {getDogsCatalog} from '../../redux/rootSelector';
+import {colors, text} from '../../utils/constants';
+import {restoreCacheFromLists} from '../../utils/helpers/cache';
 
-const BookmarksScreen = () => {
+export const BookmarksScreen = () => {
+  const isFocused = useIsFocused();
+  const [isLoading, setLoading] = useState(false);
+
   const {bookmarks} = useSelector(getDogsCatalog);
   const scrollY = useSharedValue(0);
 
@@ -44,14 +50,28 @@ const BookmarksScreen = () => {
     scrollY.value = e.nativeEvent.contentOffset.y;
   };
 
+  const restoreImages = useCallback(async () => {
+    const wasRestored = await restoreCacheFromLists(bookmarks);
+
+    if (wasRestored) {
+      setLoading(false);
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (isFocused) {
+      restoreImages();
+    }
+
+    return () => {
+      setLoading(true);
+    };
+  }, [isFocused]);
+
   return (
-    <View style={styles.container}>
-      <CustomStatusBar
-        backgroundColor={'transparent'}
-        barStyle={'dark-content'}
-      />
+    <GalleryWrapper>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Favourites:</Text>
+        <Title text={'Favourites:'} color={colors.white} />
 
         <View style={styles.counterContainer}>
           <Animated.View style={[styles.counter, counterStyle]}>
@@ -68,28 +88,21 @@ const BookmarksScreen = () => {
         </View>
       </View>
 
-      <View style={styles.galleryContainer}>
+      <GalleryListWrapper>
         <GalleryList
           images={bookmarks}
           isAnimated={true}
           onScroll={handleScroll}
           EmptyComponent={<EmptyList />}
         />
-      </View>
-    </View>
+
+        {isLoading ? <Loading size={'large'} isFullScreen={true} /> : <></>}
+      </GalleryListWrapper>
+    </GalleryWrapper>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    backgroundColor: colors.turquoise,
-    position: 'relative',
-  },
-  galleryContainer: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
   counterContainer: {
     width: 49,
     overflow: 'hidden',
@@ -100,7 +113,8 @@ const styles = StyleSheet.create({
   header: {
     ...MainStyles.rowFull,
     alignItems: 'flex-end',
-    marginVertical: 7,
+    marginTop: 9,
+    marginBottom: 7,
     marginHorizontal: 14,
   },
   headerText: {
@@ -121,10 +135,4 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     paddingTop: Dimensions.get('screen').height / 4,
   },
-  indicator: {
-    paddingTop: 49,
-    marginBottom: 7,
-  },
 });
-
-export default BookmarksScreen;
