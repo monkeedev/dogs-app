@@ -4,12 +4,13 @@ import {useDispatch} from 'react-redux';
 import {APP_ICON} from '../../assets/images/icons';
 import {useTheme} from '../../assets/theme';
 import {DefaultButton} from '../../components/buttons';
-import {DefaultInput, PasswordInput} from '../../components/inputs';
+import {EmailInput, PasswordInput} from '../../components/inputs';
 import {Link, Title} from '../../components/texts';
 import {TextWrapper} from '../../components/wrappers';
 import {DefaultWrapper} from '../../components/wrappers/DefaultWrapper';
 import {signUp} from '../../redux/actions/userActions';
-import {colors, text} from '../../utils/constants';
+import {colors, notificationRef, text} from '../../utils/constants';
+import {validateEmail} from '../../utils/functions';
 import {LoadingWrapper} from './Components';
 
 const ICON_SIZE = 100;
@@ -26,8 +27,16 @@ export const SignUpScreen = () => {
   const handleEmail = (s: string) => (emailRef.current = s);
 
   const handleSignUp = () => {
-    if (emailRef.current !== '' && passwordRef.current !== '') {
-      dispatch(signUp(emailRef.current, passwordRef.current));
+    if (emailRef.current === '' || passwordRef.current === '') {
+      notificationRef.current?.show('Some fields are empty', 'error');
+    } else {
+      const isEmailValid = validateEmail(emailRef.current);
+
+      if (isEmailValid) {
+        dispatch(signUp(emailRef.current, passwordRef.current));
+      } else {
+        notificationRef.current?.show('Email is not valid', 'error');
+      }
     }
   };
 
@@ -38,12 +47,7 @@ export const SignUpScreen = () => {
         <Title text={'Sign Up'} />
 
         <View style={styles.form}>
-          <DefaultInput
-            onChangeText={handleEmail}
-            iconConfig={{name: 'mail', type: 'feather'}}
-            placeholder={'Email'}
-            type={'email-address'}
-          />
+          <EmailInput onChangeText={handleEmail} />
           <PasswordInput onChangeText={handlePassword} />
 
           <LoadingWrapper>

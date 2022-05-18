@@ -5,12 +5,13 @@ import {useDispatch} from 'react-redux';
 import {APP_ICON} from '../../assets/images/icons';
 import {useTheme} from '../../assets/theme';
 import {DefaultButton} from '../../components/buttons';
-import {DefaultInput, PasswordInput} from '../../components/inputs';
+import {EmailInput, PasswordInput} from '../../components/inputs';
 import {Link, Title} from '../../components/texts';
 import {TextWrapper} from '../../components/wrappers';
 import {DefaultWrapper} from '../../components/wrappers/DefaultWrapper';
 import {logIn} from '../../redux/actions/userActions';
-import {colors, text} from '../../utils/constants';
+import {colors, notificationRef, text} from '../../utils/constants';
+import {validateEmail} from '../../utils/functions';
 import {LoadingWrapper} from './Components';
 
 const ICON_SIZE = 100;
@@ -26,9 +27,17 @@ export const LoginScreen = () => {
   const handlePassword = (s: string) => (passwordRef.current = s);
   const handleEmail = (s: string) => (emailRef.current = s);
   const handleLogin = () => {
-    if (emailRef.current === '' || passwordRef.current === '') return;
+    if (emailRef.current === '' || passwordRef.current === '') {
+      notificationRef.current?.show('Some fields are empty', 'error');
+    } else {
+      const isEmailValid = validateEmail(emailRef.current);
 
-    dispatch(logIn(emailRef.current, passwordRef.current));
+      if (isEmailValid) {
+        dispatch(logIn(emailRef.current, passwordRef.current));
+      } else {
+        notificationRef.current?.show('Email is not valid', 'error');
+      }
+    }
   };
 
   return (
@@ -38,12 +47,7 @@ export const LoginScreen = () => {
         <Title text={'Welcome to Dogterest'} />
 
         <View style={styles.form}>
-          <DefaultInput
-            onChangeText={handleEmail}
-            iconConfig={{name: 'mail', type: 'feather'}}
-            placeholder={'Email'}
-            type={'email-address'}
-          />
+          <EmailInput onChangeText={handleEmail} />
           <PasswordInput onChangeText={handlePassword} />
 
           <LoadingWrapper>
