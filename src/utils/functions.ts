@@ -20,18 +20,18 @@ export const flatTree = (o: any): string[] => {
     const keys = Object.keys(_o).filter(i => Array.isArray(_o[i]));
     const res = [];
 
-    for (let k in _o) {
+    for (const k in _o) {
       if (!Array.isArray(_o[k])) {
         continue;
       } else {
         if (_o[k].length === 0) {
           res.push(k);
         } else {
-          let a = _o[k]
+          const a = _o[k]
             .filter((i: any) => typeof i === 'string')
             .map((i: string) => `${k}-${i}`);
 
-          let idx = keys.indexOf(k);
+          const idx = keys.indexOf(k);
 
           res.push(...a);
         }
@@ -267,4 +267,11 @@ export const isAndroid = () => Platform.OS === 'android';
 
 export const showAlert = (o: ShowAlertProps) => {
   Alert.alert(o.title, o.message ?? '', o.buttons ? [...o.buttons] : undefined);
+};
+
+export const validateEmail = (address: string): boolean => {
+  const regex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
+
+  return regex.test(address);
 };
