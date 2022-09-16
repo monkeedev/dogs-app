@@ -22,7 +22,7 @@ class DogsApi {
     this.list = [];
 
     // TODO: move to <MainNavigator />
-    // this.getListOfDogBreeds();
+    this.getListOfDogBreeds();
   }
 
   getListOfDogBreeds = async (): Promise<string[] | Error> => {
@@ -89,6 +89,7 @@ class DogsApi {
     try {
       let req: any;
       const _l = JSON.parse(JSON.stringify(this.list));
+
       const search = findBreedInList(_l, b.toLowerCase());
 
       if (search.length === 0) {

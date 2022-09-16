@@ -51,6 +51,7 @@ export const flatTree = (o: any): string[] => {
  */
 export const findBreedInList = (list: string[], breed: string) => {
   const _arr = JSON.parse(JSON.stringify(list));
+
   const splitted = breed
     .toLowerCase()
     .split(' ')

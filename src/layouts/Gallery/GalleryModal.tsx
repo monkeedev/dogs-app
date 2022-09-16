@@ -125,6 +125,8 @@ export const GalleryModal = () => {
   useEffect(() => {
     setSize({width: params.size.w, height: params.size.h});
 
+    console.log(params.isConnected, params.search);
+
     if (params.isConnected && params.search) {
       fetchDogs.current(params.search);
     }
